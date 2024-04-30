@@ -8,7 +8,7 @@ const PositionController: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useReduxDispatch();
 
   useEffect(() => {
-    navigator.geolocation.watchPosition(
+    const id = navigator.geolocation.watchPosition(
       ({ coords: { latitude, longitude } }) => {
         const position = { lat: latitude, lng: longitude };
         dispatch(setReduxPosition({ position }));
@@ -22,6 +22,10 @@ const PositionController: FC<PropsWithChildren> = ({ children }) => {
         maximumAge: 1000,
       }
     );
+
+    return () => {
+      navigator.geolocation.clearWatch(id);
+    };
   }, [dispatch]);
 
   return children;
