@@ -1,16 +1,19 @@
 "use client";
 
-import { FC, PropsWithChildren, useEffect } from "react";
+import { FC, PropsWithChildren, useEffect, useState } from "react";
 import useReduxDispatch from "@src/hooks/redux/useReduxDispatch";
 import { setReduxPosition } from "@src/libs/redux/modules/position";
 
 const PositionController: FC<PropsWithChildren> = ({ children }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const dispatch = useReduxDispatch();
 
   useEffect(() => {
     const id = navigator.geolocation.watchPosition(
       ({ coords: { latitude, longitude } }) => {
         const position = { lat: latitude, lng: longitude };
+        setIsLoading(false);
         dispatch(setReduxPosition({ position }));
       },
       (e) => {
@@ -27,6 +30,8 @@ const PositionController: FC<PropsWithChildren> = ({ children }) => {
       navigator.geolocation.clearWatch(id);
     };
   }, [dispatch]);
+
+  if (isLoading) return <div>loading...</div>;
 
   return children;
 };

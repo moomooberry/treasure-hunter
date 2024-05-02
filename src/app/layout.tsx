@@ -17,11 +17,11 @@ const RootLayout = ({
 }>) => {
   return (
     <StoreProvider>
-      <PositionController>
-        <html lang="ko">
-          <body>{children}</body>
-        </html>
-      </PositionController>
+      <html lang="ko">
+        <body>
+          <PositionController>{children}</PositionController>
+        </body>
+      </html>
     </StoreProvider>
   );
 };
