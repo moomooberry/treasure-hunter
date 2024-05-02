@@ -4,6 +4,8 @@ import "@src/styles/global.css";
 import "@src/styles/reset.css";
 import StoreProvider from "./StoreProvider";
 import PositionProvider from "./PositionProvider";
+import QueryProvider from "./QueryProvider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const metadata: Metadata = {
   title: "treasure-hunter",
@@ -19,7 +21,9 @@ const RootLayout = ({
     <StoreProvider>
       <html lang="ko">
         <body>
-          <PositionProvider>{children}</PositionProvider>
+          <QueryProvider>
+            <PositionProvider>{children}</PositionProvider>
+          </QueryProvider>
         </body>
       </html>
     </StoreProvider>
