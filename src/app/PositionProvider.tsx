@@ -4,7 +4,7 @@ import { FC, PropsWithChildren, useEffect, useState } from "react";
 import useReduxDispatch from "@src/hooks/redux/useReduxDispatch";
 import { setReduxPosition } from "@src/libs/redux/modules/position";
 
-const PositionController: FC<PropsWithChildren> = ({ children }) => {
+const PositionProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useReduxDispatch();
@@ -36,4 +36,4 @@ const PositionController: FC<PropsWithChildren> = ({ children }) => {
   return children;
 };
 
-export default PositionController;
+export default PositionProvider;

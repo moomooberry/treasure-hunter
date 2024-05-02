@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "@src/styles/global.css";
 import "@src/styles/reset.css";
 import StoreProvider from "./StoreProvider";
-import PositionController from "./PositionController";
+import PositionProvider from "./PositionProvider";
 
 export const metadata: Metadata = {
   title: "treasure-hunter",
@@ -19,7 +19,7 @@ const RootLayout = ({
     <StoreProvider>
       <html lang="ko">
         <body>
-          <PositionController>{children}</PositionController>
+          <PositionProvider>{children}</PositionProvider>
         </body>
       </html>
     </StoreProvider>
