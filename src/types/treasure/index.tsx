@@ -3,7 +3,7 @@ import { Position } from "../position";
 export interface TreasureItem {
   id: number;
   position: Position;
-  imgSrc: string;
+  imgSrc: string[];
   title: string;
   hint: string;
   endDate: number;

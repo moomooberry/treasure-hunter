@@ -9,7 +9,7 @@ const data: TreasureItem = {
   position: { lat: 37.4762182, lng: 126.9804634 },
   endDate: 123,
   hint: "힌트입니다.",
-  imgSrc: "asd",
+  imgSrc: ["asd"],
   reward: 10000,
   title: "타이틀입니다",
 };
