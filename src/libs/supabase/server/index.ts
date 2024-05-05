@@ -34,5 +34,3 @@ export function createSupabaseFromServer() {
     }
   );
 }
-
-export const supabase = createSupabaseFromServer();

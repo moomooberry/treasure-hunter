@@ -9,6 +9,7 @@ function makeQueryClient() {
     defaultOptions: {
       queries: {
         staleTime: 60 * 5 * 1000,
+        gcTime: 60 * 5 * 1000,
       },
     },
   });
