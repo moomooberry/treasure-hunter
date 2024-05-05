@@ -7,5 +7,5 @@ export interface TreasureItem {
   title: string;
   hint: string;
   endDate: number;
-  reward: number;
+  reward: number | null;
 }
