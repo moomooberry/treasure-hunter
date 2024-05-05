@@ -11,7 +11,6 @@ const Layout: LayoutComponent = ({ children }) => (
   <div
     style={{
       margin: "48px 0 60px 0",
-      backgroundColor: "gray",
     }}
   >
     {children}

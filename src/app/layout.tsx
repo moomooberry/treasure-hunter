@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 
-import "@src/styles/global.css";
-import "@src/styles/reset.css";
 import StoreProvider from "./StoreProvider";
 import PositionProvider from "./PositionProvider";
 import QueryProvider from "./QueryProvider";
+
+import "@src/styles/global.css";
+import "@src/styles/reset.css";
+import "@src/styles/skeleton.scss";
 
 export const metadata: Metadata = {
   title: "treasure-hunter",

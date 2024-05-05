@@ -1,5 +1,26 @@
 import { FC } from "react";
 
-const TreasureListFallback: FC = () => <div>Loading...</div>;
+import STYLE from "./treasure.list.module.scss";
+
+interface TreasureListFallbackProps {
+  length: number;
+}
+
+const TreasureListFallback: FC<TreasureListFallbackProps> = ({ length }) => (
+  <ul className={STYLE.__treasure_list_ul}>
+    {Array.from({ length }).map((_, index) => (
+      <li key={index} className={STYLE.__treasure_list_li}>
+        <div className={STYLE.__treasure_list_fallback_image_wrapper} />
+        <div className={STYLE.__treasure_list_info_box}>
+          <div className={STYLE.__treasure_list_fallback_title} />
+          <div>
+            <div className={STYLE.__treasure_list_fallback_reward} />
+            <div className={STYLE.__treasure_list_fallback_end_date} />
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+);
 
 export default TreasureListFallback;

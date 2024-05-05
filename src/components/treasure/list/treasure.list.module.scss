@@ -1,0 +1,81 @@
+@use "/src/styles/skeleton.scss" as skeleton;
+
+/* TreasureListClientFetcher */
+.__treasure_list_ul {
+  padding: 0 12px;
+}
+
+.__treasure_list_li {
+  display: flex;
+  padding: 12px 0;
+  column-gap: 12px;
+
+  border-bottom: 1px solid #e3e3e3;
+
+  :last-child {
+    border-bottom: 1px solid transparent;
+  }
+}
+
+.__treasure_list_image_wrapper {
+  min-width: 96px;
+  height: 96px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.__treasure_list_info_box {
+  width: calc(100% - 96px - 12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.__treasure_list_title {
+  font-size: 18px;
+  line-height: 24px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.__treasure_list_reward {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: bold;
+}
+
+.__treasure_list_end_date {
+  font-size: 14px;
+  line-height: 18px;
+  color: #636e72;
+}
+
+/* TreasureListFallback */
+.__treasure_list_fallback_image_wrapper {
+  @include skeleton.skeleton_mixin;
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
+}
+
+.__treasure_list_fallback_title {
+  @include skeleton.skeleton_mixin;
+  height: 24px;
+  width: 70%;
+}
+
+.__treasure_list_fallback_reward {
+  @include skeleton.skeleton_mixin;
+  height: 26px;
+  width: 120px;
+  margin-bottom: 4px;
+}
+
+.__treasure_list_fallback_end_date {
+  @include skeleton.skeleton_mixin;
+  height: 18px;
+  width: 180px;
+  background-color: red;
+}

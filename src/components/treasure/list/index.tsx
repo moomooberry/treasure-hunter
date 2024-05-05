@@ -9,9 +9,11 @@ interface TreasureListProps {
 }
 
 const TreasureList: FC<TreasureListProps> = async ({ distance, position }) => (
-  <Suspense fallback={<TreasureListFallback />}>
-    <TreasureListClientFetcher distance={distance} position={position} />
-  </Suspense>
+  <>
+    <Suspense fallback={<TreasureListFallback length={10} />}>
+      <TreasureListClientFetcher distance={distance} position={position} />
+    </Suspense>
+  </>
 );
 
 export default TreasureList;

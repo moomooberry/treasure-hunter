@@ -1,0 +1,18 @@
+@mixin skeleton_mixin {
+  @keyframes skeletonKeyFrames {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+  border-radius: 4px;
+  -webkit-animation: skeletonKeyFrames 1.8s infinite ease-in-out;
+  animation: skeletonKeyFrames 1.8s infinite ease-in-out;
+}
