@@ -1,9 +1,9 @@
 import { FC, FormEventHandler, useCallback } from "react";
 import Image from "next/image";
 import { v4 } from "uuid";
-import cameraImgSrc from "@src/assets/webp/camera_2133_2133.webp";
-import closeImgSrc from "@src/assets/webp/close_red_circle_512_512.webp";
 import { ImageInputValue } from "@src/types/image";
+import RedCircleCloseIcon from "../icons/RedCircleCloseIcon";
+import CameraIcon from "../icons/CameraIcon";
 
 import STYLE from "./form.module.scss";
 
@@ -94,7 +94,7 @@ const FormInputImage: FC<FormImageInputProps> = ({
     >
       <label className={STYLE.__form_image_input_label}>
         <div className={STYLE.__form_image_input_wrapper}>
-          <Image src={cameraImgSrc} alt="camera" width={24} height={24} />
+          <CameraIcon color="#b2bec3" />
           {value.length}/{maxLength}
         </div>
         <input
@@ -112,7 +112,7 @@ const FormInputImage: FC<FormImageInputProps> = ({
             className={STYLE.__form_image_wrapper_button}
             onClick={onDeleteClick(index)}
           >
-            <Image src={closeImgSrc} alt="close" width={16} height={16} />
+            <RedCircleCloseIcon width="16px" height="16px" />
           </button>
 
           <div className={STYLE.__form_image_wrapper}>
