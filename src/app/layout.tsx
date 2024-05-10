@@ -34,8 +34,8 @@ const RootLayout = ({
 
   const device: Device = {
     os,
-    bottom,
-    top,
+    bottom: `${bottom}px`,
+    top: `${top}px`,
   };
 
   return (
