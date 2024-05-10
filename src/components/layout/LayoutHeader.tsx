@@ -5,9 +5,13 @@ import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { useRouter } from "next/navigation";
 import { FC, MouseEventHandler, ReactNode, useCallback } from "react";
 
+import STYLE from "./layout.module.scss";
+import CaretIcon from "../icons/CaretIcon";
+
 interface LayoutHeaderProps {
   title?: string;
 
+  backgroundColor?: string;
   onBackClick?: MouseEventHandler<HTMLButtonElement>;
   backDisabled?: boolean;
 
@@ -17,6 +21,7 @@ interface LayoutHeaderProps {
 const LayoutHeader: FC<LayoutHeaderProps> = ({
   title,
 
+  backgroundColor = "#fff",
   onBackClick,
   backDisabled,
 
@@ -38,18 +43,10 @@ const LayoutHeader: FC<LayoutHeaderProps> = ({
   );
 
   return (
-    <div
+    <header
+      className={STYLE.__layout_header_container}
       style={{
-        zIndex: 2,
-        boxSizing: "content-box",
-        position: "fixed",
-        top: 0,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "100vw",
-
-        backgroundColor: "aliceblue",
+        backgroundColor,
         paddingTop,
         height: LAYOUT_HEADER_HEIGHT,
       }}
@@ -57,41 +54,33 @@ const LayoutHeader: FC<LayoutHeaderProps> = ({
       {!backDisabled ? (
         <button
           style={{
-            width: "48px",
-            height: "48px",
+            width: LAYOUT_HEADER_HEIGHT,
+            height: LAYOUT_HEADER_HEIGHT,
           }}
           onClick={onHeaderBackClick}
         >
-          a
+          <CaretIcon width="20px" height="20px" />
         </button>
       ) : (
         <div
           style={{
-            width: "48px",
-            height: "48px",
+            width: LAYOUT_HEADER_HEIGHT,
+            height: LAYOUT_HEADER_HEIGHT,
           }}
         />
       )}
 
-      <b
-        style={{
-          position: "fixed",
-          left: "50%",
-          transform: "translate(-50%)",
-        }}
-      >
-        {title}
-      </b>
+      <b className={STYLE.__layout_header_title}>{title}</b>
 
       {option ?? (
         <div
           style={{
-            width: "48px",
-            height: "48px",
+            width: LAYOUT_HEADER_HEIGHT,
+            height: LAYOUT_HEADER_HEIGHT,
           }}
         />
       )}
-    </div>
+    </header>
   );
 };
 
