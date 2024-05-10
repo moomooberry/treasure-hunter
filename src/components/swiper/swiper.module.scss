@@ -1,0 +1,26 @@
+.__swiper_image_container {
+  position: relative;
+  background-color: #dfe6e9;
+}
+
+.__swiper_image_slide_layout {
+  position: relative;
+  width: 100vw;
+}
+
+.__swiper_image_count_box {
+  z-index: 2;
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 52px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
