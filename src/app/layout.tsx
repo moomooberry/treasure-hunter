@@ -7,6 +7,14 @@ import QueryProvider from "./QueryProvider";
 import "@src/styles/global.css";
 import "@src/styles/reset.css";
 import "@src/styles/skeleton.scss";
+import { cookies } from "next/headers";
+import {
+  DEVICE_SAFE_AREA_TOP_KEY,
+  DEVICE_SAFE_AREA_BOTTOM_KEY,
+  DEVICE_OS_KEY,
+} from "@src/constants/device";
+import DeviceProvider from "./DeviceProvider";
+import { Device } from "@src/types/device";
 
 export const metadata: Metadata = {
   title: "treasure-hunter",
@@ -18,12 +26,26 @@ const RootLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const cookieStore = cookies();
+
+  const top = cookieStore.get(DEVICE_SAFE_AREA_TOP_KEY)!.value;
+  const bottom = cookieStore.get(DEVICE_SAFE_AREA_BOTTOM_KEY)!.value;
+  const os = cookieStore.get(DEVICE_OS_KEY)!.value as Device["os"];
+
+  const device: Device = {
+    os,
+    bottom,
+    top,
+  };
+
   return (
     <StoreProvider>
       <html lang="ko">
         <body>
           <QueryProvider>
-            <PositionProvider>{children}</PositionProvider>
+            <PositionProvider>
+              <DeviceProvider device={device}>{children}</DeviceProvider>
+            </PositionProvider>
           </QueryProvider>
         </body>
       </html>
