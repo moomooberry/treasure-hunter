@@ -1,7 +1,13 @@
 export interface RequestResponse<T> {
   code: number;
   message: string;
-  data?: T;
+  data: T;
+}
+
+export interface RequestErrorResponse {
+  code: number;
+  message: string;
+  data: undefined;
 }
 
 export type RequestPaginationParameter<T = {}> = {
