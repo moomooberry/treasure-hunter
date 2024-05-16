@@ -1,0 +1,14 @@
+.__timer_limit_container {
+  display: flex;
+  column-gap: 4px;
+  width: fit-content;
+  font-weight: 500;
+}
+
+.__timer_limit_container_style {
+  padding: 12px 20px;
+  border-radius: 20px;
+  background-color: #eeeeee;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.45);
+  opacity: 0.8;
+}
