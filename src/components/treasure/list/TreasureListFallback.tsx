@@ -13,10 +13,8 @@ const TreasureListFallback: FC<TreasureListFallbackProps> = ({ length }) => (
         <div className={STYLE.__treasure_list_fallback_image_wrapper} />
         <div className={STYLE.__treasure_list_info_box}>
           <div className={STYLE.__treasure_list_fallback_title} />
-          <div>
-            <div className={STYLE.__treasure_list_fallback_reward} />
-            <div className={STYLE.__treasure_list_fallback_end_date} />
-          </div>
+          <div className={STYLE.__treasure_list_fallback_user} />
+          <div className={STYLE.__treasure_list_fallback_reward} />
         </div>
       </li>
     ))}

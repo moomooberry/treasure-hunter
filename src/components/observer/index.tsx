@@ -3,16 +3,18 @@
 import { FC, PropsWithChildren, useCallback, useEffect, useRef } from "react";
 
 interface ObserverProps {
-  minHeight?: string;
   onObserve?: VoidFunction;
   onUnObserve?: VoidFunction;
+  threshold?: number;
+  minHeight?: string;
 }
 
 const Observer: FC<PropsWithChildren<ObserverProps>> = ({
-  minHeight = "45px",
+  children,
   onObserve,
   onUnObserve,
-  children,
+  threshold = 0.3,
+  minHeight = "45px",
 }) => {
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -32,14 +34,14 @@ const Observer: FC<PropsWithChildren<ObserverProps>> = ({
     const options = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.3,
+      threshold,
     };
 
     const observer = new IntersectionObserver(handleObserver, options);
     if (observerRef.current) observer.observe(observerRef.current);
 
     return () => observer.disconnect();
-  }, [handleObserver]);
+  }, [handleObserver, threshold]);
 
   return (
     <div

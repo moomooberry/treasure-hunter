@@ -8,7 +8,7 @@ interface TreasureListProps {
   position: Position;
 }
 
-const TreasureList: FC<TreasureListProps> = async ({ distance, position }) => (
+const TreasureList: FC<TreasureListProps> = ({ distance, position }) => (
   <>
     <Suspense fallback={<TreasureListFallback length={10} />}>
       <TreasureListClientFetcher distance={distance} position={position} />

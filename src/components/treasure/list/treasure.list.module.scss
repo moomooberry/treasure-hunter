@@ -2,62 +2,73 @@
 
 /* TreasureListClientFetcher */
 .__treasure_list_ul {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
   padding: 0 12px;
+  padding-top: 20px;
 }
 
 .__treasure_list_li {
-  display: flex;
-  padding: 12px 0;
-  column-gap: 12px;
-
-  border-bottom: 1px solid #e3e3e3;
-
-  :last-child {
-    border-bottom: 1px solid transparent;
-  }
-}
-
-.__treasure_list_image_wrapper {
-  min-width: 96px;
-  height: 96px;
-  border-radius: 12px;
+  position: relative;
+  isolation: isolate;
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 5px 20px 0 rgba(213, 213, 213, 0.47);
 }
 
 .__treasure_list_info_box {
-  width: calc(100% - 96px - 12px);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  row-gap: 8px;
+  padding: 0 12px;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .__treasure_list_title {
   font-size: 18px;
   line-height: 24px;
+  text-overflow: ellipsis;
   overflow: hidden;
+  word-break: break-all;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
 .__treasure_list_reward {
+  display: flex;
+  align-items: center;
+  column-gap: 2px;
   font-size: 18px;
   line-height: 26px;
   font-weight: bold;
 }
+.__treasure_money_bag_wrapper {
+  margin-bottom: -4px;
+}
 
-.__treasure_list_end_date {
+.__treasure_list_user {
   font-size: 14px;
   line-height: 18px;
   color: #636e72;
 }
 
+.__treasure_list_timer_wrapper {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  top: 100px;
+}
+
 /* TreasureListFallback */
 .__treasure_list_fallback_image_wrapper {
   @include skeleton.skeleton_mixin;
-  width: 96px;
-  height: 96px;
-  border-radius: 12px;
+
+  height: 240px;
 }
 
 .__treasure_list_fallback_title {
@@ -70,12 +81,10 @@
   @include skeleton.skeleton_mixin;
   height: 26px;
   width: 120px;
-  margin-bottom: 4px;
 }
 
-.__treasure_list_fallback_end_date {
+.__treasure_list_fallback_user {
   @include skeleton.skeleton_mixin;
   height: 18px;
   width: 180px;
-  background-color: red;
 }

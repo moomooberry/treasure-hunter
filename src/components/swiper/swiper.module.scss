@@ -11,16 +11,23 @@
 .__swiper_image_count_box {
   z-index: 2;
   position: absolute;
-  bottom: 12px;
-  right: 12px;
-  width: 52px;
-  height: 28px;
+  bottom: 10px;
+  width: 100vw;
+  height: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.6);
+  column-gap: 4px;
   color: #fff;
+}
+
+.__swiper_image_count_dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: scale 0.1s;
+}
+.__swiper_image_count_dot_active {
+  scale: 1.5;
 }

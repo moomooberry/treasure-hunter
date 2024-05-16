@@ -2,11 +2,11 @@
 
 import { FC, useCallback, useState } from "react";
 import Image from "next/image";
+import classNames from "classnames";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 
-import "swiper/css";
-
 import STYLE from "./swiper.module.scss";
+import "swiper/css";
 
 interface SwiperImageProps {
   height?: string;
@@ -47,10 +47,17 @@ const SwiperImage: FC<SwiperImageProps> = ({
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {showImageCount && (
+      {showImageCount && images.length > 1 && (
         <div className={STYLE.__swiper_image_count_box}>
-          {index + 1} / {images.length}
+          {images.map((_, i) => (
+            <div
+              key={i}
+              className={classNames({
+                [STYLE.__swiper_image_count_dot]: true,
+                [STYLE.__swiper_image_count_dot_active]: i === index,
+              })}
+            />
+          ))}
         </div>
       )}
     </div>

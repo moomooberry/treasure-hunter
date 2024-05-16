@@ -1,19 +1,22 @@
 "use client";
 
+import { FC, MouseEventHandler, ReactNode, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import classNames from "classnames";
 import { LAYOUT_HEADER_HEIGHT } from "@src/constants/layout";
 import useReduxSelector from "@src/hooks/redux/useReduxSelector";
-import { useRouter } from "next/navigation";
-import { FC, MouseEventHandler, ReactNode, useCallback } from "react";
+import CaretIcon from "../icons/CaretIcon";
 
 import STYLE from "./layout.module.scss";
-import CaretIcon from "../icons/CaretIcon";
 
 interface LayoutHeaderProps {
   title?: string;
 
   backgroundColor?: string;
-  onBackClick?: MouseEventHandler<HTMLButtonElement>;
   backDisabled?: boolean;
+  shadowDisabled?: boolean;
+
+  onBackClick?: MouseEventHandler<HTMLButtonElement>;
 
   option?: ReactNode;
 }
@@ -22,8 +25,10 @@ const LayoutHeader: FC<LayoutHeaderProps> = ({
   title,
 
   backgroundColor = "#fff",
+  backDisabled = false,
+  shadowDisabled = false,
+
   onBackClick,
-  backDisabled,
 
   option,
 }) => {
@@ -44,7 +49,10 @@ const LayoutHeader: FC<LayoutHeaderProps> = ({
 
   return (
     <header
-      className={STYLE.__layout_header_container}
+      className={classNames({
+        [STYLE.__layout_header_container]: true,
+        [STYLE.__layout_header_container_box_shadow]: !shadowDisabled,
+      })}
       style={{
         backgroundColor,
         paddingTop,
@@ -53,13 +61,10 @@ const LayoutHeader: FC<LayoutHeaderProps> = ({
     >
       {!backDisabled ? (
         <button
-          style={{
-            width: LAYOUT_HEADER_HEIGHT,
-            height: LAYOUT_HEADER_HEIGHT,
-          }}
+          className={STYLE.__layout_header_container_back_button}
           onClick={onHeaderBackClick}
         >
-          <CaretIcon width="20px" height="20px" />
+          <CaretIcon width="14px" height="14px" />
         </button>
       ) : (
         <div

@@ -4,11 +4,11 @@ import { FC, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { LAYOUT_FOOTER_HEIGHT } from "@src/constants/layout";
-
-import STYLE from "./layout.module.scss";
 import ChestIcon from "../icons/ChestIcon";
 import LocationIcon from "../icons/LocationIcon";
 import UserIcon from "../icons/UserIcon";
+
+import STYLE from "./layout.module.scss";
 
 const LayoutFooter: FC = () => {
   const { push } = useRouter();
