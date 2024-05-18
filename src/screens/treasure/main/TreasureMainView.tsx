@@ -43,7 +43,7 @@ const TreasureMainView: FC<TreasureMainViewProps> = ({
       option={<TreasureMainHeaderOption />}
     />
     <Layout.Body>
-      {data ? (
+      {data && data.pages[0].data.length !== 0 && (
         <>
           <ul className={STYLE.__treasure_main_ul}>
             {data.pages.map((page) =>
@@ -60,7 +60,9 @@ const TreasureMainView: FC<TreasureMainViewProps> = ({
 
           {hasNextPage && <Observer minHeight="45px" onObserve={onObserve} />}
         </>
-      ) : (
+      )}
+
+      {data && data.pages[0].data.length === 0 && (
         <EmptyPage text="근처에 보물이 없어요.<br/>보물을 등록해보세요" />
       )}
     </Layout.Body>
