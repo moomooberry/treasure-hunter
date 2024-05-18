@@ -3,11 +3,12 @@
 import { FC, MouseEventHandler } from "react";
 import Layout from "@src/components/layout";
 import { Position } from "@src/types/position";
-import TreasureMainHeaderOption from "./_layout/header/TreasureMainHeaderOption";
 import { RequestPaginationResponse } from "@src/types/api";
 import { TreasureItem } from "@src/types/treasure";
 import { InfiniteData } from "@tanstack/react-query";
 import Observer from "@src/components/observer";
+import EmptyPage from "@src/components/empty/EmptyPage";
+import TreasureMainHeaderOption from "./_layout/header/TreasureMainHeaderOption";
 import TreasureMainListItem from "./_components/list/TreasureMainListItem";
 
 import STYLE from "./treasure.main.module.scss";
@@ -42,19 +43,26 @@ const TreasureMainView: FC<TreasureMainViewProps> = ({
       option={<TreasureMainHeaderOption />}
     />
     <Layout.Body>
-      <ul className={STYLE.__treasure_main_ul}>
-        {data?.pages.map((page) =>
-          page.data.map((item) => (
-            <TreasureMainListItem
-              key={item.id}
-              onItemClick={onItemClick(item.id)}
-              currentTime={currentTime}
-              item={item}
-            />
-          ))
-        )}
-      </ul>
-      {hasNextPage && <Observer minHeight="45px" onObserve={onObserve} />}
+      {data ? (
+        <>
+          <ul className={STYLE.__treasure_main_ul}>
+            {data.pages.map((page) =>
+              page.data.map((item) => (
+                <TreasureMainListItem
+                  key={item.id}
+                  onItemClick={onItemClick(item.id)}
+                  currentTime={currentTime}
+                  item={item}
+                />
+              ))
+            )}
+          </ul>
+
+          {hasNextPage && <Observer minHeight="45px" onObserve={onObserve} />}
+        </>
+      ) : (
+        <EmptyPage text="근처에 보물이 없어요.<br/>보물을 등록해보세요" />
+      )}
     </Layout.Body>
     <Layout.Footer />
   </Layout>
