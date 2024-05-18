@@ -1,0 +1,49 @@
+@use "/src/styles/skeleton.scss" as skeleton;
+
+.__treasure_main_ul {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 20px 12px;
+}
+
+.__treasure_list_wrapper {
+  position: relative;
+  isolation: isolate;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px 0 rgba(213, 213, 213, 0.47);
+}
+
+.__treasure_list_info_box {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  padding: 0 12px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.__treasure_list_fallback_image_wrapper {
+  @include skeleton.skeleton_mixin;
+
+  height: 240px;
+}
+
+.__treasure_list_fallback_title {
+  @include skeleton.skeleton_mixin;
+  height: 24px;
+  width: 70%;
+}
+
+.__treasure_list_fallback_user {
+  @include skeleton.skeleton_mixin;
+  height: 18px;
+  width: 180px;
+}
+
+.__treasure_list_fallback_reward {
+  @include skeleton.skeleton_mixin;
+  height: 26px;
+  width: 120px;
+}
