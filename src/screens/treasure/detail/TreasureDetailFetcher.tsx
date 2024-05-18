@@ -25,7 +25,7 @@ const TreasureDetailFetcher: FC<TreasureDetailFetcherProps> = async ({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TreasureDetailController id={id} />
+      <TreasureDetailController />
     </HydrationBoundary>
   );
 };

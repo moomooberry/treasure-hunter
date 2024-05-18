@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback, useEffect } from "react";
+import { FC, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import deleteTreasure from "@src/api/treasure/deleteTreasure";
@@ -13,7 +13,7 @@ import getTreasure, {
 import STYLE from "./treasure.detail.header.module.scss";
 
 const TreasureDetailHeaderOption: FC = () => {
-  const { push, back, prefetch } = useRouter();
+  const { push, back } = useRouter();
 
   const { id } = useParams();
 
@@ -40,10 +40,6 @@ const TreasureDetailHeaderOption: FC = () => {
   const onEditClick = useCallback(() => {
     push(`/treasure/${id}/edit`);
   }, [id, push]);
-
-  useEffect(() => {
-    prefetch(`/treasure/${id}/edit`);
-  }, [isValid, prefetch, id]);
 
   if (!data) return undefined;
 

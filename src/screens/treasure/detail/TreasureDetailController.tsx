@@ -9,21 +9,18 @@ import TreasureDetailView, {
   TreasureDetailViewProps,
 } from "./TreasureDetailView";
 import dayjs from "dayjs";
+import { useParams } from "next/navigation";
 
-interface TreasureDetailControllerProps {
-  id: string;
-}
-
-const TreasureDetailController: FC<TreasureDetailControllerProps> = ({
-  id,
-}) => {
+const TreasureDetailController: FC = () => {
   const [isLimit, setIsLimit] = useState(false);
+
+  const { id } = useParams();
 
   const currentTime = useMemo(() => dayjs().valueOf(), []);
 
   const { data } = useQuery({
     queryKey: [API_GET_TREASURE_KEY, { id }],
-    queryFn: () => getTreasure({ id }),
+    queryFn: () => getTreasure({ id: id as string }),
   });
 
   const onLimit = useCallback(() => {
