@@ -1,0 +1,41 @@
+.__treasure_detail_footer_input_box {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #f4f4f4;
+  background-color: #fff;
+}
+
+.__treasure_detail_footer_input_wrapper {
+  display: flex;
+}
+
+.__treasure_detail_footer_textarea {
+  box-sizing: content-box;
+  width: 100%;
+  height: 22px;
+  max-height: 99px;
+  font-size: 14px;
+  line-height: 22px;
+  margin-left: 12px;
+  margin-right: 11px;
+  margin-top: 5px;
+  background-color: #fff;
+}
+.__treasure_detail_submit_wrapper {
+  display: flex;
+  align-items: flex-end;
+}
+.__treasure_detail_submit_button {
+  min-width: 40px;
+  height: 26px;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 14px;
+  line-height: 26px;
+  letter-spacing: -0.5px;
+  font-weight: 600;
+  :disabled {
+    color: #b2bec3;
+  }
+}
