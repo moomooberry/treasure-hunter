@@ -70,13 +70,23 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const newData = (await request.json()) as PostTreasureBody;
 
-  const supabase = createSupabaseFromServer();
-
   const endDate = dayjs().add(7, "day").valueOf();
 
-  const { status, statusText } = await supabase
+  const supabase = createSupabaseFromServer();
+
+  const { status, statusText, error } = await supabase
     .from("treasure")
     .insert({ ...newData, endDate });
+
+  if (error) {
+    const result: RequestErrorResponse = {
+      code: status,
+      message: error.message,
+      data: undefined,
+    };
+
+    return NextResponse.json(result, { status });
+  }
 
   const result: RequestResponse<null> = {
     code: status,

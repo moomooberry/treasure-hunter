@@ -23,7 +23,7 @@ export async function GET(
       data: undefined,
     };
 
-    return NextResponse.json(result, { status: 404 });
+    return NextResponse.json(result, { status });
   }
 
   const result: RequestResponse<TreasureItem> = {
@@ -42,10 +42,20 @@ export async function DELETE(
   // TODO 이미지 삭제해야함
   const supabase = createSupabaseFromServer();
 
-  const { status, statusText } = await supabase
+  const { status, statusText, error } = await supabase
     .from("treasure")
     .delete()
     .eq("id", id);
+
+  if (error) {
+    const result: RequestErrorResponse = {
+      code: status,
+      message: error.message,
+      data: undefined,
+    };
+
+    return NextResponse.json(result, { status });
+  }
 
   const result: RequestResponse<null> = {
     code: status,
@@ -79,12 +89,22 @@ export async function PUT(
     return NextResponse.json(result, { status: 404 });
   }
 
-  const { status, statusText } = await supabase
+  const { status, statusText, error } = await supabase
     .from("treasure")
     .update(newData)
     .eq("id", id);
 
-  console.log("status", status);
+  console.log("Stat", typeof status);
+
+  if (error) {
+    const result: RequestErrorResponse = {
+      code: status,
+      message: error.message,
+      data: undefined,
+    };
+
+    return NextResponse.json(result, { status });
+  }
 
   const result: RequestResponse<null> = {
     code: status,
