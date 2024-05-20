@@ -1,0 +1,19 @@
+@use "/src/styles/skeleton.scss" as skeleton;
+
+.__container {
+  padding: 20px 12px;
+}
+
+.__image_wrapper {
+  margin-bottom: 20px;
+}
+
+.__label_wrapper {
+  margin-bottom: 12px;
+}
+
+.__treasure_form_fallback {
+  @include skeleton.skeleton_mixin;
+
+  height: 100vh;
+}
