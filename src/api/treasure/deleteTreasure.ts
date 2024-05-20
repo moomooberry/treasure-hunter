@@ -9,7 +9,7 @@ interface DeleteTreasureParameter {
   id: string;
 }
 
-const deleteTreasure: RequestHandler<DeleteTreasureParameter, null> = async ({
+const deleteTreasure: RequestHandler<null, DeleteTreasureParameter> = async ({
   id,
 }) => {
   const cookieStore = cookies();

@@ -22,6 +22,12 @@ export interface RequestPaginationResponse<T> extends RequestResponse<T> {
   };
 }
 
-export type RequestHandler<P = unknown, R = unknown> = (
+type RequestHandlerCommon<R = unknown, P = unknown> = (
   parameter: P
 ) => Promise<R>;
+
+type RequestHandlerOnlyResponse<R = unknown> = () => Promise<R>;
+
+export type RequestHandler<R = unknown, P = void> = P extends void
+  ? RequestHandlerOnlyResponse<R>
+  : RequestHandlerCommon<R, P>;

@@ -14,7 +14,7 @@ export interface PostTreasureBody {
   reward: number | null;
 }
 
-const postTreasure: RequestHandler<PostTreasureBody, null> = async (body) => {
+const postTreasure: RequestHandler<null, PostTreasureBody> = async (body) => {
   const cookieStore = cookies();
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/treasure`, {

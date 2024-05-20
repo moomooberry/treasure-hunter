@@ -19,7 +19,7 @@ interface PutTreasureParameter extends PutTreasureBody {
   id: string;
 }
 
-const putTreasure: RequestHandler<PutTreasureParameter, null> = async ({
+const putTreasure: RequestHandler<null, PutTreasureParameter> = async ({
   id,
   ...body
 }) => {

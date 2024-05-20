@@ -5,7 +5,7 @@ import {
   RequestPaginationResponse,
   RequestResponse,
 } from "@src/types/api";
-import { TreasureItem } from "@src/types/treasure";
+import { GetTreasureListResponse } from "@src/types/api/treasure";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import dayjs from "dayjs";
 import { NextRequest, NextResponse } from "next/server";
@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
 
   const pageNumber = Number(pageNumberFromRequest);
   const pageSize = Number(pageSizeFromRequest);
+
   // TODO Position distance 3000m로 제한하기 -> Logic
   const lat = Number(latFromRequest);
   const lng = Number(lngFromRequest);
@@ -46,22 +47,46 @@ export async function GET(request: NextRequest) {
 
   const supabase = createSupabaseFromServer();
 
-  const { data, count, status, statusText } = (await supabase
+  const { data, status, statusText, count, error } = (await supabase
     .from("treasure")
-    .select("*", { count: "exact" })
+    .select(
+      `
+      id,
+      imgSrc,
+      created_at,
+      lat,
+      lng,
+      title,
+      hint,
+      reward,
+      endDate,
+      user (username)
+      `,
+      { count: "exact" }
+    )
     .order("created_at", { ascending: false })
     .range(offset, offset + pageSize - 1)) as PostgrestSingleResponse<
-    TreasureItem[]
+    GetTreasureListResponse[]
   >;
 
-  const result: RequestPaginationResponse<TreasureItem[]> = {
+  if (!data || error) {
+    const result: RequestErrorResponse = {
+      code: status,
+      message: error.message,
+      data: undefined,
+    };
+
+    return NextResponse.json(result, { status });
+  }
+
+  const result: RequestPaginationResponse<GetTreasureListResponse[]> = {
     code: status,
     message: statusText,
     pagination: {
       totalElement: count ?? 0,
       pageNumber,
     },
-    data: data ?? [],
+    data,
   };
 
   return NextResponse.json(result, { status: 200 });

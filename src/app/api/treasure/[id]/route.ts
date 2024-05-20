@@ -13,7 +13,20 @@ export async function GET(
 
   const { data, status, statusText } = (await supabase
     .from("treasure")
-    .select("*")
+    .select(
+      `
+      id,
+      imgSrc,
+      created_at,
+      lat,
+      lng,
+      title,
+      hint,
+      reward,
+      endDate,
+      user (username, userId)
+      `
+    )
     .eq("id", id)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
 
   if (!data || data.length === 0) {
