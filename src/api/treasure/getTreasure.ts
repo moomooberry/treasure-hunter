@@ -1,8 +1,10 @@
+"use server";
+
+import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import { RequestHandler, RequestResponse } from "@src/types/api";
 import { TreasureItem } from "@src/types/treasure";
 import variableAssignment from "@src/utils/variableAssignment";
-
-export const API_GET_TREASURE_KEY = "/treasure/{{id}}";
+import { cookies } from "next/headers";
 
 interface GetTreasureParameter {
   id: string;
@@ -11,12 +13,17 @@ interface GetTreasureParameter {
 const getTreasure: RequestHandler<GetTreasureParameter, TreasureItem> = async ({
   id,
 }) => {
+  const cookieStore = cookies();
+
   const key = variableAssignment(API_GET_TREASURE_KEY, { id });
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${key}`, {
     next: {
       revalidate: 5 * 60,
       tags: [key],
+    },
+    headers: {
+      Cookie: cookieStore.toString(),
     },
   });
 

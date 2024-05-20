@@ -11,11 +11,10 @@ import {
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import getTreasure, {
-  API_GET_TREASURE_KEY,
-} from "@src/api/treasure/getTreasure";
+import getTreasure from "@src/api/treasure/getTreasure";
 
 import STYLE from "./treasure.detail.footer.module.scss";
+import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 
 interface TreasureDetailFooterFormFields {
   text: string;

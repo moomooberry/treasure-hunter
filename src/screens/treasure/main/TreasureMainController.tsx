@@ -6,9 +6,8 @@ import { Position } from "@src/types/position";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import getTreasureList, {
-  API_GET_TREASURE_LIST_KEY,
-} from "@src/api/treasure/getTreasureList";
+import getTreasureList from "@src/api/treasure/getTreasureList";
+import { API_GET_TREASURE_LIST_KEY } from "@src/libs/fetch/key/treasure";
 
 interface TreasureMainControllerProps {
   distance: number;

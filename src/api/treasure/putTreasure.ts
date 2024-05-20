@@ -2,10 +2,12 @@
 
 import { RequestHandler, RequestResponse } from "@src/types/api";
 import { revalidateTag } from "next/cache";
-import { API_GET_TREASURE_LIST_KEY } from "./getTreasureList";
-import { API_GET_TREASURE_KEY } from "./getTreasure";
 import variableAssignment from "@src/utils/variableAssignment";
 import { cookies } from "next/headers";
+import {
+  API_GET_TREASURE_KEY,
+  API_GET_TREASURE_LIST_KEY,
+} from "@src/libs/fetch/key/treasure";
 
 export interface PutTreasureBody {
   imgSrc: string[];

@@ -6,11 +6,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import deleteTreasure from "@src/api/treasure/deleteTreasure";
 import TrashcanIcon from "@src/components/icons/TrashcanIcon";
 import EditIcon from "@src/components/icons/EditIcon";
-import getTreasure, {
-  API_GET_TREASURE_KEY,
-} from "@src/api/treasure/getTreasure";
+import getTreasure from "@src/api/treasure/getTreasure";
 
 import STYLE from "./treasure.detail.header.module.scss";
+import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 
 const TreasureDetailHeaderOption: FC = () => {
   const { push, back } = useRouter();

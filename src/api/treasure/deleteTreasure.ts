@@ -1,8 +1,8 @@
 "use server";
 
+import { API_GET_TREASURE_LIST_KEY } from "@src/libs/fetch/key/treasure";
 import { RequestHandler, RequestResponse } from "@src/types/api";
 import { revalidateTag } from "next/cache";
-import { API_GET_TREASURE_LIST_KEY } from "./getTreasureList";
 import { cookies } from "next/headers";
 
 interface DeleteTreasureParameter {
