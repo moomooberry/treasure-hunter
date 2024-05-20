@@ -6,12 +6,15 @@ import { TreasureItem } from "@src/types/treasure";
 
 const data: TreasureItem = {
   id: 1,
-  position: { lat: 37.4762182, lng: 126.9804634 },
+  lat: 37.4762182,
+  lng: 126.9804634,
   endDate: 123,
   hint: "힌트입니다.",
   imgSrc: ["asd"],
   reward: 10000,
   title: "타이틀입니다",
+  created_at: "@@asd",
+  userId: "@@asd",
 };
 
 const MapEdit: FC = () => {
@@ -22,7 +25,10 @@ const MapEdit: FC = () => {
 
     const map = new TreasureMap(ref.current);
 
-    await map.init({ mode: "edit", position: data.position });
+    await map.init({
+      mode: "edit",
+      position: { lat: data.lat, lng: data.lng },
+    });
 
     map.loadTreasure({ data });
   }, []);

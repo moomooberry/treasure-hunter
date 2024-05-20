@@ -40,7 +40,10 @@ export class TreasureMap {
   private _selectedTreasure: TreasureItem | null = null;
 
   /* ADD */
-  private _treasurePosition: TreasureItem["position"] | null = null;
+  private _treasurePosition: {
+    lat: TreasureItem["lat"];
+    lng: TreasureItem["lng"];
+  } | null = null;
   private _error: Error = { isOverBuffer: false };
 
   /* UTILITY */
@@ -166,7 +169,7 @@ export class TreasureMap {
 
       const marker = new AdvancedMarkerElement({
         map: this._map,
-        position: item.position,
+        position: { lat: item.lat, lng: item.lng },
         content: pin.element,
       });
 
@@ -268,7 +271,7 @@ export class TreasureMap {
 
     const marker = new this._markerLibrary.AdvancedMarkerElement({
       map: this._map,
-      position: data.position,
+      position: { lat: data.lat, lng: data.lng },
       content: pin.element,
     });
   }
