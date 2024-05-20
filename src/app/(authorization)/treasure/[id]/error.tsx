@@ -7,7 +7,9 @@ import Layout from "@src/components/layout";
 const TreasureDetailError: ErrorComponent = ({ error, reset }) => (
   <Layout>
     <Layout.Header title={error.name} />
-    <ControllerPage.Error error={error} reset={reset} />
+    <Layout.Body>
+      <ControllerPage.Error error={error} reset={reset} />
+    </Layout.Body>
   </Layout>
 );
 
