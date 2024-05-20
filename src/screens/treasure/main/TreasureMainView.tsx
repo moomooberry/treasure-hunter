@@ -4,12 +4,12 @@ import { FC, MouseEventHandler } from "react";
 import Layout from "@src/components/layout";
 import { Position } from "@src/types/position";
 import { RequestPaginationResponse } from "@src/types/api";
-import { TreasureItem } from "@src/types/treasure";
 import { InfiniteData } from "@tanstack/react-query";
 import Observer from "@src/components/observer";
-import EmptyPage from "@src/components/empty/EmptyPage";
 import TreasureMainHeaderOption from "./_layout/header/TreasureMainHeaderOption";
 import TreasureMainListItem from "./_components/list/TreasureMainListItem";
+import { GetTreasureListResponse } from "@src/types/api/treasure";
+import ControllerPage from "@src/components/controller/ControllerPage";
 
 import STYLE from "./treasure.main.module.scss";
 
@@ -22,7 +22,7 @@ export interface TreasureMainViewProps {
   onObserve: VoidFunction;
   onItemClick: (id: number) => MouseEventHandler<HTMLLIElement>;
 
-  data?: InfiniteData<RequestPaginationResponse<TreasureItem[]>>;
+  data?: InfiniteData<RequestPaginationResponse<GetTreasureListResponse[]>>;
 }
 
 const TreasureMainView: FC<TreasureMainViewProps> = ({
@@ -63,7 +63,7 @@ const TreasureMainView: FC<TreasureMainViewProps> = ({
       )}
 
       {data && data.pages[0].data.length === 0 && (
-        <EmptyPage text="근처에 보물이 없어요.<br/>보물을 등록해보세요" />
+        <ControllerPage.Empty text="근처에 보물이 없어요.<br/>보물을 등록해보세요" />
       )}
     </Layout.Body>
     <Layout.Footer />

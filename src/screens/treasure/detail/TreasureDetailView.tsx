@@ -3,7 +3,6 @@
 import { FC } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Layout from "@src/components/layout";
-import { TreasureItem } from "@src/types/treasure";
 import SwiperImage from "@src/components/swiper/SwiperImage";
 import TimerLimit from "@src/components/timer/TimerLimit";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
@@ -11,18 +10,18 @@ import LocationIcon from "@src/components/icons/LocationIcon";
 import TimerIcon from "@src/components/icons/TimerIcon";
 import TreasureDetailHeader from "./_layout/header";
 import Image from "next/image";
-import EmptyContent from "@src/components/empty/EmptyContent";
 import TreasureDetailFooter from "./_layout/footer";
-import EmptyPage from "@src/components/empty/EmptyPage";
 import TreasureDetailBody from "./_layout/body";
+import { GetTreasureDetailResponse } from "@src/types/api/treasure";
 
 import STYLE from "./treasure.detail.module.scss";
+import ControllerContent from "@src/components/controller/ControllerContent";
 
 export interface TreasureDetailViewProps {
   isLimit: boolean;
   currentTime: number;
   onLimit: VoidFunction;
-  data?: TreasureItem;
+  data?: GetTreasureDetailResponse;
 }
 
 const TreasureDetailView: FC<TreasureDetailViewProps> = ({
@@ -35,7 +34,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
     <TreasureDetailHeader />
 
     <TreasureDetailBody>
-      {data ? (
+      {data && (
         <div>
           <SwiperImage images={data.imgSrc} showImageCount />
           <div className={STYLE.__treasure_detail_container}>
@@ -95,14 +94,13 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
                 <div className={STYLE.__treasure_detail_user_avatar}>
                   <Image
                     src="https://picsum.photos/200"
-                    alt="avatar"
+                    alt={`avatar_${data.user.username}`}
                     width={40}
                     height={40}
                   />
-                  @@user
                 </div>
                 <div className={STYLE.__treasure_detail_user}>
-                  @@user님의 보물
+                  {data.user.username}님의 보물
                 </div>
               </div>
             </section>
@@ -122,13 +120,11 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
               <h3 className={STYLE.__treasure_detail_common_label}>댓글</h3>
               {/* TODO 댓글 없을 때 */}
               <div className={STYLE.__treasure_detail_comment_null}>
-                <EmptyContent text="댓글이 없어요<br/>첫 댓글을 달아보세요!" />
+                <ControllerContent.Empty text="댓글이 없어요<br/>첫 댓글을 달아보세요!" />
               </div>
             </section>
           </div>
         </div>
-      ) : (
-        <EmptyPage text="유효기간이 지났거나<br/>없는 보물이에요." />
       )}
     </TreasureDetailBody>
 

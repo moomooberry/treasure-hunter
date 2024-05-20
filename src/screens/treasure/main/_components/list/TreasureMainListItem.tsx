@@ -2,15 +2,15 @@
 
 import { FC, MouseEventHandler } from "react";
 import SwiperImage from "@src/components/swiper/SwiperImage";
-import { TreasureItem } from "@src/types/treasure";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import TimerLimit from "@src/components/timer/TimerLimit";
+import { GetTreasureListResponse } from "@src/types/api/treasure";
 
 import STYLE from "./treasure.main.list.module.scss";
 
 interface TreasureMainListItemProps {
   currentTime: number;
-  item: TreasureItem;
+  item: GetTreasureListResponse;
   onItemClick: MouseEventHandler<HTMLLIElement>;
 }
 
@@ -25,7 +25,9 @@ const TreasureMainListItem: FC<TreasureMainListItemProps> = ({
     <div className={STYLE.__treasure_list_info_box}>
       <div className={STYLE.__treasure_list_title}>{item.title}</div>
 
-      <div className={STYLE.__treasure_list_user}>@@님의 보물</div>
+      <div className={STYLE.__treasure_list_user}>
+        {item.user.username}님의 보물
+      </div>
 
       {item.reward && (
         <div className={STYLE.__treasure_list_reward}>
