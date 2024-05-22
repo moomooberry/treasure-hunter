@@ -2,7 +2,6 @@
 
 import {
   ChangeEventHandler,
-  FC,
   FormEventHandler,
   InputHTMLAttributes,
   forwardRef,
@@ -65,8 +64,8 @@ const FormInputText = forwardRef<HTMLInputElement, FormInputTextProps>(
         <input
           ref={ref}
           className={classNames({
-            [STYLE.__form_text]: true,
-            [STYLE.__form_text_error]: isError,
+            [STYLE.__form_input]: true,
+            [STYLE.__form_input_error]: isError,
           })}
           onInput={onTextInput}
           onChange={onTextChange}
@@ -76,8 +75,8 @@ const FormInputText = forwardRef<HTMLInputElement, FormInputTextProps>(
         {maxLength && showMaxLength && (
           <div
             className={classNames({
-              [STYLE.__form_text_max_length]: true,
-              [STYLE.__form_text_max_length_error]: isError,
+              [STYLE.__form_input_max_length]: true,
+              [STYLE.__form_input_max_length_error]: isError,
             })}
           >
             {length}/{maxLength}

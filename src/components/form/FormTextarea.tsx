@@ -66,8 +66,8 @@ const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
           ref={ref}
           className={classNames({
             [STYLE.__form_height_300]: true,
-            [STYLE.__form_text]: true,
-            [STYLE.__form_text_error]: isError,
+            [STYLE.__form_input]: true,
+            [STYLE.__form_input_error]: isError,
           })}
           onChange={onTextChange}
           onInput={onTextInput}
@@ -77,8 +77,8 @@ const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
         {maxLength && showMaxLength && (
           <div
             className={classNames({
-              [STYLE.__form_text_max_length]: true,
-              [STYLE.__form_text_max_length_error]: isError,
+              [STYLE.__form_input_max_length]: true,
+              [STYLE.__form_input_max_length_error]: isError,
             })}
           >
             {length}/{maxLength}

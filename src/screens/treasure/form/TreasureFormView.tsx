@@ -1,6 +1,6 @@
 "use client";
 
-import FormErrorText from "@src/components/form/FormErrorText";
+import { FC, MouseEventHandler } from "react";
 import FormInputImage from "@src/components/form/FormInputImage";
 import FormInputText from "@src/components/form/FormInputText";
 import FormLabel from "@src/components/form/FormLabel";
@@ -10,7 +10,7 @@ import MapAdd from "@src/components/map/add";
 import { TreasureMap } from "@src/libs/google-map";
 import { ImageInputValue } from "@src/types/image";
 import { Position } from "@src/types/position";
-import { FC, MouseEventHandler } from "react";
+import FormText from "@src/components/form/FormText";
 import {
   Control,
   Controller,
@@ -83,23 +83,25 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
           <label className={STYLE.__label_wrapper}>
             <FormLabel text="제목" isRequired />
             <FormInputText
+              placeholder="최대 20자까지 입력"
               maxLength={20}
               showMaxLength
               isError={!!errors.title}
               {...registerProps.title}
             />
-            <FormErrorText text={errors.title?.message} />
+            {errors.title && <FormText.Error text={errors.title.message} />}
           </label>
 
           <label className={STYLE.__label_wrapper}>
             <FormLabel text="힌트" isRequired />
             <FormTextarea
+              placeholder="최대 300자까지 입력"
               maxLength={300}
               showMaxLength
               isError={!!errors.hint}
               {...registerProps.hint}
             />
-            <FormErrorText text={errors.hint?.message} />
+            {errors.hint && <FormText.Error text={errors.hint.message} />}
           </label>
 
           <label>
@@ -113,10 +115,13 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
               placeholder="최대 100만원"
               {...registerProps.reward}
             />
-            {/* TODO 보상금 수정안되는거 noticeText */}
-            {!!id && <span>보상금은 수정이 안돼요</span>}
-            <FormErrorText text={errors.reward?.types?.pattern?.toString()} />
-            <FormErrorText text={errors.reward?.types?.max?.toString()} />
+            <FormText.Notice text="보상금은 수정이 불가해요." />
+            {errors.reward?.types?.pattern && (
+              <FormText.Error text={errors.reward.types.pattern.toString()} />
+            )}
+            {errors.reward?.types?.max && (
+              <FormText.Error text={errors.reward.types.max.toString()} />
+            )}
           </label>
         </div>
       )}

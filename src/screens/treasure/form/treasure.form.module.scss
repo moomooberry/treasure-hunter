@@ -1,5 +1,3 @@
-@use "/src/styles/skeleton.scss" as skeleton;
-
 .__container {
   padding: 20px 12px;
 }
@@ -10,10 +8,4 @@
 
 .__label_wrapper {
   margin-bottom: 12px;
-}
-
-.__treasure_form_fallback {
-  @include skeleton.skeleton_mixin;
-
-  height: 100vh;
 }
