@@ -23,7 +23,7 @@ export async function GET() {
   const { data, status, statusText, error } = (await supabase
     .from("user")
     .select("*")
-    .eq("userId", userData.user.id)) as PostgrestSingleResponse<User[]>;
+    .eq("id", userData.user.id)) as PostgrestSingleResponse<User[]>;
 
   if (!data || error) {
     const result: RequestErrorResponse = {

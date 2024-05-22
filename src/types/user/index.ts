@@ -1,5 +1,5 @@
 export interface User {
-  userId: string;
+  id: string;
   created_at: string;
   username: string;
   provider: string;

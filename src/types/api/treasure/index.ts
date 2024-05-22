@@ -7,6 +7,6 @@ export interface GetTreasureListResponse extends Omit<TreasureItem, "userId"> {
 
 export interface GetTreasureDetailResponse
   extends Omit<TreasureItem, "userId"> {
-  user: Pick<User, "username" | "userId">;
+  user: Pick<User, "username" | "id">;
   // TODO comment
 }

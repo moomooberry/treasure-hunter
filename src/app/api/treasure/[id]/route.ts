@@ -24,7 +24,7 @@ export async function GET(
       hint,
       reward,
       endDate,
-      user (username, userId)
+      user (username, id)
       `
     )
     .eq("id", id)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
