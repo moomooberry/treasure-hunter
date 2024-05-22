@@ -1,5 +1,6 @@
 import { createSupabaseFromServer } from "@src/libs/supabase/server";
 import { RequestErrorResponse, RequestResponse } from "@src/types/api";
+import { GetUserResponse } from "@src/types/api/user";
 import { User } from "@src/types/user";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
@@ -34,7 +35,7 @@ export async function GET() {
     return NextResponse.json(result, { status });
   }
 
-  const result: RequestResponse<User | null> = {
+  const result: RequestResponse<GetUserResponse | null> = {
     code: status,
     message: statusText,
     data: data.length === 0 ? null : data[0],

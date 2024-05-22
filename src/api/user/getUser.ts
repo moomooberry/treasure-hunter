@@ -2,10 +2,10 @@
 
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import { RequestHandler, RequestResponse } from "@src/types/api";
-import { User } from "@src/types/user";
+import { GetUserResponse } from "@src/types/api/user";
 import { cookies } from "next/headers";
 
-const getUser: RequestHandler<User | null> = async () => {
+const getUser: RequestHandler<GetUserResponse | null> = async () => {
   const cookieStore = cookies();
 
   const res = await fetch(
@@ -22,7 +22,8 @@ const getUser: RequestHandler<User | null> = async () => {
     }
   );
 
-  const { data } = (await res.json()) as RequestResponse<User | null>;
+  const { data } =
+    (await res.json()) as RequestResponse<GetUserResponse | null>;
 
   return data;
 };
