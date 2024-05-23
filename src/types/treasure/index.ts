@@ -1,4 +1,5 @@
 import { Position } from "../position";
+import { User } from "../user";
 
 export interface TreasureItem {
   id: number;
@@ -10,5 +11,5 @@ export interface TreasureItem {
   hint: string;
   endDate: number;
   reward: number | null;
-  userId: string; // foreign-key
+  userId: User["id"]; // foreign-key
 }

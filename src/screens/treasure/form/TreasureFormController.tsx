@@ -18,10 +18,12 @@ import putTreasure from "@src/api/treasure/putTreasure";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 
 interface TreasureFormControllerProps {
-  id?: string;
+  treasureId?: string;
 }
 
-const TreasureFormController: FC<TreasureFormControllerProps> = ({ id }) => {
+const TreasureFormController: FC<TreasureFormControllerProps> = ({
+  treasureId,
+}) => {
   const { push, replace, back } = useRouter();
 
   const [error, setError] = useState<TreasureMap["_error"]>({
@@ -47,9 +49,9 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({ id }) => {
   });
 
   const { data } = useQuery({
-    queryKey: [API_GET_TREASURE_KEY, { id }],
-    queryFn: () => getTreasure({ id: id as string }),
-    enabled: !!id,
+    queryKey: [API_GET_TREASURE_KEY, { treasureId }],
+    queryFn: () => getTreasure({ treasureId: treasureId as string }),
+    enabled: !!treasureId,
   });
 
   const {
@@ -116,7 +118,7 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({ id }) => {
   const onSubmit = useCallback<SubmitHandler<TreasureFormFields>>(
     ({ position, hint, images, title, reward }) => {
       // TODO images string 으로 post
-      if (!id) {
+      if (!treasureId) {
         addMutate({
           title,
           hint,
@@ -131,7 +133,7 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({ id }) => {
         });
       } else {
         editMutate({
-          id,
+          treasureId,
           title,
           hint,
           imgSrc: [
@@ -142,7 +144,7 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({ id }) => {
         });
       }
     },
-    [addMutate, editMutate, id]
+    [addMutate, editMutate, treasureId]
   );
 
   useEffect(() => {
@@ -152,7 +154,7 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({ id }) => {
   }, [error]);
 
   const viewProps: TreasureFormViewProps = {
-    id,
+    treasureId,
     step,
     control,
     registerProps,

@@ -16,17 +16,17 @@ export interface PutTreasureBody {
 }
 
 interface PutTreasureParameter extends PutTreasureBody {
-  id: string;
+  treasureId: string;
 }
 
 const putTreasure: RequestHandler<null, PutTreasureParameter> = async ({
-  id,
+  treasureId,
   ...body
 }) => {
   const cookieStore = cookies();
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/treasure/${id}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/treasure/${treasureId}`,
     {
       method: "PUT",
       headers: {
@@ -39,7 +39,7 @@ const putTreasure: RequestHandler<null, PutTreasureParameter> = async ({
   const { data } = (await res.json()) as RequestResponse<null>;
 
   revalidateTag(API_GET_TREASURE_LIST_KEY);
-  revalidateTag(variableAssignment(API_GET_TREASURE_KEY, { id }));
+  revalidateTag(variableAssignment(API_GET_TREASURE_KEY, { treasureId }));
 
   return data;
 };

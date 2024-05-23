@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   _: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  { params: { treasureId } }: { params: { treasureId: string } }
 ) {
   const supabase = createSupabaseFromServer();
 
@@ -27,7 +27,7 @@ export async function GET(
       user (username, id)
       `
     )
-    .eq("id", id)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
+    .eq("id", treasureId)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
 
   if (!data || data.length === 0) {
     const result: RequestErrorResponse = {
@@ -50,7 +50,7 @@ export async function GET(
 
 export async function DELETE(
   _: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  { params: { treasureId } }: { params: { treasureId: string } }
 ) {
   // TODO 이미지 삭제해야함
   const supabase = createSupabaseFromServer();
@@ -58,7 +58,7 @@ export async function DELETE(
   const { status, statusText, error } = await supabase
     .from("treasure")
     .delete()
-    .eq("id", id);
+    .eq("id", treasureId);
 
   if (error) {
     const result: RequestErrorResponse = {
@@ -81,7 +81,7 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  { params: { id } }: { params: { id: string } }
+  { params: { treasureId } }: { params: { treasureId: string } }
 ) {
   // TODO 이미지 삭제 해야함
   const newData = (await request.json()) as PutTreasureBody;
@@ -91,7 +91,7 @@ export async function PUT(
   const { data: prevData } = (await supabase
     .from("treasure")
     .select("*")
-    .eq("id", id)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
+    .eq("id", treasureId)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
 
   if (!prevData) {
     const result: RequestErrorResponse = {
@@ -105,7 +105,7 @@ export async function PUT(
   const { status, statusText, error } = await supabase
     .from("treasure")
     .update(newData)
-    .eq("id", id);
+    .eq("id", treasureId);
 
   console.log("Stat", typeof status);
 

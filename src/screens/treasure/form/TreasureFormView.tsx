@@ -34,7 +34,7 @@ export interface TreasureFormFields {
 }
 
 export interface TreasureFormViewProps {
-  id?: string;
+  treasureId?: string;
   step: "1" | "2";
 
   control: Control<TreasureFormFields>;
@@ -50,7 +50,7 @@ export interface TreasureFormViewProps {
 }
 
 const TreasureFormView: FC<TreasureFormViewProps> = ({
-  id,
+  treasureId,
   step,
 
   control,
@@ -65,7 +65,7 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
   <Layout>
     <TreasureFormHeader />
     <Layout.Body>
-      {!id && step === "1" ? (
+      {!treasureId && step === "1" ? (
         <MapAdd onError={onError} onPosition={onPosition} />
       ) : (
         <div className={STYLE.__container}>
@@ -110,7 +110,7 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
               inputMode="numeric"
               maxLength={7}
               m="0 0 13px 0"
-              disabled={!!id}
+              disabled={!!treasureId}
               isError={!!errors.reward}
               placeholder="최대 100만원"
               {...registerProps.reward}
@@ -127,7 +127,7 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
       )}
     </Layout.Body>
 
-    {!id && step === "1" ? (
+    {!treasureId && step === "1" ? (
       <TreasureFormFooterNextButton onClick={onNextStepClick} />
     ) : (
       <TreasureFormFooterSubmitButton onClick={onSubmitClick} />

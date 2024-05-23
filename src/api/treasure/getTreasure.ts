@@ -7,16 +7,16 @@ import variableAssignment from "@src/utils/variableAssignment";
 import { cookies } from "next/headers";
 
 interface GetTreasureParameter {
-  id: string;
+  treasureId: string;
 }
 
 const getTreasure: RequestHandler<
   GetTreasureDetailResponse,
   GetTreasureParameter
-> = async ({ id }) => {
+> = async ({ treasureId }) => {
   const cookieStore = cookies();
 
-  const key = variableAssignment(API_GET_TREASURE_KEY, { id });
+  const key = variableAssignment(API_GET_TREASURE_KEY, { treasureId });
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}${key}`, {
     method: "GET",

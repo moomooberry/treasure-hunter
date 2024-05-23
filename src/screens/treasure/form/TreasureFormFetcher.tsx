@@ -9,18 +9,19 @@ import TreasureFormController from "./TreasureFormController";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
-import { redirect } from "next/navigation";
 
 interface TreasureFormFetcherProps {
-  id: string;
+  treasureId: string;
 }
-const TreasureFormFetcher: FC<TreasureFormFetcherProps> = async ({ id }) => {
+const TreasureFormFetcher: FC<TreasureFormFetcherProps> = async ({
+  treasureId,
+}) => {
   const queryClient = new QueryClient();
 
   const [treasureData, userData] = await Promise.all([
     queryClient.fetchQuery({
-      queryKey: [API_GET_TREASURE_KEY, { id }],
-      queryFn: () => getTreasure({ id }),
+      queryKey: [API_GET_TREASURE_KEY, { treasureId }],
+      queryFn: () => getTreasure({ treasureId }),
     }),
     queryClient.fetchQuery({
       queryKey: [API_GET_USER_KEY],
@@ -28,7 +29,7 @@ const TreasureFormFetcher: FC<TreasureFormFetcherProps> = async ({ id }) => {
     }),
   ]);
 
-  const isValid = treasureData.user.userId === userData?.userId;
+  const isValid = treasureData.user.id === userData?.id;
 
   if (!isValid) {
     throw new Error("403 Forbidden");
@@ -36,7 +37,7 @@ const TreasureFormFetcher: FC<TreasureFormFetcherProps> = async ({ id }) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TreasureFormController id={id} />
+      <TreasureFormController treasureId={treasureId} />
     </HydrationBoundary>
   );
 };
