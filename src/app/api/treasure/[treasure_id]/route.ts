@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   _: NextRequest,
-  { params: { treasureId } }: { params: { treasureId: string } }
+  { params: { treasure_id } }: { params: { treasure_id: string } }
 ) {
   const supabase = createSupabaseFromServer();
 
@@ -16,18 +16,18 @@ export async function GET(
     .select(
       `
       id,
-      imgSrc,
+      images,
       created_at,
       lat,
       lng,
       title,
       hint,
       reward,
-      endDate,
+      end_date,
       user (username, id)
       `
     )
-    .eq("id", treasureId)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
+    .eq("id", treasure_id)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
 
   if (!data || data.length === 0) {
     const result: RequestErrorResponse = {
@@ -50,7 +50,7 @@ export async function GET(
 
 export async function DELETE(
   _: NextRequest,
-  { params: { treasureId } }: { params: { treasureId: string } }
+  { params: { treasure_id } }: { params: { treasure_id: string } }
 ) {
   // TODO 이미지 삭제해야함
   const supabase = createSupabaseFromServer();
@@ -58,7 +58,7 @@ export async function DELETE(
   const { status, statusText, error } = await supabase
     .from("treasure")
     .delete()
-    .eq("id", treasureId);
+    .eq("id", treasure_id);
 
   if (error) {
     const result: RequestErrorResponse = {
@@ -81,7 +81,7 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  { params: { treasureId } }: { params: { treasureId: string } }
+  { params: { treasure_id } }: { params: { treasure_id: string } }
 ) {
   // TODO 이미지 삭제 해야함
   const newData = (await request.json()) as PutTreasureBody;
@@ -91,7 +91,7 @@ export async function PUT(
   const { data: prevData } = (await supabase
     .from("treasure")
     .select("*")
-    .eq("id", treasureId)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
+    .eq("id", treasure_id)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
 
   if (!prevData) {
     const result: RequestErrorResponse = {
@@ -105,9 +105,7 @@ export async function PUT(
   const { status, statusText, error } = await supabase
     .from("treasure")
     .update(newData)
-    .eq("id", treasureId);
-
-  console.log("Stat", typeof status);
+    .eq("id", treasure_id);
 
   if (error) {
     const result: RequestErrorResponse = {

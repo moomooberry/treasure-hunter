@@ -6,10 +6,11 @@ export interface TreasureItem {
   created_at: string;
   lat: Position["lat"];
   lng: Position["lng"];
-  imgSrc: string[];
+  images: string[];
   title: string;
   hint: string;
-  endDate: number;
+  end_date: number;
   reward: number | null;
-  userId: User["id"]; // foreign-key
+
+  user_id: User["id"]; // foreign-key
 }

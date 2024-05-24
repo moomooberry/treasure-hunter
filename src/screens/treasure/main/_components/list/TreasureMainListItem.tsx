@@ -20,7 +20,7 @@ const TreasureMainListItem: FC<TreasureMainListItemProps> = ({
   onItemClick,
 }) => (
   <li className={STYLE.__treasure_list_wrapper} onClick={onItemClick}>
-    <SwiperImage height="240px" images={item.imgSrc} />
+    <SwiperImage height="240px" images={item.images} />
 
     <div className={STYLE.__treasure_list_info_box}>
       <div className={STYLE.__treasure_list_title}>{item.title}</div>
@@ -41,7 +41,7 @@ const TreasureMainListItem: FC<TreasureMainListItemProps> = ({
       <div className={STYLE.__treasure_list_timer_wrapper}>
         <TimerLimit
           currentTime={currentTime}
-          endTime={item.endDate}
+          endTime={item.end_date}
           maxLength={7}
           fontSize="20px"
         />

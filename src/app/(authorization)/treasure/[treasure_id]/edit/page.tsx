@@ -3,12 +3,12 @@ import TreasureFormFallback from "@src/screens/treasure/form/TreasureFormFallbac
 import TreasureFormFetcher from "@src/screens/treasure/form/TreasureFormFetcher";
 
 const TreasureDetailEditPage = ({
-  params: { treasureId },
+  params: { treasure_id },
 }: {
-  params: { treasureId: string };
+  params: { treasure_id: string };
 }) => (
   <Suspense fallback={<TreasureFormFallback />}>
-    <TreasureFormFetcher treasureId={treasureId} />
+    <TreasureFormFetcher treasure_id={treasure_id} />
   </Suspense>
 );
 

@@ -11,17 +11,17 @@ import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
 
 interface TreasureFormFetcherProps {
-  treasureId: string;
+  treasure_id: string;
 }
 const TreasureFormFetcher: FC<TreasureFormFetcherProps> = async ({
-  treasureId,
+  treasure_id,
 }) => {
   const queryClient = new QueryClient();
 
   const [treasureData, userData] = await Promise.all([
     queryClient.fetchQuery({
-      queryKey: [API_GET_TREASURE_KEY, { treasureId }],
-      queryFn: () => getTreasure({ treasureId }),
+      queryKey: [API_GET_TREASURE_KEY, { treasure_id }],
+      queryFn: () => getTreasure({ treasure_id }),
     }),
     queryClient.fetchQuery({
       queryKey: [API_GET_USER_KEY],
@@ -37,7 +37,7 @@ const TreasureFormFetcher: FC<TreasureFormFetcherProps> = async ({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TreasureFormController treasureId={treasureId} />
+      <TreasureFormController />
     </HydrationBoundary>
   );
 };

@@ -2,7 +2,12 @@
 
 import { TreasureMap } from "@src/libs/google-map";
 import { Position } from "@src/types/position";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { FC, useCallback, useEffect, useState } from "react";
 import { SubmitHandler, UseFormRegisterReturn, useForm } from "react-hook-form";
 import TreasureFormView, {
@@ -14,21 +19,16 @@ import getTreasure from "@src/api/treasure/getTreasure";
 import { v4 } from "uuid";
 import postTreasure from "@src/api/treasure/postTreasure";
 import putTreasure from "@src/api/treasure/putTreasure";
-// import getUser from "@src/api/user/_client/getUser";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 
-interface TreasureFormControllerProps {
-  treasureId?: string;
-}
-
-const TreasureFormController: FC<TreasureFormControllerProps> = ({
-  treasureId,
-}) => {
+const TreasureFormController: FC = () => {
   const { push, replace, back } = useRouter();
 
   const [error, setError] = useState<TreasureMap["_error"]>({
     isOverBuffer: false,
   });
+
+  const { treasure_id } = useParams();
 
   const pathname = usePathname();
 
@@ -49,9 +49,9 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({
   });
 
   const { data } = useQuery({
-    queryKey: [API_GET_TREASURE_KEY, { treasureId }],
-    queryFn: () => getTreasure({ treasureId: treasureId as string }),
-    enabled: !!treasureId,
+    queryKey: [API_GET_TREASURE_KEY, { treasure_id }],
+    queryFn: () => getTreasure({ treasure_id: treasure_id as string }),
+    enabled: !!treasure_id,
   });
 
   const {
@@ -65,7 +65,7 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({
     reValidateMode: "onChange",
     criteriaMode: "all",
     defaultValues: {
-      images: data ? data.imgSrc.map((src) => ({ id: v4(), src })) : [],
+      images: data ? data.images.map((src) => ({ id: v4(), src })) : [],
       title: data?.title,
       hint: data?.hint,
       position: data ? { lat: data.lat, lng: data.lng } : undefined,
@@ -118,11 +118,11 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({
   const onSubmit = useCallback<SubmitHandler<TreasureFormFields>>(
     ({ position, hint, images, title, reward }) => {
       // TODO images string 으로 post
-      if (!treasureId) {
+      if (typeof treasure_id !== "string") {
         addMutate({
           title,
           hint,
-          imgSrc: [
+          images: [
             "https://picsum.photos/200",
             "https://picsum.photos/200",
             "https://picsum.photos/200",
@@ -133,10 +133,10 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({
         });
       } else {
         editMutate({
-          treasureId,
+          treasure_id,
           title,
           hint,
-          imgSrc: [
+          images: [
             "https://picsum.photos/200",
             "https://picsum.photos/200",
             "https://picsum.photos/200",
@@ -144,7 +144,7 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({
         });
       }
     },
-    [addMutate, editMutate, treasureId]
+    [addMutate, editMutate, treasure_id]
   );
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const TreasureFormController: FC<TreasureFormControllerProps> = ({
   }, [error]);
 
   const viewProps: TreasureFormViewProps = {
-    treasureId,
+    treasure_id: treasure_id as string,
     step,
     control,
     registerProps,

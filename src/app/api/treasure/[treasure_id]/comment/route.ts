@@ -1,31 +1,22 @@
-import { PostTreasureBody } from "@src/api/treasure/postTreasure";
+import { PostTreasureCommentBody } from "@src/api/treasure/comment/postTreasureComment";
 import { createSupabaseFromServer } from "@src/libs/supabase/server";
 import {
   RequestErrorResponse,
   RequestPaginationResponse,
   RequestResponse,
 } from "@src/types/api";
-import { GetTreasureListResponse } from "@src/types/api/treasure";
+import { GetTreasureCommentListResponse } from "@src/types/api/treasure/comment";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
-import dayjs from "dayjs";
 import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic";
-
-export async function GET(request: NextRequest) {
+export async function GET(
+  request: NextRequest,
+  { params: { treasure_id } }: { params: { treasure_id: string } }
+) {
   const pageNumberFromRequest = request.nextUrl.searchParams.get("pageNumber");
   const pageSizeFromRequest = request.nextUrl.searchParams.get("pageSize");
-  const latFromRequest = request.nextUrl.searchParams.get("lat");
-  const lngFromRequest = request.nextUrl.searchParams.get("lng");
-  const distanceFromRequest = request.nextUrl.searchParams.get("distance");
 
-  if (
-    !pageNumberFromRequest ||
-    !pageSizeFromRequest ||
-    !latFromRequest ||
-    !lngFromRequest ||
-    !distanceFromRequest
-  ) {
+  if (!pageNumberFromRequest || !pageSizeFromRequest) {
     const result: RequestErrorResponse = {
       code: 404,
       message: "no resource",
@@ -38,35 +29,27 @@ export async function GET(request: NextRequest) {
   const pageNumber = Number(pageNumberFromRequest);
   const pageSize = Number(pageSizeFromRequest);
 
-  // TODO Position distance 3000m로 제한하기 -> Logic
-  const lat = Number(latFromRequest);
-  const lng = Number(lngFromRequest);
-  const distance = Number(distanceFromRequest);
-
   const offset = pageSize * (pageNumber - 1);
 
   const supabase = createSupabaseFromServer();
 
   const { data, status, statusText, count, error } = (await supabase
-    .from("treasure")
+    .from("treasure_comment")
     .select(
-      `
-      id,
-      images,
-      created_at,
-      lat,
-      lng,
-      title,
-      hint,
-      reward,
-      end_date,
-      user (username)
-      `,
+      `id,
+       created_at,
+       is_answer,
+       text,
+       child_count,
+       user:user_id (id, username)
+    `,
       { count: "exact" }
     )
     .order("created_at", { ascending: false })
+    .eq("treasure_id", treasure_id)
+    .is("parent_comment_id", null)
     .range(offset, offset + pageSize - 1)) as PostgrestSingleResponse<
-    GetTreasureListResponse[]
+    GetTreasureCommentListResponse[]
   >;
 
   if (!data || error) {
@@ -79,7 +62,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(result, { status });
   }
 
-  const result: RequestPaginationResponse<GetTreasureListResponse[]> = {
+  const result: RequestPaginationResponse<GetTreasureCommentListResponse[]> = {
     code: status,
     message: statusText,
     pagination: {
@@ -92,19 +75,19 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(result, { status: 200 });
 }
 
-export async function POST(request: NextRequest) {
-  const newData = (await request.json()) as PostTreasureBody;
-
-  const end_date = dayjs().add(7, "day").valueOf();
+export async function POST(
+  request: NextRequest,
+  { params: { treasure_id } }: { params: { treasure_id: string } }
+) {
+  const body = (await request.json()) as PostTreasureCommentBody;
 
   const supabase = createSupabaseFromServer();
 
   const { status, statusText, error } = await supabase
-    .from("treasure")
-    .insert({ ...newData, end_date });
+    .from("treasure_comment")
+    .insert({ treasure_id, ...body });
 
   if (error) {
-    console.error(error);
     const result: RequestErrorResponse = {
       code: status,
       message: error.message,

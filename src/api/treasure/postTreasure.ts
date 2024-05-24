@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 export interface PostTreasureBody {
   lat: number;
   lng: number;
-  imgSrc: string[];
+  images: string[];
   title: string;
   hint: string;
   reward: number | null;

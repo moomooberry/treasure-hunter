@@ -3,12 +3,12 @@ import TreasureDetailFallback from "@src/screens/treasure/detail/TreasureDetailF
 import TreasureDetailFetcher from "@src/screens/treasure/detail/TreasureDetailFetcher";
 
 const TreasureDetailPage = ({
-  params: { treasureId },
+  params: { treasure_id },
 }: {
-  params: { treasureId: string };
+  params: { treasure_id: string };
 }) => (
   <Suspense fallback={<TreasureDetailFallback />}>
-    <TreasureDetailFetcher treasureId={treasureId} />
+    <TreasureDetailFetcher treasure_id={treasure_id} />
   </Suspense>
 );
 

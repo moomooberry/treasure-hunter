@@ -10,23 +10,23 @@ import {
 } from "@src/libs/fetch/key/treasure";
 
 export interface PutTreasureBody {
-  imgSrc: string[];
+  images: string[];
   title: string;
   hint: string;
 }
 
 interface PutTreasureParameter extends PutTreasureBody {
-  treasureId: string;
+  treasure_id: string;
 }
 
 const putTreasure: RequestHandler<null, PutTreasureParameter> = async ({
-  treasureId,
+  treasure_id,
   ...body
 }) => {
   const cookieStore = cookies();
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/treasure/${treasureId}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/treasure/${treasure_id}`,
     {
       method: "PUT",
       headers: {
@@ -39,7 +39,7 @@ const putTreasure: RequestHandler<null, PutTreasureParameter> = async ({
   const { data } = (await res.json()) as RequestResponse<null>;
 
   revalidateTag(API_GET_TREASURE_LIST_KEY);
-  revalidateTag(variableAssignment(API_GET_TREASURE_KEY, { treasureId }));
+  revalidateTag(variableAssignment(API_GET_TREASURE_KEY, { treasure_id }));
 
   return data;
 };

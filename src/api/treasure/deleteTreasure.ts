@@ -6,16 +6,16 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 interface DeleteTreasureParameter {
-  treasureId: string;
+  treasure_id: string;
 }
 
 const deleteTreasure: RequestHandler<null, DeleteTreasureParameter> = async ({
-  treasureId,
+  treasure_id,
 }) => {
   const cookieStore = cookies();
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/treasure/${treasureId}`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/treasure/${treasure_id}`,
     {
       method: "DELETE",
       headers: {
