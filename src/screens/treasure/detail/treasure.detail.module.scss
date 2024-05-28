@@ -12,7 +12,7 @@
 .__treasure_detail_common_label {
   font-size: 22px;
   font-weight: 400;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 /* First-section */
@@ -86,13 +86,6 @@
 .__treasure_detail_last_section {
   padding: 20px 0;
 }
-.__treasure_detail_comment_null {
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 /* Fallback */
 .__treasure_detail_fallback_image {
   @include skeleton.skeleton_mixin;

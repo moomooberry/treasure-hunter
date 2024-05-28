@@ -10,12 +10,11 @@ import LocationIcon from "@src/components/icons/LocationIcon";
 import TimerIcon from "@src/components/icons/TimerIcon";
 import TreasureDetailHeader from "./_layout/header";
 import Image from "next/image";
-import TreasureDetailFooter from "./_layout/footer";
 import TreasureDetailBody from "./_layout/body";
 import { GetTreasureDetailResponse } from "@src/types/api/treasure";
+import TreasureDetailComment from "./_components/comment";
 
 import STYLE from "./treasure.detail.module.scss";
-import ControllerContent from "@src/components/controller/ControllerContent";
 
 export interface TreasureDetailViewProps {
   isLimit: boolean;
@@ -36,7 +35,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
     <TreasureDetailBody>
       {data && (
         <div>
-          <SwiperImage images={data.imgSrc} showImageCount />
+          <SwiperImage images={data.images} showImageCount />
           <div className={STYLE.__treasure_detail_container}>
             <section className={STYLE.__treasure_detail_first_section}>
               <h1 className={STYLE.__treasure_detail_title}>{data.title}</h1>
@@ -63,7 +62,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
                     <>
                       <TimerLimit
                         currentTime={currentTime}
-                        endTime={data.endDate}
+                        endTime={data.end_date}
                         fontSize="18px"
                         maxLength={7}
                         styleDisabled
@@ -81,14 +80,12 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
                 </AnimatePresence>
               </div>
 
-              {/* TODO 보물까지와 내 사이 거리 */}
               <div className={STYLE.__treasure_detail_distance_wrapper}>
                 <LocationIcon color="#636e72" width="16px" height="16px" />
                 보물까지 @@km 떨어져 있어요.
               </div>
             </section>
 
-            {/* TODO 유저 프로필 */}
             <section className={STYLE.__treasure_detail_common_section}>
               <div className={STYLE.__treasure_detail_user_wrapper}>
                 <div className={STYLE.__treasure_detail_user_avatar}>
@@ -115,20 +112,13 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
               <div className={STYLE.__treasure_detail_map} />
             </section>
 
-            {/* TODO 댓글 */}
             <section className={STYLE.__treasure_detail_last_section}>
-              <h3 className={STYLE.__treasure_detail_common_label}>댓글</h3>
-              {/* TODO 댓글 없을 때 */}
-              <div className={STYLE.__treasure_detail_comment_null}>
-                <ControllerContent.Empty text="댓글이 없어요<br/>첫 댓글을 달아보세요!" />
-              </div>
+              <TreasureDetailComment />
             </section>
           </div>
         </div>
       )}
     </TreasureDetailBody>
-
-    <TreasureDetailFooter />
   </Layout>
 );
 

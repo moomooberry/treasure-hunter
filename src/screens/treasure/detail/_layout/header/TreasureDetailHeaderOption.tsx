@@ -7,21 +7,22 @@ import deleteTreasure from "@src/api/treasure/deleteTreasure";
 import TrashcanIcon from "@src/components/icons/TrashcanIcon";
 import EditIcon from "@src/components/icons/EditIcon";
 import getTreasure from "@src/api/treasure/getTreasure";
-
-import STYLE from "./treasure.detail.header.module.scss";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
 import ShareIcon from "@src/components/icons/ShareIcon";
 
-const TreasureDetailHeaderOption: FC = () => {
-  const { push, back } = useRouter();
+import STYLE from "./treasure.detail.header.module.scss";
 
-  const { id } = useParams();
+const TreasureDetailHeaderOption: FC = () => {
+  const { push, replace } = useRouter();
+
+  const { treasure_id } = useParams();
 
   const { data: treasureData } = useQuery({
-    queryKey: [API_GET_TREASURE_KEY, { id }],
-    queryFn: () => getTreasure({ id: id as string }),
+    queryKey: [API_GET_TREASURE_KEY, { treasure_id }],
+    queryFn: () => getTreasure({ treasure_id: treasure_id as string }),
+    enabled: typeof treasure_id === "string",
   });
 
   const { data: userData } = useQuery({
@@ -31,24 +32,25 @@ const TreasureDetailHeaderOption: FC = () => {
 
   const isUserWrite = useMemo(() => {
     if (!treasureData || !userData) return false;
-    return userData.userId === treasureData.user.userId;
+    return userData.id === treasureData.user.id;
   }, [treasureData, userData]);
 
   const { mutate: deleteMutate } = useMutation({
     mutationFn: deleteTreasure,
     onSuccess: () => {
-      back();
+      replace("/treasure");
     },
   });
 
   const onDeleteClick = useCallback(() => {
     // TODO -> 팝업
-    deleteMutate({ id: id as string });
-  }, [deleteMutate, id]);
+    if (typeof treasure_id !== "string") return;
+    deleteMutate({ treasure_id });
+  }, [deleteMutate, treasure_id]);
 
   const onEditClick = useCallback(() => {
-    push(`/treasure/${id}/edit`);
-  }, [id, push]);
+    push(`/treasure/${treasure_id}/edit`);
+  }, [treasure_id, push]);
 
   const onShareClick = useCallback(() => {
     // TODO -> 공유하기 브릿지

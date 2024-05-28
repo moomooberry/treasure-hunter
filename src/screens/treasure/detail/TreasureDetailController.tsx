@@ -13,13 +13,13 @@ import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 const TreasureDetailController: FC = () => {
   const [isLimit, setIsLimit] = useState(false);
 
-  const { id } = useParams();
+  const { treasure_id } = useParams();
 
   const currentTime = useMemo(() => dayjs().valueOf(), []);
 
   const { data } = useQuery({
-    queryKey: [API_GET_TREASURE_KEY, { id }],
-    queryFn: () => getTreasure({ id: id as string }),
+    queryKey: [API_GET_TREASURE_KEY, { treasure_id }],
+    queryFn: () => getTreasure({ treasure_id: treasure_id as string }),
   });
 
   const onLimit = useCallback(() => {

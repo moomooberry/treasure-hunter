@@ -9,20 +9,22 @@ import TreasureDetailController from "./TreasureDetailController";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
+import { API_GET_TREASURE_COMMENT_LIST_KEY } from "@src/libs/fetch/key/treasure/comment";
+import getTreasureCommentList from "@src/api/treasure/comment/getTreasureCommentList";
 
 interface TreasureDetailFetcherProps {
-  id: string;
+  treasure_id: string;
 }
 
 const TreasureDetailFetcher: FC<TreasureDetailFetcherProps> = async ({
-  id,
+  treasure_id,
 }) => {
   const queryClient = new QueryClient();
 
   const [treasureData] = await Promise.all([
     queryClient.fetchQuery({
-      queryKey: [API_GET_TREASURE_KEY, { id }],
-      queryFn: () => getTreasure({ id }),
+      queryKey: [API_GET_TREASURE_KEY, { treasure_id }],
+      queryFn: () => getTreasure({ treasure_id }),
     }),
     queryClient.prefetchQuery({
       queryKey: [API_GET_USER_KEY],
