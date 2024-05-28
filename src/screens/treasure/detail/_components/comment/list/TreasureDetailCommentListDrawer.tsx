@@ -7,7 +7,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { FC, useCallback } from "react";
 import { useFormContext } from "react-hook-form";
-import { Sheet } from "react-modal-sheet";
 import { TreasureDetailCommentFormFields } from "..";
 import TreasureDetailCommentListItem from "./item";
 import Observer from "@src/components/observer";
@@ -15,6 +14,7 @@ import Lottie from "@src/components/lottie";
 import loadingLottieSrc from "@src/assets/lottie/loading.json";
 import { motion } from "framer-motion";
 import ControllerContent from "@src/components/controller/ControllerContent";
+import DrawerBottom from "@src/components/drawer/DrawerBottom";
 
 import STYLE from "./treasure.detail.comment.list.module.scss";
 
@@ -62,93 +62,80 @@ const TreasureDetailCommentListDrawer: FC = () => {
   }, [setValue]);
 
   return (
-    <Sheet
+    <DrawerBottom
       isOpen={!!parentComment}
       onClose={onClose}
-      detent="content-height"
-      style={{
-        zIndex: 1,
-      }}
+      zIndex={1}
+      paddingBottom={`calc(14px + 14px + 32px + 13px + ${paddingBottom})`}
     >
-      <Sheet.Container>
-        <Sheet.Header />
-        <Sheet.Content>
-          {parentComment && (
-            <div
-              className={STYLE.__comment_list_drawer_container}
-              style={{
-                paddingBottom: `calc(14px + 14px + 32px + 13px + ${paddingBottom})`,
-              }}
-            >
-              <ul className={STYLE.__comment_list_drawer_top_ul}>
-                <TreasureDetailCommentListItem
-                  item={parentComment}
-                  disabledViewMoreButton
-                />
-              </ul>
+      {parentComment && (
+        <>
+          <ul className={STYLE.__comment_list_drawer_top_ul}>
+            <TreasureDetailCommentListItem
+              item={parentComment}
+              disabledViewMoreButton
+            />
+          </ul>
 
-              <div className={STYLE.__comment_list_drawer_reply_box}>
-                {!data && (
-                  <div className={STYLE.__comment_list_drawer_reply_content}>
+          <div className={STYLE.__comment_list_drawer_reply_box}>
+            {!data && (
+              <div className={STYLE.__comment_list_drawer_reply_content}>
+                <Lottie
+                  animationData={loadingLottieSrc}
+                  width="40px"
+                  height="40px"
+                />
+              </div>
+            )}
+
+            {data && data.pages[0].data.length !== 0 && (
+              <ul className={STYLE.__comment_list_item_list}>
+                {data.pages.map((page) =>
+                  page.data.map((item) => (
+                    <TreasureDetailCommentListItem
+                      key={item.id}
+                      item={item}
+                      disabledViewMoreButton
+                    />
+                  ))
+                )}
+              </ul>
+            )}
+
+            {data && data.pages[0].data.length === 0 && (
+              <div className={STYLE.__comment_list_drawer_reply_content}>
+                <ControllerContent.Empty
+                  text={`${parentComment.user.username}님에게<br/>첫 대댓글을 남겨보세요!`}
+                />
+              </div>
+            )}
+
+            {data && hasNextPage && (
+              <>
+                <Observer
+                  minHeight="46px"
+                  threshold={0.1}
+                  onObserve={onObserve}
+                />
+                {isFetchingNextPage && (
+                  <motion.div
+                    className={STYLE.__comment_list_drawer_next_loading}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
                     <Lottie
                       animationData={loadingLottieSrc}
-                      width="40px"
-                      height="40px"
+                      width="20px"
+                      height="20px"
                     />
-                  </div>
+                  </motion.div>
                 )}
-
-                {data && data.pages[0].data.length !== 0 && (
-                  <ul className={STYLE.__comment_list_item_list}>
-                    {data.pages.map((page) =>
-                      page.data.map((item) => (
-                        <TreasureDetailCommentListItem
-                          key={item.id}
-                          item={item}
-                          disabledViewMoreButton
-                        />
-                      ))
-                    )}
-                  </ul>
-                )}
-
-                {data && data.pages[0].data.length === 0 && (
-                  <div className={STYLE.__comment_list_drawer_reply_content}>
-                    <ControllerContent.Empty
-                      text={`${parentComment.user.username}님에게<br/>첫 대댓글을 남겨보세요!`}
-                    />
-                  </div>
-                )}
-
-                {data && hasNextPage && (
-                  <>
-                    <Observer
-                      minHeight="46px"
-                      threshold={0.1}
-                      onObserve={onObserve}
-                    />
-                    {isFetchingNextPage && (
-                      <motion.div
-                        className={STYLE.__comment_list_drawer_next_loading}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                      >
-                        <Lottie
-                          animationData={loadingLottieSrc}
-                          width="20px"
-                          height="20px"
-                        />
-                      </motion.div>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-        </Sheet.Content>
-      </Sheet.Container>
-      <Sheet.Backdrop onTap={onClose} />
-    </Sheet>
+              </>
+            )}
+          </div>
+        </>
+      )}
+    </DrawerBottom>
   );
 };
 
