@@ -41,6 +41,7 @@ export async function GET(
        is_answer,
        text,
        child_count,
+       likes_count,
        user:user_id (id, username)
     `,
       { count: "exact" }
@@ -49,10 +50,12 @@ export async function GET(
     .eq("treasure_id", treasure_id)
     .is("parent_comment_id", null)
     .range(offset, offset + pageSize - 1)) as PostgrestSingleResponse<
-    GetTreasureCommentListResponse[]
+    Omit<GetTreasureCommentListResponse, "likes">[]
   >;
 
   if (!data || error) {
+    console.error(error);
+
     const result: RequestErrorResponse = {
       code: status,
       message: error.message,
@@ -62,6 +65,34 @@ export async function GET(
     return NextResponse.json(result, { status });
   }
 
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+
+  if (!userData || userError) {
+    console.error(userError);
+
+    const result: RequestErrorResponse = {
+      code: 404,
+      message: "no user",
+      data: undefined,
+    };
+
+    return NextResponse.json(result, { status });
+  }
+
+  const newData = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const { data: likes } = await supabase
+      .from("treasure_comment_likes")
+      .select("id")
+      .eq("treasure_id", treasure_id)
+      .eq("comment_id", data[i].id)
+      .eq("user_id", userData.user.id)
+      .single();
+
+    newData.push({ ...data[i], likes });
+  }
+
   const result: RequestPaginationResponse<GetTreasureCommentListResponse[]> = {
     code: status,
     message: statusText,
@@ -69,7 +100,7 @@ export async function GET(
       totalElement: count ?? 0,
       pageNumber,
     },
-    data,
+    data: newData,
   };
 
   return NextResponse.json(result, { status: 200 });
