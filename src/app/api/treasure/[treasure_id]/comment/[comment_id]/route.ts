@@ -84,7 +84,7 @@ export async function GET(
   for (let i = 0; i < data.length; i++) {
     const { data: likes } = await supabase
       .from("treasure_comment_likes")
-      .select("*")
+      .select("id")
       .eq("treasure_id", treasure_id)
       .eq("comment_id", data[i].id)
       .eq("user_id", userData.user.id)

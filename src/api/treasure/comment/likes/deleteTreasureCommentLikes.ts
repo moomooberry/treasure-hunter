@@ -13,12 +13,13 @@ interface DeleteTreasureCommentLikesParameter {
   treasure_id: string;
   comment_id: string;
   likes_id: string;
+  parentCommentId?: string;
 }
 
 const deleteTreasureCommentLikes: RequestHandler<
   null,
   DeleteTreasureCommentLikesParameter
-> = async ({ comment_id, treasure_id, likes_id }) => {
+> = async ({ comment_id, treasure_id, likes_id, parentCommentId }) => {
   const cookieStore = cookies();
 
   const res = await fetch(
@@ -32,14 +33,14 @@ const deleteTreasureCommentLikes: RequestHandler<
   );
 
   const { data } = (await res.json()) as RequestResponse<null>;
-
-  revalidateTag(
-    variableAssignment(API_GET_TREASURE_COMMENT_REPLY_LIST_KEY, {
-      treasure_id,
-      comment_id,
-    })
-  );
-
+  if (parentCommentId) {
+    revalidateTag(
+      variableAssignment(API_GET_TREASURE_COMMENT_REPLY_LIST_KEY, {
+        treasure_id,
+        comment_id: parentCommentId,
+      })
+    );
+  }
   revalidateTag(
     variableAssignment(API_GET_TREASURE_COMMENT_LIST_KEY, {
       treasure_id,

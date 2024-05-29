@@ -88,22 +88,33 @@ const TreasureDetailCommentListItem: FC<TreasureDetailCommentListItemProps> = ({
     (item: GetTreasureCommentListResponse) => {
       if (typeof treasure_id !== "string") return;
 
+      const parentComment = getValues("parentComment");
+
+      const parentCommentId = parentComment
+        ? String(parentComment.id)
+        : undefined;
+
       const handler = () => {
         if (item.likes) {
           deleteCommentLikes({
             comment_id: String(item.id),
             likes_id: String(item.likes.id),
             treasure_id,
+            parentCommentId,
           });
           return;
         }
 
-        addCommentLikes({ comment_id: String(item.id), treasure_id });
+        addCommentLikes({
+          comment_id: String(item.id),
+          treasure_id,
+          parentCommentId,
+        });
       };
 
       return handler;
     },
-    [addCommentLikes, deleteCommentLikes, treasure_id]
+    [addCommentLikes, deleteCommentLikes, getValues, treasure_id]
   );
 
   return (

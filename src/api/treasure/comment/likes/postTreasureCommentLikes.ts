@@ -12,12 +12,13 @@ import { cookies } from "next/headers";
 interface PostTreasureCommentLikesParameter {
   treasure_id: string;
   comment_id: string;
+  parentCommentId?: string;
 }
 
 const postTreasureCommentLikes: RequestHandler<
   null,
   PostTreasureCommentLikesParameter
-> = async ({ treasure_id, comment_id }) => {
+> = async ({ treasure_id, comment_id, parentCommentId }) => {
   const cookieStore = cookies();
 
   const res = await fetch(
@@ -32,12 +33,14 @@ const postTreasureCommentLikes: RequestHandler<
 
   const { data } = (await res.json()) as RequestResponse<null>;
 
-  revalidateTag(
-    variableAssignment(API_GET_TREASURE_COMMENT_REPLY_LIST_KEY, {
-      treasure_id,
-      comment_id,
-    })
-  );
+  if (parentCommentId) {
+    revalidateTag(
+      variableAssignment(API_GET_TREASURE_COMMENT_REPLY_LIST_KEY, {
+        treasure_id,
+        comment_id: parentCommentId,
+      })
+    );
+  }
 
   revalidateTag(
     variableAssignment(API_GET_TREASURE_COMMENT_LIST_KEY, {
