@@ -47,6 +47,10 @@
   justify-content: space-between;
   align-items: center;
 }
+.__layout_header_opacity_reverse_button_wrapper {
+  display: flex;
+  column-gap: 8px;
+}
 .__layout_header_opacity_reverse_button {
   display: flex;
   justify-content: center;
@@ -59,14 +63,4 @@
 
 .__layout_header_title {
   font-weight: 500;
-}
-
-.__treasure_detail_header_option_container {
-  display: flex;
-  column-gap: 8px;
-}
-.__treasure_detail_header_option_button {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
 }

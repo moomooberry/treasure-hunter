@@ -1,20 +1,27 @@
 "use client";
 
-import { FC, useCallback } from "react";
-import TreasureDetailHeaderOption from "./TreasureDetailHeaderOption";
+import { FC, useCallback, useMemo } from "react";
 import { useScroll, useTransform } from "framer-motion";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import CaretIcon from "@src/components/icons/CaretIcon";
 import { LAYOUT_HEADER_HEIGHT } from "@src/constants/layout";
+import { useQuery } from "@tanstack/react-query";
+import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
+import getTreasure from "@src/api/treasure/getTreasure";
+import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
+import getUser from "@src/api/user/getUser";
 
 import STYLE from "./treasure.detail.header.module.scss";
+import TreasureDetailHeaderOption from "./option/inedx";
 
 const SCROLL_THRESHOLD = 300;
 
 const TreasureDetailHeader: FC = () => {
   const { back } = useRouter();
+
+  const { treasure_id } = useParams();
 
   const paddingTop = useReduxSelector((state) => state.reduxDevice.device.top);
 
@@ -31,6 +38,22 @@ const TreasureDetailHeader: FC = () => {
     [0, SCROLL_THRESHOLD],
     ["0px 4px 10px rgba(0,0,0,0)", "0px 4px 10px rgba(0,0,0,0.05)"]
   );
+
+  const { data: treasureData } = useQuery({
+    queryKey: [API_GET_TREASURE_KEY, { treasure_id }],
+    queryFn: () => getTreasure({ treasure_id: treasure_id as string }),
+    enabled: typeof treasure_id === "string",
+  });
+
+  const { data: userData } = useQuery({
+    queryKey: [API_GET_USER_KEY],
+    queryFn: () => getUser(),
+  });
+
+  const isUserWrite = useMemo(() => {
+    if (!treasureData || !userData) return false;
+    return userData.id === treasureData.user.id;
+  }, [treasureData, userData]);
 
   const onHeaderBackClick = useCallback(() => {
     back();
@@ -81,7 +104,12 @@ const TreasureDetailHeader: FC = () => {
         }}
       >
         <div className={STYLE.__layout_header_opacity_reverse_button} />
-        <div className={STYLE.__layout_header_opacity_reverse_button} />
+        <div className={STYLE.__layout_header_opacity_reverse_button_wrapper}>
+          {isUserWrite && (
+            <div className={STYLE.__layout_header_opacity_reverse_button} />
+          )}
+          <div className={STYLE.__layout_header_opacity_reverse_button} />
+        </div>
       </motion.div>
 
       <TreasureDetailHeaderOption />
