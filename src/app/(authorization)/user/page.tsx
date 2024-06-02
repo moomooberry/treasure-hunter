@@ -1,5 +1,5 @@
-import UserMainController from "@src/screens/user/main/UserMainController";
+import UserMainFetcher from "@src/screens/user/main/UserMainFetcher";
 
-const UserPage = async () => <UserMainController />;
+const UserPage = async () => <UserMainFetcher />;
 
 export default UserPage;

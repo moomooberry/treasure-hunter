@@ -1,0 +1,21 @@
+.__list_container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  background-color: #fff;
+  margin-top: 20px;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 5px 20px 0 rgba(213, 213, 213, 0.47);
+
+  li:not(:last-of-type) {
+    border-bottom: 1px dashed #dfe6e9;
+  }
+}
+
+.__list_item {
+  padding: 12px;
+  font-size: 16px;
+  color: #2d3436;
+  cursor: pointer;
+}
