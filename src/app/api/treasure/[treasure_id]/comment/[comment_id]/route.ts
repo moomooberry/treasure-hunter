@@ -40,7 +40,6 @@ export async function GET(
     .select(
       `id,
        created_at,
-       is_answer,
        text,
        child_count,
        likes_count,

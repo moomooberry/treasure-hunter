@@ -8,5 +8,4 @@ export interface GetTreasureListResponse extends Omit<TreasureItem, "user_id"> {
 export interface GetTreasureDetailResponse
   extends Omit<TreasureItem, "user_id"> {
   user: Pick<User, "username" | "id">;
-  // TODO comment
 }

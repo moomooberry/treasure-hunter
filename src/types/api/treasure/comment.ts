@@ -5,7 +5,7 @@ import { User } from "@src/types/user";
 export interface GetTreasureCommentListResponse
   extends Pick<
     TreasureComment,
-    "id" | "is_answer" | "text" | "created_at" | "child_count" | "likes_count"
+    "id" | "text" | "created_at" | "child_count" | "likes_count"
   > {
   user: Pick<User, "id" | "username">;
 
@@ -15,7 +15,7 @@ export interface GetTreasureCommentListResponse
 export interface GetTreasureCommentReplyListResponse
   extends Pick<
     TreasureComment,
-    "id" | "is_answer" | "text" | "created_at" | "child_count" | "likes_count"
+    "id" | "text" | "created_at" | "child_count" | "likes_count"
   > {
   user: Pick<User, "id" | "username">;
 

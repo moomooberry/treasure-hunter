@@ -4,7 +4,6 @@ import { User } from "../user";
 export interface TreasureComment {
   id: number;
   created_at: string;
-  is_answer: boolean;
   text: string;
   parent_comment_id: TreasureComment["id"] | null;
   child_count: number;

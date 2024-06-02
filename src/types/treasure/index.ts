@@ -11,6 +11,9 @@ export interface TreasureItem {
   hint: string;
   end_date: number;
   reward: number | null;
+  is_found: boolean;
 
   user_id: User["id"]; // foreign-key
+  answer_user_id: User["id"]; // foreign-key
+  answer_comment_id: number | null; // foreign-key
 }

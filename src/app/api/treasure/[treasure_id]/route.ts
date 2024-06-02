@@ -16,15 +16,18 @@ export async function GET(
     .select(
       `
       id,
-      images,
       created_at,
       lat,
       lng,
+      images,
       title,
       hint,
-      reward,
       end_date,
-      user (username, id)
+      reward,
+      is_found,
+      answer_user_id,
+      answer_comment_id,
+      user:user_id (id, username)
       `
     )
     .eq("id", treasure_id)) as PostgrestMaybeSingleResponse<TreasureItem[]>;

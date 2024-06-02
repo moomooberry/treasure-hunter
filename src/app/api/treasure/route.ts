@@ -52,15 +52,18 @@ export async function GET(request: NextRequest) {
     .select(
       `
       id,
-      images,
       created_at,
       lat,
       lng,
+      images,
       title,
       hint,
-      reward,
       end_date,
-      user (username)
+      reward,
+      is_found,
+      answer_user_id,
+      answer_comment_id,
+      user:user_id (username)
       `,
       { count: "exact" }
     )
@@ -70,6 +73,7 @@ export async function GET(request: NextRequest) {
   >;
 
   if (!data || error) {
+    console.error(error);
     const result: RequestErrorResponse = {
       code: status,
       message: error.message,
