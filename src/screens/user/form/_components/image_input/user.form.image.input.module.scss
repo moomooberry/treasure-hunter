@@ -1,0 +1,52 @@
+.__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+  margin-bottom: 12px;
+}
+.__profile_image_wrapper {
+  min-width: 100px;
+  width: 100px;
+  height: 100px;
+  isolation: isolate;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.__profile_image_wrapper_absolute {
+  position: absolute;
+}
+.__profile_image_wrapper_relative {
+  position: relative;
+}
+
+.__list_wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  column-gap: 8px;
+}
+.__list_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #dfe6e9;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.__list_crop_button {
+  position: absolute;
+  top: 70px;
+  left: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #dfe6e9;
+  background-color: #fff;
+  rotate: -45deg;
+}
