@@ -1,5 +1,10 @@
+"use client";
+
 import { FC } from "react";
-import Layout from "@src/components/layout";
+
+import LayoutBody from "@src/components/layout/body";
+import LayoutHeader from "@src/components/layout/header";
+import LayoutFooter from "@src/components/layout/footer";
 
 import STYLE from "./treasure.main.module.scss";
 
@@ -8,9 +13,9 @@ interface TreasureMainFallbackProps {
 }
 
 const TreasureMainFallback: FC<TreasureMainFallbackProps> = ({ length }) => (
-  <Layout>
-    <Layout.Header title="보물 찾기" backDisabled />
-    <Layout.Body>
+  <>
+    <LayoutHeader.Common title="보물 찾기" backDisabled />
+    <LayoutBody.Common>
       <ul className={STYLE.__treasure_main_ul}>
         {Array.from({ length }).map((_, index) => (
           <li key={index}>
@@ -26,9 +31,9 @@ const TreasureMainFallback: FC<TreasureMainFallbackProps> = ({ length }) => (
           </li>
         ))}
       </ul>
-    </Layout.Body>
-    <Layout.Footer />
-  </Layout>
+    </LayoutBody.Common>
+    <LayoutFooter.Common />
+  </>
 );
 
 export default TreasureMainFallback;

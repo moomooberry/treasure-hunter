@@ -2,25 +2,25 @@
 
 import { FC } from "react";
 
-import Layout from "@src/components/layout";
+import LayoutHeader from "@src/components/layout/header";
+import LayoutBody from "@src/components/layout/body";
+import LayoutFooter from "@src/components/layout/footer";
 
 import UserMainCard from "./_components/card";
 import UserMainList from "./_components/list";
 
-import STYLE from "./user.main.module.scss";
-
 const UserMainView: FC = () => (
-  <Layout>
-    <Layout.Header title="@@user" backDisabled />
-    <Layout.Body>
-      <div className={STYLE.__user_main_container}>
-        <UserMainCard />
+  <>
+    <LayoutHeader.Common title="내 정보" backDisabled />
 
-        <UserMainList />
-      </div>
-    </Layout.Body>
-    <Layout.Footer />
-  </Layout>
+    <LayoutBody.Common>
+      <UserMainCard />
+
+      <UserMainList />
+    </LayoutBody.Common>
+
+    <LayoutFooter.Common />
+  </>
 );
 
 export default UserMainView;

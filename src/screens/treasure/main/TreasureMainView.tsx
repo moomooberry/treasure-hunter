@@ -1,15 +1,19 @@
 "use client";
 
 import { FC, MouseEventHandler } from "react";
-import Layout from "@src/components/layout";
+import { InfiniteData } from "@tanstack/react-query";
+
 import { Position } from "@src/types/position";
 import { RequestPaginationResponse } from "@src/types/api";
-import { InfiniteData } from "@tanstack/react-query";
 import Observer from "@src/components/observer";
-import TreasureMainHeaderOption from "./_layout/header/TreasureMainHeaderOption";
-import TreasureMainListItem from "./_components/list/TreasureMainListItem";
 import { GetTreasureListResponse } from "@src/types/api/treasure";
 import ControllerPage from "@src/components/controller/ControllerPage";
+import TreasureMapIcon from "@src/components/icons/TreasureMapIcon";
+import LayoutBody from "@src/components/layout/body";
+import LayoutHeader from "@src/components/layout/header";
+import LayoutFooter from "@src/components/layout/footer";
+
+import TreasureMainListItem from "./_components/list/TreasureMainListItem";
 
 import STYLE from "./treasure.main.module.scss";
 
@@ -21,6 +25,7 @@ export interface TreasureMainViewProps {
 
   onObserve: VoidFunction;
   onItemClick: (id: number) => MouseEventHandler<HTMLLIElement>;
+  onTreasureAddClick: MouseEventHandler<HTMLButtonElement>;
 
   data?: InfiniteData<RequestPaginationResponse<GetTreasureListResponse[]>>;
 }
@@ -33,16 +38,22 @@ const TreasureMainView: FC<TreasureMainViewProps> = ({
 
   onObserve,
   onItemClick,
+  onTreasureAddClick,
 
   data,
 }) => (
-  <Layout>
-    <Layout.Header
+  <>
+    <LayoutHeader.Common
       title="보물 찾기"
       backDisabled
-      option={<TreasureMainHeaderOption />}
+      option={
+        <LayoutHeader.Option.MaxSizeButton onClick={onTreasureAddClick}>
+          <TreasureMapIcon width="32px" height="32px" />
+        </LayoutHeader.Option.MaxSizeButton>
+      }
     />
-    <Layout.Body>
+
+    <LayoutBody.Common>
       {data && data.pages[0].data.length !== 0 && (
         <>
           <ul className={STYLE.__treasure_main_ul}>
@@ -65,9 +76,10 @@ const TreasureMainView: FC<TreasureMainViewProps> = ({
       {data && data.pages[0].data.length === 0 && (
         <ControllerPage.Empty text="근처에 보물이 없어요.<br/>보물을 등록해보세요" />
       )}
-    </Layout.Body>
-    <Layout.Footer />
-  </Layout>
+    </LayoutBody.Common>
+
+    <LayoutFooter.Common />
+  </>
 );
 
 export default TreasureMainView;

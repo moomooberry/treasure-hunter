@@ -1,16 +1,18 @@
 "use client";
 
-import ControllerPage from "@src/components/controller/ControllerPage";
-import Layout from "@src/components/layout";
 import { ErrorComponent } from "next/dist/client/components/error-boundary";
 
+import ControllerPage from "@src/components/controller/ControllerPage";
+import LayoutBody from "@src/components/layout/body";
+import LayoutHeader from "@src/components/layout/header";
+
 const UserAddError: ErrorComponent = ({ error, reset }) => (
-  <Layout>
-    <Layout.Header title={error.name} />
-    <Layout.Body>
+  <>
+    <LayoutHeader.Common title={error.name} />
+    <LayoutBody>
       <ControllerPage.Error error={error} reset={reset} />
-    </Layout.Body>
-  </Layout>
+    </LayoutBody>
+  </>
 );
 
 export default UserAddError;

@@ -1,13 +1,15 @@
 "use client";
 
-import { FC, useCallback, useMemo } from "react";
-import TreasureMainView, { TreasureMainViewProps } from "./TreasureMainView";
-import { Position } from "@src/types/position";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import { useInfiniteQuery } from "@tanstack/react-query";
+
+import { Position } from "@src/types/position";
 import getTreasureList from "@src/api/treasure/getTreasureList";
 import { API_GET_TREASURE_LIST_KEY } from "@src/libs/fetch/key/treasure";
+
+import TreasureMainView, { TreasureMainViewProps } from "./TreasureMainView";
 
 interface TreasureMainControllerProps {
   distance: number;
@@ -18,7 +20,7 @@ const TreasureMainController: FC<TreasureMainControllerProps> = ({
   distance,
   position,
 }) => {
-  const { push } = useRouter();
+  const { push, prefetch } = useRouter();
 
   const currentTime = useMemo(() => dayjs().valueOf(), []);
 
@@ -42,6 +44,10 @@ const TreasureMainController: FC<TreasureMainControllerProps> = ({
     if (hasNextPage) fetchNextPage();
   }, [fetchNextPage, hasNextPage]);
 
+  const onTreasureAddClick = useCallback(() => {
+    push("/treasure/add");
+  }, [push]);
+
   const onItemClick = useCallback(
     (id: number) => {
       const handler = () => {
@@ -52,6 +58,10 @@ const TreasureMainController: FC<TreasureMainControllerProps> = ({
     [push]
   );
 
+  useEffect(() => {
+    prefetch("/treasure/add");
+  }, [prefetch]);
+
   const viewProps: TreasureMainViewProps = {
     distance,
     position,
@@ -60,6 +70,7 @@ const TreasureMainController: FC<TreasureMainControllerProps> = ({
 
     onObserve,
     onItemClick,
+    onTreasureAddClick,
 
     data,
   };

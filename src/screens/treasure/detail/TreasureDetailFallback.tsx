@@ -1,10 +1,9 @@
 import { FC } from "react";
-import Layout from "@src/components/layout";
 
 import STYLE from "./treasure.detail.module.scss";
 
 const TreasureDetailFallback: FC = () => (
-  <Layout>
+  <>
     <div className={STYLE.__treasure_detail_fallback_image} />
     <div className={STYLE.__treasure_detail_container}>
       <section className={STYLE.__treasure_detail_first_section}>
@@ -26,7 +25,7 @@ const TreasureDetailFallback: FC = () => (
         <div className={STYLE.__treasure_detail_fallback_hint} />
       </section>
     </div>
-  </Layout>
+  </>
 );
 
 export default TreasureDetailFallback;

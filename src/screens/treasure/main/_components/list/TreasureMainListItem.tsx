@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, MouseEventHandler } from "react";
+
 import SwiperImage from "@src/components/swiper/SwiperImage";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import TimerLimit from "@src/components/timer/TimerLimit";
@@ -11,12 +12,14 @@ import STYLE from "./treasure.main.list.module.scss";
 interface TreasureMainListItemProps {
   currentTime: number;
   item: GetTreasureListResponse;
+
   onItemClick: MouseEventHandler<HTMLLIElement>;
 }
 
 const TreasureMainListItem: FC<TreasureMainListItemProps> = ({
   currentTime,
   item,
+
   onItemClick,
 }) => (
   <li className={STYLE.__treasure_list_wrapper} onClick={onItemClick}>

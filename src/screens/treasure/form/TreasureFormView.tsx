@@ -1,25 +1,25 @@
 "use client";
 
 import { FC, MouseEventHandler } from "react";
-import FormInputImage from "@src/components/form/FormInputImage";
-import FormInputText from "@src/components/form/FormInputText";
-import FormLabel from "@src/components/form/FormLabel";
-import FormTextarea from "@src/components/form/FormTextarea";
-import Layout from "@src/components/layout";
-import MapAdd from "@src/components/map/add";
-import { TreasureMap } from "@src/libs/google-map";
-import { ImageInputValue } from "@src/types/image";
-import { Position } from "@src/types/position";
-import FormText from "@src/components/form/FormText";
 import {
   Control,
   Controller,
   FieldErrors,
   UseFormRegisterReturn,
 } from "react-hook-form";
-import TreasureFormHeader from "./_layout/header";
-import TreasureFormFooterNextButton from "./_layout/footer/TreasureFormFooterNextButton";
-import TreasureFormFooterSubmitButton from "./_layout/footer/TreasureFormFooterSubmitButton";
+
+import FormInputImage from "@src/components/form/FormInputImage";
+import FormInputText from "@src/components/form/FormInputText";
+import FormLabel from "@src/components/form/FormLabel";
+import FormTextarea from "@src/components/form/FormTextarea";
+import MapAdd from "@src/components/map/add";
+import { TreasureMap } from "@src/libs/google-map";
+import { ImageInputValue } from "@src/types/image";
+import { Position } from "@src/types/position";
+import FormText from "@src/components/form/FormText";
+import LayoutHeader from "@src/components/layout/header";
+import LayoutBody from "@src/components/layout/body";
+import LayoutFooter from "@src/components/layout/footer";
 
 import STYLE from "./treasure.form.module.scss";
 
@@ -35,6 +35,7 @@ export interface TreasureFormFields {
 
 export interface TreasureFormViewProps {
   treasure_id?: string;
+  pathname: string;
   step: "1" | "2";
 
   control: Control<TreasureFormFields>;
@@ -51,6 +52,7 @@ export interface TreasureFormViewProps {
 
 const TreasureFormView: FC<TreasureFormViewProps> = ({
   treasure_id,
+  pathname,
   step,
 
   control,
@@ -62,13 +64,16 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
   onNextStepClick,
   onSubmitClick,
 }) => (
-  <Layout>
-    <TreasureFormHeader />
-    <Layout.Body>
+  <>
+    <LayoutHeader.Common
+      title={pathname.endsWith("/add") ? "보물 등록" : "보물 수정"}
+    />
+
+    <LayoutBody.Common paddingX={step === "1" ? "0" : "12px"}>
       {!treasure_id && step === "1" ? (
         <MapAdd onError={onError} onPosition={onPosition} />
       ) : (
-        <div className={STYLE.__container}>
+        <>
           <div className={STYLE.__image_wrapper}>
             <FormLabel text="이미지" isRequired />
             <Controller
@@ -123,16 +128,28 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
               <FormText.Error text={errors.reward.types.max.toString()} />
             )}
           </label>
-        </div>
+        </>
       )}
-    </Layout.Body>
+    </LayoutBody.Common>
 
     {!treasure_id && step === "1" ? (
-      <TreasureFormFooterNextButton onClick={onNextStepClick} />
+      <LayoutFooter.SmallButton
+        backgroundColor="#fff"
+        disabledShadow={false}
+        onClick={onNextStepClick}
+      >
+        다음
+      </LayoutFooter.SmallButton>
     ) : (
-      <TreasureFormFooterSubmitButton onClick={onSubmitClick} />
+      <LayoutFooter.MaxWidthButton
+        backgroundColor="#fff"
+        disabledShadow={false}
+        onClick={onSubmitClick}
+      >
+        저장하기
+      </LayoutFooter.MaxWidthButton>
     )}
-  </Layout>
+  </>
 );
 
 export default TreasureFormView;

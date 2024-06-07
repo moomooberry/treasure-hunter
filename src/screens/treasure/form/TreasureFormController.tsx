@@ -155,6 +155,7 @@ const TreasureFormController: FC = () => {
 
   const viewProps: TreasureFormViewProps = {
     treasure_id: treasure_id as string,
+    pathname,
     step,
     control,
     registerProps,

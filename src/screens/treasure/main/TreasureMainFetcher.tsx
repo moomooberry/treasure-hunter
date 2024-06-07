@@ -1,11 +1,12 @@
-import getTreasureList from "@src/api/treasure/getTreasureList";
-import { API_GET_TREASURE_LIST_KEY } from "@src/libs/fetch/key/treasure";
-import TreasureMainController from "@src/screens/treasure/main/TreasureMainController";
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
+
+import getTreasureList from "@src/api/treasure/getTreasureList";
+import { API_GET_TREASURE_LIST_KEY } from "@src/libs/fetch/key/treasure";
+import TreasureMainController from "@src/screens/treasure/main/TreasureMainController";
 
 const TreasureMainFetcher = async () => {
   const distance = 3000;

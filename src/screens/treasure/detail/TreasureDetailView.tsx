@@ -2,7 +2,6 @@
 
 import { FC } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Layout from "@src/components/layout";
 import SwiperImage from "@src/components/swiper/SwiperImage";
 import TimerLimit from "@src/components/timer/TimerLimit";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
@@ -29,7 +28,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
   onLimit,
   data,
 }) => (
-  <Layout>
+  <>
     <TreasureDetailHeader />
 
     <TreasureDetailBody>
@@ -119,7 +118,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
         </div>
       )}
     </TreasureDetailBody>
-  </Layout>
+  </>
 );
 
 export default TreasureDetailView;

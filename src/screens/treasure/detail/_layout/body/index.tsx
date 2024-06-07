@@ -1,8 +1,8 @@
 "use client";
 
 import { FC, PropsWithChildren } from "react";
-import LayoutBody from "@src/components/layout/LayoutBody";
 import useReduxSelector from "@src/hooks/redux/useReduxSelector";
+import LayoutBody from "@src/components/layout/body";
 
 const TreasureDetailBody: FC<PropsWithChildren> = ({ children }) => {
   const bottom = useReduxSelector((state) => state.reduxDevice.device.bottom);

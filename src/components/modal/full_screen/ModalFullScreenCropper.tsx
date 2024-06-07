@@ -2,17 +2,14 @@
 
 import { FC, useCallback, useRef } from "react";
 import { Area } from "react-easy-crop";
-import {
-  LAYOUT_FOOTER_HEIGHT,
-  LAYOUT_HEADER_HEIGHT,
-} from "@src/constants/layout";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
-import Button from "@src/components/button";
-import CloseIcon from "@src/components/icons/CloseIcon";
-import Cropper, { CropperProps } from "@src/components/cropper";
-import ModalFullScreen, { ModalFullScreenProps } from ".";
 
-import STYLE from "./modal.full.screen.module.scss";
+import useReduxSelector from "@src/hooks/redux/useReduxSelector";
+import CloseIcon from "@src/components/icons/CloseIcon";
+import LayoutHeader from "@src/components/layout/header";
+import LayoutFooter from "@src/components/layout/footer";
+import Cropper, { CropperProps } from "@src/components/cropper";
+
+import ModalFullScreen, { ModalFullScreenProps } from ".";
 
 type ModalFullScreenCropperProps = ModalFullScreenProps &
   Omit<CropperProps, "onCropComplete"> & {
@@ -94,31 +91,17 @@ const ModalFullScreenCropper: FC<ModalFullScreenCropperProps> = ({
       onClose={onClose}
       backgroundColor={backgroundColor}
     >
-      <div
-        className={STYLE.__full_screen_header}
-        style={{
-          paddingTop: top,
-          height: LAYOUT_HEADER_HEIGHT,
-        }}
-      >
-        <button className={STYLE.__full_screen_header_button} onClick={onClose}>
+      <LayoutHeader backgroundColor="transparent">
+        <LayoutHeader.Option.RoundButton onClick={onClose}>
           <CloseIcon width="14px" height="14px" />
-        </button>
-      </div>
+        </LayoutHeader.Option.RoundButton>
+      </LayoutHeader>
 
       <Cropper image={image} onCropComplete={onCropComplete} />
 
-      <div
-        className={STYLE.__full_screen_footer}
-        style={{
-          height: LAYOUT_FOOTER_HEIGHT,
-          paddingBottom: bottom,
-        }}
-      >
-        <Button width="calc(100vw - 24px)" onClick={onCropButtonClick}>
-          자르기
-        </Button>
-      </div>
+      <LayoutFooter.MaxWidthButton onClick={onCropButtonClick}>
+        자르기
+      </LayoutFooter.MaxWidthButton>
     </ModalFullScreen>
   );
 };
