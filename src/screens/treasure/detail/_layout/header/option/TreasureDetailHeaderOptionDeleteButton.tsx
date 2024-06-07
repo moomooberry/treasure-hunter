@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import deleteTreasure from "@src/api/treasure/deleteTreasure";
 import Lottie from "@src/components/lottie";
 import shakingTrashcanSrc from "@src/assets/lottie/shaking_trashcan.json";
-import ModalCheck from "@src/components/modal/ModalCheck";
+import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
 import TrashcanIcon from "@src/components/icons/TrashcanIcon";
 
 import STYLE from "./treasure.detail.header.option.module.scss";
@@ -43,7 +43,7 @@ const TreasureDetailHeaderOptionDeleteButton: FC = () => {
         <TrashcanIcon width="16px" height="16px" />
       </button>
 
-      <ModalCheck
+      <ModalCommonCheck
         isOpen={isModalOpen}
         onClose={closeModal}
         title="보물을 정말 삭제하시겠어요?"
@@ -54,7 +54,7 @@ const TreasureDetailHeaderOptionDeleteButton: FC = () => {
         ]}
       >
         <Lottie animationData={shakingTrashcanSrc} width="80px" height="80px" />
-      </ModalCheck>
+      </ModalCommonCheck>
     </>
   );
 };

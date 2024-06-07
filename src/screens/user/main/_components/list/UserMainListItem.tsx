@@ -11,8 +11,14 @@ interface UserMainListItemProps {
 }
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, transform: "translate(0,-10px)" },
-  show: { opacity: 1, transform: "translate(0,0)" },
+  hidden: {
+    opacity: 0,
+    y: -15,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+  },
 };
 
 const UserMainListItem: FC<UserMainListItemProps> = ({ text, onClick }) => (

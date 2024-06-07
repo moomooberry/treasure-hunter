@@ -6,6 +6,7 @@ import getUser from "@src/api/user/getUser";
 import QualificationLevelIcon from "@src/components/icons/QualificationLevelIcon";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import { useQuery } from "@tanstack/react-query";
+import Avatar from "@src/components/avatar";
 
 import STYLE from "./user.main.card.module.scss";
 
@@ -35,11 +36,11 @@ const UserMainCard: FC = () => {
     <motion.div
       initial={{
         opacity: 0,
-        transform: "translate(-30px,0)",
+        x: -30,
       }}
       animate={{
         opacity: 1,
-        transform: "translate(0,0)",
+        x: 0,
       }}
       transition={{
         delay: 0.3,
@@ -47,15 +48,8 @@ const UserMainCard: FC = () => {
       className={STYLE.__card_container}
     >
       <div className={STYLE.__card_info_box}>
-        {/* TODO Avatar */}
-        <div
-          style={{
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-            backgroundColor: "gray",
-          }}
-        />
+        <Avatar imageSrc={data.profile_image} />
+
         <div className={STYLE.__card_info_wrapper}>
           <div className={STYLE.__card_info_username}>{data.username}</div>
 

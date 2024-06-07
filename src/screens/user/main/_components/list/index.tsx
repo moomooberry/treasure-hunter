@@ -44,6 +44,10 @@ const UserMainList: FC = () => {
     push("/user/treasure/comment");
   }, [push]);
 
+  const onUserEditClick = useCallback(() => {
+    push("/user/edit");
+  }, [push]);
+
   // TODO prefetch? this url?
 
   return (
@@ -53,12 +57,13 @@ const UserMainList: FC = () => {
       animate="show"
       className={STYLE.__list_container}
     >
-      <UserMainListItem text="공지사항" onClick={onMoreAnnouncementClick} />
-      <UserMainListItem text="이벤트" onClick={onMoreEventClick} />
+      <UserMainListItem text="내 프로필 수정하기" onClick={onUserEditClick} />
       <UserMainListItem text="내 카드 정보" onClick={onUserCardClick} />
       <UserMainListItem text="내가 숨긴 보물" onClick={onUserHidingClick} />
       <UserMainListItem text="내가 찾은 보물" onClick={onUserSeekingClick} />
       <UserMainListItem text="내가 쓴 댓글" onClick={onUserCommentClick} />
+      <UserMainListItem text="공지사항" onClick={onMoreAnnouncementClick} />
+      <UserMainListItem text="이벤트" onClick={onMoreEventClick} />
     </motion.ul>
   );
 };
