@@ -7,8 +7,7 @@ export interface GetTreasureCommentListResponse
     TreasureComment,
     "id" | "text" | "created_at" | "child_count" | "likes_count"
   > {
-  user: Pick<User, "id" | "username">;
-
+  user: Pick<User, "id" | "username" | "profile_image">;
   likes: Pick<TreasureLikes, "id"> | null;
 }
 
@@ -17,7 +16,6 @@ export interface GetTreasureCommentReplyListResponse
     TreasureComment,
     "id" | "text" | "created_at" | "child_count" | "likes_count"
   > {
-  user: Pick<User, "id" | "username">;
-
+  user: Pick<User, "id" | "username" | "profile_image">;
   likes: Pick<TreasureLikes, "id"> | null;
 }

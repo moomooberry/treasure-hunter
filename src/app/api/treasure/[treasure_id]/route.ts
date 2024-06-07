@@ -1,6 +1,7 @@
 import { PutTreasureBody } from "@src/api/treasure/putTreasure";
 import { createSupabaseFromServer } from "@src/libs/supabase/server";
 import { RequestErrorResponse, RequestResponse } from "@src/types/api";
+import { GetTreasureDetailResponse } from "@src/types/api/treasure";
 import { TreasureItem } from "@src/types/treasure";
 import { PostgrestMaybeSingleResponse } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
@@ -27,10 +28,12 @@ export async function GET(
       is_found,
       answer_user_id,
       answer_comment_id,
-      user:user_id (id, username)
+      user:user_id (id, username, profile_image)
       `
     )
-    .eq("id", treasure_id)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
+    .eq("id", treasure_id)) as PostgrestMaybeSingleResponse<
+    GetTreasureDetailResponse[]
+  >;
 
   if (!data || data.length === 0) {
     const result: RequestErrorResponse = {
@@ -42,7 +45,7 @@ export async function GET(
     return NextResponse.json(result, { status });
   }
 
-  const result: RequestResponse<TreasureItem> = {
+  const result: RequestResponse<GetTreasureDetailResponse> = {
     code: status,
     message: statusText,
     data: data[0],

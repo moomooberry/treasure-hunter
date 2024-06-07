@@ -41,7 +41,7 @@ export async function GET(
        text,
        child_count,
        likes_count,
-       user:user_id (id, username)
+       user:user_id (id, username, profile_image)
     `,
       { count: "exact" }
     )
