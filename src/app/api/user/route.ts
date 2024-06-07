@@ -1,4 +1,5 @@
 import { PostUserBody } from "@src/api/user/postUser";
+import { PutUserBody } from "@src/api/user/putUser";
 import { createSupabaseFromServer } from "@src/libs/supabase/server";
 import { RequestErrorResponse, RequestResponse } from "@src/types/api";
 import { GetUserResponse } from "@src/types/api/user";
@@ -29,7 +30,7 @@ export async function GET() {
     .select("*")
     .eq("id", auth.data.user.id)) as PostgrestSingleResponse<User[]>;
 
-  if (!user.data || user.error) {
+  if (user.error) {
     console.error("user.error", user.error);
     const result: RequestErrorResponse = {
       code: user.status,
@@ -38,6 +39,17 @@ export async function GET() {
     };
 
     return NextResponse.json(result, { status: user.status });
+  }
+
+  /* User null  */
+  if (user.data.length === 0) {
+    const result: RequestResponse<null> = {
+      code: 200,
+      message: "Success! Create User First",
+      data: null,
+    };
+
+    return NextResponse.json(result, { status: 200 });
   }
 
   /* 3. Seeking Count */
@@ -80,10 +92,10 @@ export async function GET() {
     hiding_count: hiding.count,
   };
 
-  const result: RequestResponse<GetUserResponse | null> = {
+  const result: RequestResponse<GetUserResponse> = {
     code: 200,
     message: "success",
-    data: user.data.length === 0 ? null : data,
+    data,
   };
 
   return NextResponse.json(result, { status: 200 });
@@ -94,24 +106,92 @@ export async function POST(request: NextRequest) {
 
   const supabase = createSupabaseFromServer();
 
-  const { status, statusText, error } = await supabase
-    .from("user")
-    .insert(newData);
+  /* 1. AUTH */
+  const auth = await supabase.auth.getUser();
 
-  if (error) {
-    console.error(error);
+  if (!auth.data.user || auth.error) {
+    console.error("auth.error", auth.error);
     const result: RequestErrorResponse = {
-      code: status,
-      message: error.message,
+      code: 404,
+      message: "no resource",
       data: undefined,
     };
 
-    return NextResponse.json(result, { status });
+    return NextResponse.json(result, { status: 404 });
+  }
+
+  /* 2. User */
+  const user = await supabase.from("user").insert({
+    ...newData,
+    provider: auth.data.user.app_metadata.provider,
+    email: auth.data.user.email,
+  });
+
+  if (user.error) {
+    console.error("user.error", user.error);
+    const result: RequestErrorResponse = {
+      code: user.status,
+      message: user.error.message,
+      data: undefined,
+    };
+
+    return NextResponse.json(result, { status: user.status });
   }
 
   const result: RequestResponse<null> = {
-    code: status,
-    message: statusText,
+    code: 200,
+    message: "success",
+    data: null,
+  };
+
+  return NextResponse.json(result, { status: 200 });
+}
+
+export async function PUT(request: NextRequest) {
+  const newData = (await request.json()) as PutUserBody;
+
+  const supabase = createSupabaseFromServer();
+
+  /* 1. AUTH */
+  const auth = await supabase.auth.getUser();
+
+  if (!auth.data.user || auth.error) {
+    console.error("auth.error", auth.error);
+    const result: RequestErrorResponse = {
+      code: 404,
+      message: "no resource",
+      data: undefined,
+    };
+
+    return NextResponse.json(result, { status: 404 });
+  }
+
+  if (!newData.profile_image) {
+    await supabase.storage
+      .from("public_image")
+      .remove([`user/${auth.data.user.id}/profile`]);
+  }
+
+  /* 2. User */
+  const user = await supabase
+    .from("user")
+    .update(newData)
+    .eq("id", auth.data.user.id);
+
+  if (user.error) {
+    console.error("user.error", user.error);
+    const result: RequestErrorResponse = {
+      code: 404,
+      message: "user error",
+      data: undefined,
+    };
+
+    return NextResponse.json(result, { status: 404 });
+  }
+
+  const result: RequestResponse<null> = {
+    code: 200,
+    message: "success",
     data: null,
   };
 

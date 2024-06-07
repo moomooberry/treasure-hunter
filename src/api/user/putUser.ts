@@ -6,13 +6,13 @@ import { User } from "@src/types/user";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-export type PostUserBody = Pick<User, "username" | "profile_image">;
+export type PutUserBody = Pick<User, "username" | "profile_image">;
 
-const postUser: RequestHandler<null, PostUserBody> = async (body) => {
+const putUser: RequestHandler<null, PutUserBody> = async (body) => {
   const cookieStore = cookies();
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/user`, {
-    method: "POST",
+    method: "PUT",
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -26,4 +26,4 @@ const postUser: RequestHandler<null, PostUserBody> = async (body) => {
   return data;
 };
 
-export default postUser;
+export default putUser;
