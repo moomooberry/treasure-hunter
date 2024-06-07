@@ -8,10 +8,10 @@ import LayoutFooter, { LayoutFooterProps } from ".";
 
 import STYLE from "./layout.footer.module.scss";
 
-type LayoutFooterMaxWidthButtonProps = LayoutFooterProps &
+type LayoutFooterSmallButtonProps = LayoutFooterProps &
   Omit<ButtonProps, "width" | "height">;
 
-const LayoutFooterMaxWidthButton: FC<LayoutFooterMaxWidthButtonProps> = ({
+const LayoutFooterSmallButton: FC<LayoutFooterSmallButtonProps> = ({
   children,
   disabledShadow = true,
   backgroundColor = "transparent",
@@ -21,12 +21,12 @@ const LayoutFooterMaxWidthButton: FC<LayoutFooterMaxWidthButtonProps> = ({
     disabledShadow={disabledShadow}
     backgroundColor={backgroundColor}
   >
-    <div className={STYLE.__footer_max_width_button_wrapper}>
-      <Button width="calc(100vw - 24px)" {...rest}>
+    <div className={STYLE.__footer_small_button_wrapper}>
+      <Button width="100px" {...rest}>
         {children}
       </Button>
     </div>
   </LayoutFooter>
 );
 
-export default LayoutFooterMaxWidthButton;
+export default LayoutFooterSmallButton;

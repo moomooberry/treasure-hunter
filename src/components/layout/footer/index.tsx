@@ -6,6 +6,10 @@ import classNames from "classnames";
 import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { LAYOUT_FOOTER_HEIGHT } from "@src/constants/layout";
 
+import LayoutFooterCommon from "./LayoutFooterCommon";
+import LayoutFooterMaxWidthButton from "./LayoutFooterMaxWidthButton";
+import LayoutFooterSmallButton from "./LayoutFooterSmallButton";
+
 import STYLE from "./layout.footer.module.scss";
 
 export interface LayoutFooterProps extends PropsWithChildren {
@@ -13,7 +17,13 @@ export interface LayoutFooterProps extends PropsWithChildren {
   backgroundColor?: string;
 }
 
-const LayoutFooter: FC<LayoutFooterProps> = ({
+interface LayoutFooterComponent extends FC<LayoutFooterProps> {
+  Common: typeof LayoutFooterCommon;
+  MaxWidthButton: typeof LayoutFooterMaxWidthButton;
+  SmallButton: typeof LayoutFooterSmallButton;
+}
+
+const LayoutFooter: LayoutFooterComponent = ({
   children,
   disabledShadow = false,
   backgroundColor = "#fff",
@@ -38,4 +48,9 @@ const LayoutFooter: FC<LayoutFooterProps> = ({
     </div>
   );
 };
+
 export default LayoutFooter;
+
+LayoutFooter.Common = LayoutFooterCommon;
+LayoutFooter.MaxWidthButton = LayoutFooterMaxWidthButton;
+LayoutFooter.SmallButton = LayoutFooterSmallButton;

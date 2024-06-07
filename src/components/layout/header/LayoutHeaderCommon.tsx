@@ -2,39 +2,30 @@
 
 import { FC, MouseEventHandler, ReactNode, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import classNames from "classnames";
+
+import CaretIcon from "@src/components/icons/CaretIcon";
 import { LAYOUT_HEADER_HEIGHT } from "@src/constants/layout";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
-import CaretIcon from "../icons/CaretIcon";
 
-import STYLE from "./layout.module.scss";
+import LayoutHeader, { LayoutHeaderProps } from ".";
 
-interface LayoutHeaderProps {
+import STYLE from "./layout.header.module.scss";
+
+interface LayoutHeaderCommonProps extends Omit<LayoutHeaderProps, "children"> {
   title?: string;
-
-  backgroundColor?: string;
   backDisabled?: boolean;
-  shadowDisabled?: boolean;
-
   onBackClick?: MouseEventHandler<HTMLButtonElement>;
-
   option?: ReactNode;
 }
 
-const LayoutHeader: FC<LayoutHeaderProps> = ({
-  title,
-
+const LayoutHeaderCommon: FC<LayoutHeaderCommonProps> = ({
   backgroundColor = "#fff",
-  backDisabled = false,
   shadowDisabled = false,
-
+  backDisabled = false,
   onBackClick,
-
   option,
+  title,
 }) => {
   const { back } = useRouter();
-
-  const paddingTop = useReduxSelector((state) => state.reduxDevice.device.top);
 
   const onHeaderBackClick = useCallback<MouseEventHandler<HTMLButtonElement>>(
     (e) => {
@@ -48,20 +39,13 @@ const LayoutHeader: FC<LayoutHeaderProps> = ({
   );
 
   return (
-    <header
-      className={classNames({
-        [STYLE.__layout_header_container]: true,
-        [STYLE.__layout_header_container_box_shadow]: !shadowDisabled,
-      })}
-      style={{
-        backgroundColor,
-        paddingTop,
-        height: LAYOUT_HEADER_HEIGHT,
-      }}
+    <LayoutHeader
+      backgroundColor={backgroundColor}
+      shadowDisabled={shadowDisabled}
     >
       {!backDisabled ? (
         <button
-          className={STYLE.__layout_header_container_back_button}
+          className={STYLE.__header_container_back_button}
           onClick={onHeaderBackClick}
         >
           <CaretIcon width="14px" height="14px" />
@@ -75,7 +59,7 @@ const LayoutHeader: FC<LayoutHeaderProps> = ({
         />
       )}
 
-      <b className={STYLE.__layout_header_title}>{title}</b>
+      <b className={STYLE.__header_title}>{title}</b>
 
       {option ?? (
         <div
@@ -85,8 +69,8 @@ const LayoutHeader: FC<LayoutHeaderProps> = ({
           }}
         />
       )}
-    </header>
+    </LayoutHeader>
   );
 };
 
-export default LayoutHeader;
+export default LayoutHeaderCommon;

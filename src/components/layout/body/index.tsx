@@ -1,18 +1,25 @@
 "use client";
 
 import { FC, PropsWithChildren } from "react";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
+
 import {
   LAYOUT_FOOTER_HEIGHT,
   LAYOUT_HEADER_HEIGHT,
 } from "@src/constants/layout";
+import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 
-interface LayoutBodyProps {
+import LayoutBodyCommon from "./LayoutBodyCommon";
+
+export interface LayoutBodyProps extends PropsWithChildren {
   marginTop?: string;
   marginBottom?: string;
 }
 
-const LayoutBody: FC<PropsWithChildren<LayoutBodyProps>> = ({
+interface LayoutBodyComponent extends FC<LayoutBodyProps> {
+  Common: typeof LayoutBodyCommon;
+}
+
+const LayoutBody: LayoutBodyComponent = ({
   children,
   marginTop,
   marginBottom,
@@ -33,3 +40,5 @@ const LayoutBody: FC<PropsWithChildren<LayoutBodyProps>> = ({
 };
 
 export default LayoutBody;
+
+LayoutBody.Common = LayoutBodyCommon;
