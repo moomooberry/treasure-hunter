@@ -2,11 +2,12 @@
 
 import { FC } from "react";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+
+import Avatar from "@src/components/avatar";
 import getUser from "@src/api/user/getUser";
 import QualificationLevelIcon from "@src/components/icons/QualificationLevelIcon";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
-import { useQuery } from "@tanstack/react-query";
-import Avatar from "@src/components/avatar";
 
 import STYLE from "./user.main.card.module.scss";
 

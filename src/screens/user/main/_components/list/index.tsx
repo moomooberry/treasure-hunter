@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FC, useCallback } from "react";
 import { Variants, motion } from "framer-motion";
+
 import UserMainListItem from "./UserMainListItem";
 
 import STYLE from "./user.main.list.module.scss";

@@ -1,16 +1,15 @@
 "use client";
 
 import { FC } from "react";
-import Layout from "@src/components/layout";
-import UserMainCard from "./_components/card";
 
-import STYLE from "./user.main.module.scss";
-import UserMainListItem from "./_components/list/UserMainListItem";
+import Layout from "@src/components/layout";
+
+import UserMainCard from "./_components/card";
 import UserMainList from "./_components/list";
 
-export interface UserMainViewProps {}
+import STYLE from "./user.main.module.scss";
 
-const UserMainView: FC<UserMainViewProps> = () => (
+const UserMainView: FC = () => (
   <Layout>
     <Layout.Header title="@@user" backDisabled />
     <Layout.Body>
