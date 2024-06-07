@@ -1,13 +1,14 @@
 import { ReactNode } from "react";
 import { createSupabaseFromServer } from "@src/libs/supabase/server";
 import { redirect } from "next/navigation";
+import getUser from "@src/api/user/getUser";
 
 const AuthorizationLayout = async ({ children }: { children: ReactNode }) => {
   const supabase = createSupabaseFromServer();
 
-  const { data, error } = await supabase.auth.getUser();
+  const auth = await supabase.auth.getUser();
 
-  if (error || !data.user) {
+  if (auth.error || !auth.data.user) {
     redirect("/auth/login");
   }
 
