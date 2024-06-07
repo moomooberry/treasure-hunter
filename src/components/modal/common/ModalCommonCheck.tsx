@@ -3,10 +3,10 @@
 import { FC, MouseEventHandler, PropsWithChildren, ReactNode } from "react";
 import { Variants, motion } from "framer-motion";
 import Modal, { ModalProps } from ".";
-import Button, { ButtonProps } from "../button";
-import FormText from "../form/FormText";
+import Button, { ButtonProps } from "@src/components/button";
+import FormText from "@src/components/form/FormText";
 
-import STYLE from "./modal.module.scss";
+import STYLE from "./modal.common.module.scss";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -23,7 +23,7 @@ const itemVariants: Variants = {
   show: { opacity: 1, transform: "translate(0,0)" },
 };
 
-interface ModalCheckProps extends PropsWithChildren<ModalProps> {
+interface ModalCommonCheckProps extends PropsWithChildren<ModalProps> {
   title: string;
   noticeText?: string;
   buttons: {
@@ -33,7 +33,7 @@ interface ModalCheckProps extends PropsWithChildren<ModalProps> {
   }[];
 }
 
-const ModalCheck: FC<ModalCheckProps> = ({
+const ModalCommonCheck: FC<ModalCommonCheckProps> = ({
   isOpen,
   onClose,
   backgroundColor = "#fff",
@@ -81,4 +81,4 @@ const ModalCheck: FC<ModalCheckProps> = ({
   </Modal>
 );
 
-export default ModalCheck;
+export default ModalCommonCheck;
