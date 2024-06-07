@@ -10,7 +10,7 @@ import { ImageInputValue } from "@src/types/image";
 import anonymousImgSrc from "@src/assets/webp/anonymous_512_512.webp";
 import ScissorIcon from "@src/components/icons/ScissorIcon";
 import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
-import ModalFullScreenCropper from "@src/components/modal/full_screen/ModalFullScreenCropper";
+import ModalFullScreenLayoutCropper from "@src/components/modal/full_screen/ModalFullScreenLayoutCropper";
 
 import STYLE from "./user.form.image.input.module.scss";
 
@@ -196,7 +196,7 @@ const UserFormImageInput: FC<UserFormImageInputProps> = ({
       />
 
       {value && (
-        <ModalFullScreenCropper
+        <ModalFullScreenLayoutCropper
           isOpen={isCropModalOpen}
           onClose={closeCropModal}
           image={getImageUrl(value.src)}

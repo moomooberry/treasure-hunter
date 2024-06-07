@@ -3,7 +3,6 @@
 import { FC, useCallback, useRef } from "react";
 import { Area } from "react-easy-crop";
 
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import CloseIcon from "@src/components/icons/CloseIcon";
 import LayoutHeader from "@src/components/layout/header";
 import LayoutFooter from "@src/components/layout/footer";
@@ -11,12 +10,12 @@ import Cropper, { CropperProps } from "@src/components/cropper";
 
 import ModalFullScreen, { ModalFullScreenProps } from ".";
 
-type ModalFullScreenCropperProps = ModalFullScreenProps &
+type ModalFullScreenLayoutCropperProps = ModalFullScreenProps &
   Omit<CropperProps, "onCropComplete"> & {
     onCrop: (value: File) => void;
   };
 
-const ModalFullScreenCropper: FC<ModalFullScreenCropperProps> = ({
+const ModalFullScreenLayoutCropper: FC<ModalFullScreenLayoutCropperProps> = ({
   isOpen,
   onClose,
   backgroundColor,
@@ -24,8 +23,6 @@ const ModalFullScreenCropper: FC<ModalFullScreenCropperProps> = ({
   image,
   onCrop,
 }) => {
-  const { top, bottom } = useReduxSelector((state) => state.reduxDevice.device);
-
   const croppedAreaPixelsRef = useRef<Area>();
 
   const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
@@ -106,4 +103,4 @@ const ModalFullScreenCropper: FC<ModalFullScreenCropperProps> = ({
   );
 };
 
-export default ModalFullScreenCropper;
+export default ModalFullScreenLayoutCropper;
