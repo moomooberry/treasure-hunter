@@ -2,6 +2,13 @@
   height: 40px;
   border-radius: 12px;
   font-weight: bold;
+  transition: background-color 0.3s;
+
+  &:disabled {
+    background-color: #dfe6e9;
+    color: #b2bec3;
+    cursor: not-allowed;
+  }
 }
 .__button_common {
   color: #191919;

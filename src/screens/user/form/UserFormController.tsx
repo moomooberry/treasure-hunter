@@ -4,19 +4,19 @@ import { FC, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { v4 } from "uuid";
-
 import { useMutation, useQuery } from "@tanstack/react-query";
+
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
 import postImageUserProfile from "@src/api/image/user/postImageUserProfile";
 import putUser from "@src/api/user/putUser";
 import convertFileToFormData from "@src/utils/convertFileToFormData";
+import postUser from "@src/api/user/postUser";
 
 import UserFormView, {
   UserFormFields,
   UserFormViewProps,
 } from "./UserFormView";
-import postUser from "@src/api/user/postUser";
 
 interface UserFormControllerProps {
   isEdit: boolean;
@@ -55,6 +55,8 @@ const UserFormController: FC<UserFormControllerProps> = ({ isEdit }) => {
     control,
     formState: { errors },
   } = useForm<UserFormFields>({
+    mode: "onChange",
+    reValidateMode: "onChange",
     defaultValues: {
       profile_image: data?.profile_image
         ? { id: v4(), src: data.profile_image }
@@ -93,7 +95,12 @@ const UserFormController: FC<UserFormControllerProps> = ({ isEdit }) => {
     data,
     control,
     registerProps: {
-      username: register("username"),
+      username: register("username", {
+        required: {
+          value: true,
+          message: "최대 10자로 이름을 입력해주세요.",
+        },
+      }),
     },
     errors,
     onSubmitClick: handleSubmit(onValid),

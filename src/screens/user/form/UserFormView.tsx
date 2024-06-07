@@ -1,11 +1,11 @@
 "use client";
 
+import { FC, MouseEventHandler } from "react";
+
 import FormInputText from "@src/components/form/FormInputText";
 import FormLabel from "@src/components/form/FormLabel";
 import Layout from "@src/components/layout";
 import { GetUserResponse } from "@src/types/api/user";
-import { FC, MouseEventHandler } from "react";
-import UserFormImageInput from "./_components/image_input";
 import { ImageInputValue } from "@src/types/image";
 import {
   Control,
@@ -14,6 +14,9 @@ import {
   UseFormRegisterReturn,
 } from "react-hook-form";
 import LayoutFooterMaxWidthButton from "@src/components/layout/footer/LayoutFooterMaxWidthButton";
+import FormText from "@src/components/form/FormText";
+
+import UserFormImageInput from "./_components/image_input";
 
 import STYLE from "./user.form.module.scss";
 
@@ -59,21 +62,37 @@ const UserFormView: FC<UserFormViewProps> = ({
           />
         </div>
 
+        <FormText.Notice
+          text="프로필 이미지는 20mb를 초과할 수 없어요."
+          m="0 0 20px 0"
+        />
+
         <label>
           <FormLabel isRequired text="유저이름" />
           <FormInputText
+            isError={!!errors.username}
             {...registerProps.username}
             placeholder="최대 10자까지 입력"
             maxLength={10}
             showMaxLength
           />
         </label>
+
+        {errors.username && (
+          <FormText.Error text={errors.username.message} m="0 0 4px 0" />
+        )}
       </div>
     </Layout.Body>
 
-    <LayoutFooterMaxWidthButton onClick={onSubmitClick}>
-      저장하기
-    </LayoutFooterMaxWidthButton>
+    <Controller
+      name="username"
+      control={control}
+      render={({ field: { value } }) => (
+        <LayoutFooterMaxWidthButton disabled={!value} onClick={onSubmitClick}>
+          저장하기
+        </LayoutFooterMaxWidthButton>
+      )}
+    />
   </Layout>
 );
 
