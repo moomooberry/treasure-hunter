@@ -2,15 +2,18 @@
 
 import { FC } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+
 import SwiperImage from "@src/components/swiper/SwiperImage";
 import TimerLimit from "@src/components/timer/TimerLimit";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import LocationIcon from "@src/components/icons/LocationIcon";
 import TimerIcon from "@src/components/icons/TimerIcon";
-import TreasureDetailHeader from "./_layout/header";
-import Image from "next/image";
-import TreasureDetailBody from "./_layout/body";
 import { GetTreasureDetailResponse } from "@src/types/api/treasure";
+import Avatar from "@src/components/avatar";
+
+import TreasureDetailHeader from "./_layout/header";
+import TreasureDetailBody from "./_layout/body";
 import TreasureDetailComment from "./_components/comment";
 
 import STYLE from "./treasure.detail.module.scss";
@@ -88,12 +91,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
             <section className={STYLE.__treasure_detail_common_section}>
               <div className={STYLE.__treasure_detail_user_wrapper}>
                 <div className={STYLE.__treasure_detail_user_avatar}>
-                  <Image
-                    src="https://picsum.photos/200"
-                    alt={`avatar_${data.user.username}`}
-                    width={40}
-                    height={40}
-                  />
+                  <Avatar imageSrc={data.user.profile_image} />
                 </div>
                 <div className={STYLE.__treasure_detail_user}>
                   {data.user.username}님의 보물

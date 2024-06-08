@@ -10,10 +10,11 @@ import {
   useState,
 } from "react";
 import { Controller, SubmitHandler, useFormContext } from "react-hook-form";
-import { TreasureDetailCommentFormFields } from "..";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { useParams } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import getTreasure from "@src/api/treasure/getTreasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
@@ -24,7 +25,9 @@ import {
   API_GET_TREASURE_COMMENT_LIST_KEY,
   API_GET_TREASURE_COMMENT_REPLY_LIST_KEY,
 } from "@src/libs/fetch/key/treasure/comment";
-import { AnimatePresence, motion } from "framer-motion";
+import Avatar from "@src/components/avatar";
+
+import { TreasureDetailCommentFormFields } from "..";
 
 import STYLE from "./treasure.detail.comment.input.module.scss";
 
@@ -56,7 +59,6 @@ const TreasureDetailCommentInput: FC = () => {
     enabled: typeof treasure_id === "string",
   });
 
-  // TODO userData없으면 로그인 ->
   const { data: userData } = useQuery({
     queryKey: [API_GET_USER_KEY],
     queryFn: () => getUser(),
@@ -171,86 +173,86 @@ const TreasureDetailCommentInput: FC = () => {
   }, [getValues]);
 
   return (
-    <>
-      <div ref={thresholdRef} />
+    userData &&
+    treasureData && (
+      <>
+        <div ref={thresholdRef} />
 
-      <AnimatePresence>
-        {treasureData && isOverThreshold && (
-          <motion.div
-            initial={{ transform: "translate(0,100px)" }}
-            animate={{ transform: "translate(0,0)" }}
-            exit={{ transform: "translate(0,100px)" }}
-            transition={{ duration: 0.3 }}
-            className={STYLE.__comment_footer_input_box}
-            style={{
-              padding: `14px 12px calc(14px + ${
-                isKeyboardUp ? "0px" : paddingBottom
-              }) 12px`,
-            }}
-          >
-            <div className={STYLE.__comment_footer_input_wrapper}>
-              <div
-                style={{
-                  minWidth: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                  backgroundColor: "gray",
-                }}
-              />
-
-              <div className={STYLE.__comment_footer_textarea_wrapper}>
-                <Controller
-                  control={control}
-                  name="parentComment"
-                  render={({ field: { value } }) => (
-                    <>
-                      {value && (
-                        <motion.div
-                          className={
-                            STYLE.__comment_footer_textarea_parent_comment
-                          }
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                        >
-                          {value.user.username}님에게
-                        </motion.div>
-                      )}
-                    </>
-                  )}
+        <AnimatePresence>
+          {isOverThreshold && (
+            <motion.div
+              initial={{ y: 50 }}
+              animate={{ y: 0 }}
+              exit={{ y: 80 }}
+              className={STYLE.__comment_footer_input_box}
+              style={{
+                padding: `14px 12px calc(14px + 30px + ${
+                  isKeyboardUp ? "0px" : paddingBottom
+                }) 12px`,
+                marginBottom: "-30px",
+              }}
+            >
+              <div className={STYLE.__comment_footer_input_wrapper}>
+                <Avatar
+                  imageSrc={userData.profile_image}
+                  width="32px"
+                  height="32px"
                 />
 
-                <textarea
-                  className={STYLE.__comment_footer_textarea}
-                  ref={textareaRef}
-                  {...rest}
-                  placeholder="댓글 남기기 최대 300자"
-                  maxLength={300}
-                  onInput={onInput}
-                  onFocus={onFocus}
-                  onBlur={onBlur}
-                />
+                <div className={STYLE.__comment_footer_textarea_wrapper}>
+                  <Controller
+                    control={control}
+                    name="parentComment"
+                    render={({ field: { value } }) => (
+                      <>
+                        {value && (
+                          <motion.div
+                            className={
+                              STYLE.__comment_footer_textarea_parent_comment
+                            }
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                          >
+                            {value.user.username}님에게
+                          </motion.div>
+                        )}
+                      </>
+                    )}
+                  />
+
+                  <textarea
+                    className={STYLE.__comment_footer_textarea}
+                    ref={textareaRef}
+                    {...rest}
+                    placeholder="댓글 남기기 최대 300자"
+                    maxLength={300}
+                    onInput={onInput}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                  />
+                </div>
+
+                <div className={STYLE.__comment_submit_wrapper}>
+                  <Controller
+                    control={control}
+                    name="text"
+                    render={({ field: { value } }) => (
+                      <button
+                        className={STYLE.__comment_submit_button}
+                        onClick={handleSubmit(onValid)}
+                        disabled={!value}
+                      >
+                        저장
+                      </button>
+                    )}
+                  />
+                </div>
               </div>
-
-              <div className={STYLE.__comment_submit_wrapper}>
-                <Controller
-                  control={control}
-                  name="text"
-                  render={({ field: { value } }) => (
-                    <button
-                      className={STYLE.__comment_submit_button}
-                      onClick={handleSubmit(onValid)}
-                      disabled={!value}
-                    >
-                      저장
-                    </button>
-                  )}
-                />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </>
+    )
   );
 };
 

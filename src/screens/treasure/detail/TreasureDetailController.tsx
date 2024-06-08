@@ -1,14 +1,16 @@
 "use client";
 
 import { FC, useCallback, useMemo, useState } from "react";
-import getTreasure from "@src/api/treasure/getTreasure";
+import { useParams } from "next/navigation";
+import dayjs from "dayjs";
 import { useQuery } from "@tanstack/react-query";
+
+import getTreasure from "@src/api/treasure/getTreasure";
+import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
+
 import TreasureDetailView, {
   TreasureDetailViewProps,
 } from "./TreasureDetailView";
-import dayjs from "dayjs";
-import { useParams } from "next/navigation";
-import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 
 const TreasureDetailController: FC = () => {
   const [isLimit, setIsLimit] = useState(false);

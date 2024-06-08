@@ -1,22 +1,25 @@
 "use client";
 
 import { FC, useCallback, useMemo } from "react";
+import { useParams } from "next/navigation";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useFormContext } from "react-hook-form";
-import { GetTreasureCommentListResponse } from "@src/types/api/treasure/comment";
-import { TreasureDetailCommentFormFields } from "../..";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { GetTreasureCommentListResponse } from "@src/types/api/treasure/comment";
 import postTreasureCommentLikes from "@src/api/treasure/comment/likes/postTreasureCommentLikes";
 import HeartIcon from "@src/components/icons/HeartIcon";
-import { useParams } from "next/navigation";
 import deleteTreasureCommentLikes from "@src/api/treasure/comment/likes/deleteTreasureCommentLikes";
 import {
   API_GET_TREASURE_COMMENT_LIST_KEY,
   API_GET_TREASURE_COMMENT_REPLY_LIST_KEY,
 } from "@src/libs/fetch/key/treasure/comment";
-import { motion } from "framer-motion";
+
+import { TreasureDetailCommentFormFields } from "../..";
 
 import STYLE from "./treasure.detail.comment.list.item.module.scss";
+import Avatar from "@src/components/avatar";
 
 function getElapsedTime(diff: number) {
   const day = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -35,11 +38,13 @@ function getElapsedTime(diff: number) {
 interface TreasureDetailCommentListItemProps {
   item: GetTreasureCommentListResponse;
   disabledViewMoreButton?: boolean;
+  disabledLikeButton?: boolean;
 }
 
 const TreasureDetailCommentListItem: FC<TreasureDetailCommentListItemProps> = ({
   item,
   disabledViewMoreButton = false,
+  disabledLikeButton = false,
 }) => {
   const { setValue, getValues } =
     useFormContext<TreasureDetailCommentFormFields>();
@@ -86,7 +91,7 @@ const TreasureDetailCommentListItem: FC<TreasureDetailCommentListItemProps> = ({
 
   const onLikeClick = useCallback(
     (item: GetTreasureCommentListResponse) => {
-      if (typeof treasure_id !== "string") return;
+      if (typeof treasure_id !== "string" || disabledLikeButton) return;
 
       const parentComment = getValues("parentComment");
 
@@ -114,7 +119,13 @@ const TreasureDetailCommentListItem: FC<TreasureDetailCommentListItemProps> = ({
 
       return handler;
     },
-    [addCommentLikes, deleteCommentLikes, getValues, treasure_id]
+    [
+      addCommentLikes,
+      deleteCommentLikes,
+      disabledLikeButton,
+      getValues,
+      treasure_id,
+    ]
   );
 
   return (
@@ -124,7 +135,7 @@ const TreasureDetailCommentListItem: FC<TreasureDetailCommentListItemProps> = ({
       animate={{ opacity: 1 }}
     >
       <div className={STYLE.__comment_list_avatar_info_box}>
-        <div className={STYLE.__comment_list_avatar_wrapper} />
+        <Avatar imageSrc={item.user.profile_image} width="26px" height="26px" />
 
         <div className={STYLE.__comment_list_info_box}>
           <div className={STYLE.__comment_list_meta_wrapper}>
@@ -149,21 +160,23 @@ const TreasureDetailCommentListItem: FC<TreasureDetailCommentListItemProps> = ({
         </div>
       </div>
 
-      <div className={STYLE.__comment_list_like_button_wrapper}>
-        <button
-          className={STYLE.__comment_list_like_button}
-          onClick={onLikeClick(item)}
-        >
-          <HeartIcon
-            width="16px"
-            height="16px"
-            color={item.likes ? "#e17055" : "#b2bec3"}
-          />
-        </button>
-        <span className={STYLE.__comment_list_like_count}>
-          {item.likes_count > 999 ? "999+" : item.likes_count}
-        </span>
-      </div>
+      {!disabledLikeButton && (
+        <div className={STYLE.__comment_list_like_button_wrapper}>
+          <button
+            className={STYLE.__comment_list_like_button}
+            onClick={onLikeClick(item)}
+          >
+            <HeartIcon
+              width="16px"
+              height="16px"
+              color={item.likes ? "#e17055" : "#b2bec3"}
+            />
+          </button>
+          <span className={STYLE.__comment_list_like_count}>
+            {item.likes_count > 999 ? "999+" : item.likes_count}
+          </span>
+        </div>
+      )}
     </motion.li>
   );
 };

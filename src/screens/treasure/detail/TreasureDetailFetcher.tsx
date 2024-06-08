@@ -1,16 +1,16 @@
 import { FC } from "react";
-import getTreasure from "@src/api/treasure/getTreasure";
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import TreasureDetailController from "./TreasureDetailController";
+
+import getTreasure from "@src/api/treasure/getTreasure";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
-import { API_GET_TREASURE_COMMENT_LIST_KEY } from "@src/libs/fetch/key/treasure/comment";
-import getTreasureCommentList from "@src/api/treasure/comment/getTreasureCommentList";
+
+import TreasureDetailController from "./TreasureDetailController";
 
 interface TreasureDetailFetcherProps {
   treasure_id: string;

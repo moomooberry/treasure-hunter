@@ -19,8 +19,8 @@ const containerVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, transform: "translate(0,30px)" },
-  show: { opacity: 1, transform: "translate(0,0)" },
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0 },
 };
 
 interface ModalCommonCheckProps extends PropsWithChildren<ModalProps> {
