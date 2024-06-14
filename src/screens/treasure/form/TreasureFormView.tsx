@@ -8,7 +8,9 @@ import {
   UseFormRegisterReturn,
 } from "react-hook-form";
 
-import FormInputImage from "@src/components/form/FormInputImage";
+import FormInputImage, {
+  FormImageInputError,
+} from "@src/components/form/FormInputImage";
 import FormInputText from "@src/components/form/FormInputText";
 import FormLabel from "@src/components/form/FormLabel";
 import FormTextarea from "@src/components/form/FormTextarea";
@@ -20,6 +22,10 @@ import FormText from "@src/components/form/FormText";
 import LayoutHeader from "@src/components/layout/header";
 import LayoutBody from "@src/components/layout/body";
 import LayoutFooter from "@src/components/layout/footer";
+import scanningImageSrc from "@src/assets/lottie/scanning_image.json";
+import tremblingMarkerSrc from "@src/assets/lottie/trembling_marker.json";
+import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
+import Lottie from "@src/components/lottie";
 
 import STYLE from "./treasure.form.module.scss";
 
@@ -44,7 +50,11 @@ export interface TreasureFormViewProps {
   };
   errors: FieldErrors<TreasureFormFields>;
 
-  onError: (value: TreasureMap["_error"]) => void;
+  clearImageError: VoidFunction;
+  clearPositionError: VoidFunction;
+
+  onPositionError: (value: TreasureMap["_error"]) => void;
+  onImageError: (value: FormImageInputError) => void;
   onPosition: (value: Position) => void;
   onNextStepClick: MouseEventHandler<HTMLButtonElement>;
   onSubmitClick: MouseEventHandler<HTMLButtonElement>;
@@ -59,7 +69,11 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
   registerProps,
   errors,
 
-  onError,
+  clearImageError,
+  clearPositionError,
+
+  onPositionError,
+  onImageError,
   onPosition,
   onNextStepClick,
   onSubmitClick,
@@ -69,9 +83,9 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
       title={pathname.endsWith("/add") ? "보물 등록" : "보물 수정"}
     />
 
-    <LayoutBody.Common paddingX={step === "1" ? "0" : "12px"}>
+    <LayoutBody.Common paddingX={step === "1" && !treasure_id ? "0" : "12px"}>
       {!treasure_id && step === "1" ? (
-        <MapAdd onError={onError} onPosition={onPosition} />
+        <MapAdd onError={onPositionError} onPosition={onPosition} />
       ) : (
         <>
           <div className={STYLE.__image_wrapper}>
@@ -80,16 +94,29 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
               control={control}
               name="images"
               render={({ field: { value, onChange } }) => (
-                <FormInputImage value={value} onChange={onChange} />
+                <FormInputImage
+                  maxLength={10}
+                  value={value}
+                  onChange={onChange}
+                  onError={onImageError}
+                />
               )}
+            />
+            <FormText.Notice
+              text="한 장당 최대 20mb까지 등록 가능해요."
+              m="12px 0 0 0"
+            />
+            <FormText.Notice
+              text="최대 10장까지 등록 가능해요."
+              m="4px 0 0 0"
             />
           </div>
 
           <label className={STYLE.__label_wrapper}>
             <FormLabel text="제목" isRequired />
             <FormInputText
-              placeholder="최대 20자까지 입력"
-              maxLength={20}
+              placeholder="최대 30자까지 입력"
+              maxLength={30}
               showMaxLength
               isError={!!errors.title}
               {...registerProps.title}
@@ -132,6 +159,72 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
       )}
     </LayoutBody.Common>
 
+    <ModalCommonCheck
+      isOpen={
+        !!errors.images?.types?.size ||
+        !!errors.images?.types?.maxLength ||
+        !!errors.images?.types?.required
+      }
+      onClose={clearImageError}
+      title="확인해주세요!"
+      buttons={[{ text: "닫기", onClick: clearImageError, variant: "cancel" }]}
+    >
+      <div className={STYLE.__check_modal_wrapper}>
+        <div className={STYLE.__check_modal_lottie_wrapper}>
+          <Lottie
+            animationData={scanningImageSrc}
+            width="180px"
+            height="180px"
+          />
+        </div>
+
+        <div className={STYLE.__check_modal_error_wrapper}>
+          {errors.images?.types?.size && (
+            <div className={STYLE.__check_modal_error}>
+              {errors.images.types.size}
+            </div>
+          )}
+          {errors.images?.types?.maxLength && (
+            <div className={STYLE.__check_modal_error}>
+              {errors.images.types.maxLength}
+            </div>
+          )}
+          {errors.images?.types?.required && (
+            <div className={STYLE.__check_modal_error}>
+              {errors.images.types.required}
+            </div>
+          )}
+        </div>
+      </div>
+    </ModalCommonCheck>
+
+    <ModalCommonCheck
+      isOpen={!!errors.position?.types?.isOverBuffer}
+      onClose={clearPositionError}
+      title="확인해주세요!"
+      buttons={[
+        { text: "닫기", onClick: clearPositionError, variant: "cancel" },
+      ]}
+    >
+      <div className={STYLE.__check_modal_wrapper}>
+        <div className={STYLE.__check_modal_lottie_wrapper}>
+          <Lottie
+            animationData={tremblingMarkerSrc}
+            width="180px"
+            height="180px"
+          />
+        </div>
+
+        <div className={STYLE.__check_modal_error_wrapper}>
+          {errors.position?.types?.isOverBuffer && (
+            <div className={STYLE.__check_modal_error}>
+              {errors.position.types.isOverBuffer}
+            </div>
+          )}
+        </div>
+      </div>
+    </ModalCommonCheck>
+
     {!treasure_id && step === "1" ? (
       <LayoutFooter.SmallButton
         backgroundColor="#fff"
@@ -145,6 +238,7 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
         backgroundColor="#fff"
         disabledShadow={false}
         onClick={onSubmitClick}
+        disabled={!!errors.images}
       >
         저장하기
       </LayoutFooter.MaxWidthButton>

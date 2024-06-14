@@ -1,32 +1,32 @@
 "use client";
 
-import { TreasureMap } from "@src/libs/google-map";
-import { Position } from "@src/types/position";
+import { FC, useCallback } from "react";
 import {
   useParams,
   usePathname,
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import { FC, useCallback, useEffect, useState } from "react";
 import { SubmitHandler, UseFormRegisterReturn, useForm } from "react-hook-form";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { v4 } from "uuid";
+
+import { Position } from "@src/types/position";
+import getTreasure from "@src/api/treasure/getTreasure";
+import postTreasure from "@src/api/treasure/postTreasure";
+import putTreasure from "@src/api/treasure/putTreasure";
+import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
+import convertFileToFormData from "@src/utils/convertFileToFormData";
+import postImageTreasure from "@src/api/image/treasure/postImageTreasure";
+import { FormImageInputError } from "@src/components/form/FormInputImage";
+
 import TreasureFormView, {
   TreasureFormFields,
   TreasureFormViewProps,
 } from "./TreasureFormView";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import getTreasure from "@src/api/treasure/getTreasure";
-import { v4 } from "uuid";
-import postTreasure from "@src/api/treasure/postTreasure";
-import putTreasure from "@src/api/treasure/putTreasure";
-import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 
 const TreasureFormController: FC = () => {
   const { push, replace, back } = useRouter();
-
-  const [error, setError] = useState<TreasureMap["_error"]>({
-    isOverBuffer: false,
-  });
 
   const { treasure_id } = useParams();
 
@@ -34,14 +34,18 @@ const TreasureFormController: FC = () => {
 
   const step = (useSearchParams().get("step") as "1" | "2") ?? "1";
 
-  const { mutate: addMutate } = useMutation({
+  const { mutateAsync: uploadImageAsync } = useMutation({
+    mutationFn: postImageTreasure,
+  });
+
+  const { mutate: addTreasure } = useMutation({
     mutationFn: postTreasure,
     onSuccess: () => {
       replace("/treasure");
     },
   });
 
-  const { mutate: editMutate } = useMutation({
+  const { mutate: editTreasure } = useMutation({
     mutationFn: putTreasure,
     onSuccess: () => {
       back();
@@ -59,6 +63,8 @@ const TreasureFormController: FC = () => {
     handleSubmit,
     setValue,
     control,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<TreasureFormFields>({
     mode: "onChange",
@@ -100,6 +106,14 @@ const TreasureFormController: FC = () => {
     }),
   };
 
+  const clearImageError = useCallback(() => {
+    clearErrors("images");
+  }, [clearErrors]);
+
+  const clearPositionError = useCallback(() => {
+    clearErrors("position");
+  }, [clearErrors]);
+
   const onNextStepClick = useCallback(() => {
     push(`${pathname}?step=${2}`);
   }, [pathname, push]);
@@ -111,57 +125,94 @@ const TreasureFormController: FC = () => {
     [setValue]
   );
 
-  const onError = useCallback((value: TreasureMap["_error"]) => {
-    setError(value);
-  }, []);
+  const onPositionError = useCallback(() => {
+    setError("position", {
+      types: {
+        isOverBuffer: "현재 위치랑 먼 곳에 숨기려 하는데 괜찮으시겠어요?",
+      },
+    });
+  }, [setError]);
+
+  const onImageError = useCallback(
+    (value: FormImageInputError) => {
+      setError("images", {
+        types: {
+          size: value.isSizeError && "이미지는 20mb를 초과할 수 없어요.",
+          maxLength:
+            value.isMaxLengthError && "이미지는 최대 10장까지 가능해요.",
+        },
+      });
+    },
+    [setError]
+  );
 
   const onSubmit = useCallback<SubmitHandler<TreasureFormFields>>(
-    ({ position, hint, images, title, reward }) => {
-      // TODO images string 으로 post
+    async ({ position, hint, images, title, reward }) => {
+      if (images.length === 0) {
+        setError("images", {
+          types: {
+            required: "이미지를 반드시 등록해 주셔야 해요.",
+          },
+        });
+        return;
+      }
+
+      const stringList: string[] = [];
+      const fileList: File[] = [];
+
+      images.forEach(({ src }) => {
+        if (typeof src === "string") {
+          stringList.push(src);
+        } else {
+          fileList.push(src);
+        }
+      });
+
+      if (fileList.length > 0) {
+        const formDataList = convertFileToFormData(fileList);
+        for (let i = 0; i < formDataList.length; i++) {
+          const { path } = await uploadImageAsync({
+            formData: formDataList[i],
+          });
+          stringList.push(path);
+        }
+      }
+
       if (typeof treasure_id !== "string") {
-        addMutate({
+        addTreasure({
           title,
           hint,
-          images: [
-            "https://picsum.photos/200",
-            "https://picsum.photos/200",
-            "https://picsum.photos/200",
-          ],
+          images: stringList,
           lat: position.lat,
           lng: position.lng,
           reward: reward ? Number(reward) : null,
         });
       } else {
-        editMutate({
+        editTreasure({
           treasure_id,
           title,
           hint,
-          images: [
-            "https://picsum.photos/200",
-            "https://picsum.photos/200",
-            "https://picsum.photos/200",
-          ],
+          images: stringList,
         });
       }
     },
-    [addMutate, editMutate, treasure_id]
+    [addTreasure, editTreasure, setError, treasure_id, uploadImageAsync]
   );
-
-  useEffect(() => {
-    if (error.isOverBuffer) {
-      alert("현재 위치랑 먼 곳에 숨기려 하는데 괜찮으시겠어요?");
-    }
-  }, [error]);
 
   const viewProps: TreasureFormViewProps = {
     treasure_id: treasure_id as string,
     pathname,
     step,
+
     control,
     registerProps,
     errors,
 
-    onError,
+    clearImageError,
+    clearPositionError,
+
+    onPositionError,
+    onImageError,
     onPosition,
     onNextStepClick,
     onSubmitClick: handleSubmit(onSubmit),

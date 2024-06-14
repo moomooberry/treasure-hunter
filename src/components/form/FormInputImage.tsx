@@ -1,15 +1,24 @@
 import { FC, FormEventHandler, useCallback } from "react";
 import Image from "next/image";
 import { v4 } from "uuid";
+
 import { ImageInputValue } from "@src/types/image";
+
 import RedCircleCloseIcon from "../icons/RedCircleCloseIcon";
 import CameraIcon from "../icons/CameraIcon";
 
 import STYLE from "./form.module.scss";
 
+export interface FormImageInputError {
+  isMaxLengthError?: boolean;
+  isSizeError?: boolean;
+}
+
 interface FormImageInputProps {
   value: ImageInputValue[];
+
   onChange: (value: ImageInputValue[]) => void;
+  onError?: (value: FormImageInputError) => void;
 
   maxSize?: number; // -> byte
   maxLength?: number;
@@ -18,7 +27,9 @@ interface FormImageInputProps {
 
 const FormInputImage: FC<FormImageInputProps> = ({
   value,
+
   onChange,
+  onError,
 
   maxLength = 5,
   paddingX = "12px",
@@ -29,38 +40,44 @@ const FormInputImage: FC<FormImageInputProps> = ({
       const { files } = event.currentTarget;
       if (!files) return;
 
-      let sizeError = false;
+      let isSizeError = undefined;
+      let isMaxLengthError = undefined;
 
       const result: ImageInputValue[] = [];
 
-      for (let i = 0; i < files.length; i += 1) {
-        if (i + value.length > maxLength - 1) {
-          // TODO maxLengthError
-          break;
-        }
-
+      for (let i = 0; i < files.length; i++) {
         const file = files.item(i);
 
-        if (file) {
-          if (file.size <= maxSize) {
-            result.unshift({
-              id: v4(),
-              src: file,
-            });
-          } else {
-            sizeError = true;
-          }
+        if (!file) continue;
+
+        const isFileSizeOverMax = file.size > maxSize;
+        const isLengthOverMax = i + value.length > maxLength - 1;
+
+        if (isFileSizeOverMax) {
+          isSizeError = true;
+        }
+
+        if (isLengthOverMax) {
+          isMaxLengthError = true;
+        }
+
+        if (!isFileSizeOverMax && !isLengthOverMax) {
+          result.unshift({
+            id: v4(),
+            src: file,
+          });
         }
       }
 
       onChange([...value, ...result]);
+
       event.currentTarget.value = "";
 
-      if (sizeError) {
-        // TODO error-size
+      if (isSizeError || isMaxLengthError) {
+        onError?.({ isSizeError, isMaxLengthError });
       }
     },
-    [maxLength, maxSize, onChange, value]
+    [maxLength, maxSize, onChange, onError, value]
   );
 
   const getImageSrc = useCallback(
@@ -105,7 +122,6 @@ const FormInputImage: FC<FormImageInputProps> = ({
           onChange={onImageChange}
         />
       </label>
-
       {value.map((item, index) => (
         <div key={item.id} className={STYLE.__form_image_box}>
           <button
@@ -130,5 +146,3 @@ const FormInputImage: FC<FormImageInputProps> = ({
 };
 
 export default FormInputImage;
-
-FormInputImage.displayName = "FormInputImage";
