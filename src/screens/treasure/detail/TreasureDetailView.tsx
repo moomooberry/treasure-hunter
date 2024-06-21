@@ -2,9 +2,7 @@
 
 import { FC } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 
-import SwiperImage from "@src/components/swiper/SwiperImage";
 import TimerLimit from "@src/components/timer/TimerLimit";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import LocationIcon from "@src/components/icons/LocationIcon";
@@ -17,6 +15,7 @@ import TreasureDetailBody from "./_layout/body";
 import TreasureDetailComment from "./_components/comment";
 
 import STYLE from "./treasure.detail.module.scss";
+import SwiperCommonWithModal from "@src/components/swiper/common/SwiperCommonWithModal";
 
 export interface TreasureDetailViewProps {
   isLimit: boolean;
@@ -37,7 +36,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
     <TreasureDetailBody>
       {data && (
         <div>
-          <SwiperImage images={data.images} showImageCount />
+          <SwiperCommonWithModal images={data.images} showImageCount />
           <div className={STYLE.__treasure_detail_container}>
             <section className={STYLE.__treasure_detail_first_section}>
               <h1 className={STYLE.__treasure_detail_title}>{data.title}</h1>
