@@ -1,11 +1,12 @@
-import { FC, FormEventHandler, useCallback } from "react";
+import { FC, FormEventHandler, useCallback, useState } from "react";
 import Image from "next/image";
 import { v4 } from "uuid";
 
 import { ImageInputValue } from "@src/types/image";
-
-import RedCircleCloseIcon from "../icons/RedCircleCloseIcon";
-import CameraIcon from "../icons/CameraIcon";
+import RedCircleCloseIcon from "@src/components/icons/RedCircleCloseIcon";
+import CameraIcon from "@src/components/icons/CameraIcon";
+import ModalFullScreenLayoutCropper from "@src/components/modal/full_screen/ModalFullScreenLayoutCropper";
+import ModalFullScreenLayoutImage from "@src/components/modal/full_screen/ModalFullScreenLayoutImage";
 
 import STYLE from "./form.module.scss";
 
@@ -35,6 +36,12 @@ const FormInputImage: FC<FormImageInputProps> = ({
   paddingX = "12px",
   maxSize = 20971520, // -> 20mb
 }) => {
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
+  const [isCropperModalOpen, setIsCropperModalOpen] = useState(false);
+
+  const [imageIndex, setImageIndex] = useState<number | null>(null);
+
   const onImageChange = useCallback<FormEventHandler<HTMLInputElement>>(
     (event) => {
       const { files } = event.currentTarget;
@@ -100,6 +107,56 @@ const FormInputImage: FC<FormImageInputProps> = ({
     [value, onChange]
   );
 
+  const openImageModal = useCallback((index: number) => {
+    const handler = () => {
+      setImageIndex(index);
+      setIsImageModalOpen(true);
+    };
+    return handler;
+  }, []);
+
+  const closeImageModal = useCallback(() => {
+    setImageIndex(null);
+    setIsImageModalOpen(false);
+  }, []);
+
+  const onImageModalDeleteClick = useCallback(() => {
+    if (typeof imageIndex !== "number") return;
+
+    const arr = value
+      .slice(0, imageIndex)
+      .concat(value.slice(imageIndex + 1, value.length));
+
+    closeImageModal();
+
+    onChange(arr);
+  }, [imageIndex, onChange, value, closeImageModal]);
+
+  const onImageModalEditClick = useCallback(() => {
+    setIsImageModalOpen(false);
+    setIsCropperModalOpen(true);
+  }, []);
+
+  const closeCropperModal = useCallback(() => {
+    setImageIndex(null);
+    setIsCropperModalOpen(false);
+  }, []);
+
+  const onCrop = useCallback(
+    (src: File) => {
+      if (typeof imageIndex !== "number") return;
+
+      const cropImage = { id: v4(), src };
+      const arr = value
+        .slice(0, imageIndex)
+        .concat(cropImage)
+        .concat(value.slice(imageIndex + 1, value.length));
+
+      onChange(arr);
+    },
+    [imageIndex, onChange, value]
+  );
+
   return (
     <div
       className={STYLE.__form_image_container}
@@ -122,8 +179,13 @@ const FormInputImage: FC<FormImageInputProps> = ({
           onChange={onImageChange}
         />
       </label>
+
       {value.map((item, index) => (
-        <div key={item.id} className={STYLE.__form_image_box}>
+        <div
+          key={item.id}
+          className={STYLE.__form_image_box}
+          onClick={openImageModal(index)}
+        >
           <button
             className={STYLE.__form_image_wrapper_button}
             onClick={onDeleteClick(index)}
@@ -141,6 +203,29 @@ const FormInputImage: FC<FormImageInputProps> = ({
           </div>
         </div>
       ))}
+
+      {typeof imageIndex === "number" && (
+        <>
+          <ModalFullScreenLayoutImage
+            isOpen={isImageModalOpen}
+            onClose={closeImageModal}
+            image={getImageSrc(value[imageIndex].src)}
+            backgroundColor="#000"
+            options={{
+              onDeleteClick: onImageModalDeleteClick,
+              onEditClick: onImageModalEditClick,
+            }}
+          />
+
+          <ModalFullScreenLayoutCropper
+            isOpen={isCropperModalOpen}
+            onClose={closeCropperModal}
+            image={getImageSrc(value[imageIndex].src)}
+            onCrop={onCrop}
+            backgroundColor="#000"
+          />
+        </>
+      )}
     </div>
   );
 };
