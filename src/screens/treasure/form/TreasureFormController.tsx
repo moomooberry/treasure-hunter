@@ -17,8 +17,8 @@ import postTreasure from "@src/api/treasure/postTreasure";
 import putTreasure from "@src/api/treasure/putTreasure";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import convertFileToFormData from "@src/utils/convertFileToFormData";
-import postImageTreasure from "@src/api/image/treasure/postImageTreasure";
 import { FormImageInputError } from "@src/components/form/FormInputImage";
+import postImagesTreasure from "@src/api/image/treasure/postImagesTreasure";
 
 import TreasureFormView, {
   TreasureFormFields,
@@ -34,8 +34,8 @@ const TreasureFormController: FC = () => {
 
   const step = (useSearchParams().get("step") as "1" | "2") ?? "1";
 
-  const { mutateAsync: uploadImageAsync } = useMutation({
-    mutationFn: postImageTreasure,
+  const { mutateAsync: uploadImagesAsync } = useMutation({
+    mutationFn: postImagesTreasure,
   });
 
   const { mutate: addTreasure } = useMutation({
@@ -170,12 +170,9 @@ const TreasureFormController: FC = () => {
 
       if (fileList.length > 0) {
         const formDataList = convertFileToFormData(fileList);
-        for (let i = 0; i < formDataList.length; i++) {
-          const { path } = await uploadImageAsync({
-            formData: formDataList[i],
-          });
-          stringList.push(path);
-        }
+        const pathList = await uploadImagesAsync({ formDataList });
+        const newStringList = pathList.map(({ path }) => path);
+        stringList.push(...newStringList);
       }
 
       if (typeof treasure_id !== "string") {
@@ -196,7 +193,7 @@ const TreasureFormController: FC = () => {
         });
       }
     },
-    [addTreasure, editTreasure, setError, treasure_id, uploadImageAsync]
+    [addTreasure, editTreasure, setError, treasure_id, uploadImagesAsync]
   );
 
   const viewProps: TreasureFormViewProps = {

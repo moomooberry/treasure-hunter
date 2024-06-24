@@ -181,11 +181,7 @@ const FormInputImage: FC<FormImageInputProps> = ({
       </label>
 
       {value.map((item, index) => (
-        <div
-          key={item.id}
-          className={STYLE.__form_image_box}
-          onClick={openImageModal(index)}
-        >
+        <div key={item.id} className={STYLE.__form_image_box}>
           <button
             className={STYLE.__form_image_wrapper_button}
             onClick={onDeleteClick(index)}
@@ -193,7 +189,10 @@ const FormInputImage: FC<FormImageInputProps> = ({
             <RedCircleCloseIcon width="16px" height="16px" />
           </button>
 
-          <div className={STYLE.__form_image_wrapper}>
+          <div
+            className={STYLE.__form_image_wrapper}
+            onClick={openImageModal(index)}
+          >
             <Image
               src={getImageSrc(item.src)}
               alt={`image_${index}`}
