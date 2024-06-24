@@ -99,28 +99,28 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const newData = (await request.json()) as PostTreasureBody;
 
-  const end_date = dayjs().add(7, "day").valueOf();
-
   const supabase = createSupabaseFromServer();
 
-  const { status, statusText, error } = await supabase
+  const end_date = dayjs().add(7, "day").valueOf();
+
+  const treasure = await supabase
     .from("treasure")
     .insert({ ...newData, end_date });
 
-  if (error) {
-    console.error(error);
+  if (treasure.error) {
+    console.error("treasure.error", treasure.error);
     const result: RequestErrorResponse = {
-      code: status,
-      message: error.message,
+      code: treasure.status,
+      message: treasure.error.message,
       data: undefined,
     };
 
-    return NextResponse.json(result, { status });
+    return NextResponse.json(result, { status: treasure.status });
   }
 
   const result: RequestResponse<null> = {
-    code: status,
-    message: statusText,
+    code: 200,
+    message: "success",
     data: null,
   };
 

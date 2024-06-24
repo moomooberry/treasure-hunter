@@ -3,7 +3,10 @@ import { createSupabaseFromServer } from "@src/libs/supabase/server";
 import { RequestErrorResponse, RequestResponse } from "@src/types/api";
 import { GetTreasureDetailResponse } from "@src/types/api/treasure";
 import { TreasureItem } from "@src/types/treasure";
-import { PostgrestMaybeSingleResponse } from "@supabase/supabase-js";
+import {
+  PostgrestMaybeSingleResponse,
+  PostgrestSingleResponse,
+} from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -58,27 +61,68 @@ export async function DELETE(
   _: NextRequest,
   { params: { treasure_id } }: { params: { treasure_id: string } }
 ) {
-  // TODO 이미지 삭제해야함
   const supabase = createSupabaseFromServer();
 
-  const { status, statusText, error } = await supabase
+  /* 1. Get Treasure */
+  const treasure = (await supabase
+    .from("treasure")
+    .select("*")
+    .eq("id", treasure_id)
+    .single()) as PostgrestSingleResponse<TreasureItem>;
+
+  if (!treasure.data || treasure.error) {
+    console.error("treasure.error", treasure.error);
+    const result: RequestErrorResponse = {
+      code: 404,
+      message: "no resource",
+      data: undefined,
+    };
+
+    return NextResponse.json(result, { status: 404 });
+  }
+
+  /* 2. Delete Treasure */
+  const deletedTreasure = await supabase
     .from("treasure")
     .delete()
     .eq("id", treasure_id);
 
-  if (error) {
+  if (deletedTreasure.error) {
+    console.error("deletedTreasure.error", deletedTreasure.error);
     const result: RequestErrorResponse = {
-      code: status,
-      message: error.message,
+      code: deletedTreasure.status,
+      message: deletedTreasure.error.message,
       data: undefined,
     };
 
-    return NextResponse.json(result, { status });
+    return NextResponse.json(result, { status: deletedTreasure.status });
+  }
+
+  /* 3. Delete Treasure Image */
+  const imageNameList = treasure.data.images.map(
+    (path) => path.split("?")[0].split("public_image/")[1]
+  );
+
+  for (let i = 0; i < imageNameList.length; i++) {
+    const deletedImage = await supabase.storage
+      .from("public_image")
+      .remove(imageNameList);
+
+    if (deletedImage.error) {
+      console.error("deletedImage.error", deletedImage.error);
+      const result: RequestErrorResponse = {
+        code: 404,
+        message: "deletedImage.error",
+        data: undefined,
+      };
+
+      return NextResponse.json(result, { status: 404 });
+    }
   }
 
   const result: RequestResponse<null> = {
-    code: status,
-    message: statusText,
+    code: 200,
+    message: "success",
     data: null,
   };
 
@@ -89,17 +133,19 @@ export async function PUT(
   request: NextRequest,
   { params: { treasure_id } }: { params: { treasure_id: string } }
 ) {
-  // TODO 이미지 삭제 해야함
   const newData = (await request.json()) as PutTreasureBody;
 
   const supabase = createSupabaseFromServer();
 
-  const { data: prevData } = (await supabase
+  /* 1. Prev Treasure */
+  const prevTreasure = (await supabase
     .from("treasure")
     .select("*")
-    .eq("id", treasure_id)) as PostgrestMaybeSingleResponse<TreasureItem[]>;
+    .eq("id", treasure_id)
+    .single()) as PostgrestSingleResponse<TreasureItem>;
 
-  if (!prevData) {
+  if (prevTreasure.error) {
+    console.error("prevTreasure.error", prevTreasure.error);
     const result: RequestErrorResponse = {
       code: 404,
       message: "no resource",
@@ -108,24 +154,48 @@ export async function PUT(
     return NextResponse.json(result, { status: 404 });
   }
 
-  const { status, statusText, error } = await supabase
+  /* 2. Update Treasure */
+  const updatedTreasure = await supabase
     .from("treasure")
     .update(newData)
     .eq("id", treasure_id);
 
-  if (error) {
+  if (updatedTreasure.error) {
+    console.error("updatedTreasure.error", updatedTreasure.error);
     const result: RequestErrorResponse = {
-      code: status,
-      message: error.message,
+      code: updatedTreasure.status,
+      message: updatedTreasure.error.message,
       data: undefined,
     };
 
-    return NextResponse.json(result, { status });
+    return NextResponse.json(result, { status: updatedTreasure.status });
+  }
+
+  /* 3. Delete Treasure Image */
+  const imageNameList = prevTreasure.data.images
+    .filter((image) => !newData.images.includes(image))
+    .map((path) => path.split("?")[0].split("public_image/")[1]);
+
+  for (let i = 0; i < imageNameList.length; i++) {
+    const deletedImage = await supabase.storage
+      .from("public_image")
+      .remove(imageNameList);
+
+    if (deletedImage.error) {
+      console.error("deletedImage.error", deletedImage.error);
+      const result: RequestErrorResponse = {
+        code: 404,
+        message: "deletedImage.error",
+        data: undefined,
+      };
+
+      return NextResponse.json(result, { status: 404 });
+    }
   }
 
   const result: RequestResponse<null> = {
-    code: status,
-    message: statusText,
+    code: 200,
+    message: "success",
     data: null,
   };
 

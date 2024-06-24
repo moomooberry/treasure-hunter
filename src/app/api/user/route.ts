@@ -152,7 +152,7 @@ export async function PUT(request: NextRequest) {
 
   const supabase = createSupabaseFromServer();
 
-  /* 1. AUTH */
+  /* 1. Get Auth */
   const auth = await supabase.auth.getUser();
 
   if (!auth.data.user || auth.error) {
@@ -166,13 +166,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(result, { status: 404 });
   }
 
-  if (!newData.profile_image) {
-    await supabase.storage
-      .from("public_image")
-      .remove([`user/${auth.data.user.id}/profile`]);
-  }
-
-  /* 2. User */
+  /* 2. Update User */
   const user = await supabase
     .from("user")
     .update(newData)
@@ -187,6 +181,24 @@ export async function PUT(request: NextRequest) {
     };
 
     return NextResponse.json(result, { status: 404 });
+  }
+
+  /* 3. Delete User Image */
+  if (!newData.profile_image) {
+    const deletedImage = await supabase.storage
+      .from("public_image")
+      .remove([`user/${auth.data.user.id}/profile`]);
+
+    if (deletedImage.error) {
+      console.error("deletedImage.error", deletedImage.error);
+      const result: RequestErrorResponse = {
+        code: 404,
+        message: "deletedImage.error",
+        data: undefined,
+      };
+
+      return NextResponse.json(result, { status: 404 });
+    }
   }
 
   const result: RequestResponse<null> = {
