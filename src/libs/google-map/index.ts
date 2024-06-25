@@ -2,32 +2,21 @@ import { Loader } from "@googlemaps/js-api-loader";
 import { Position } from "@src/types/position";
 import treasureImgSrc from "@src/assets/webp/treasure_512_512.webp";
 import { TreasureItem } from "@src/types/treasure";
+import { GetTreasureListResponse } from "@src/types/api/treasure";
+import { GetUserResponse } from "@src/types/api/user";
 
 interface Error {
   isOverBuffer: boolean;
 }
 
-interface InitViewProps {
-  mode: "view";
-  bufferRadius: number;
+interface InitProps {
+  zoom: number;
   position: Position;
+  minZoom?: number;
+  gestureHandling?: string;
 }
-
-interface InitAddProps {
-  mode: "add";
-  bufferRadius: number;
-  position: Position;
-}
-
-interface InitEditProps {
-  mode: "edit";
-  position: Position;
-}
-
-type InitProps = InitViewProps | InitAddProps | InitEditProps;
 
 export class TreasureMap {
-  /* COMMON */
   private _mapsLibrary: google.maps.MapsLibrary | null = null;
   private _markerLibrary: google.maps.MarkerLibrary | null = null;
   private _map: google.maps.Map | null = null;
@@ -36,25 +25,22 @@ export class TreasureMap {
   private _user: google.maps.marker.AdvancedMarkerElement | null = null;
   private _userBuffer: google.maps.Circle | null = null;
 
-  /* VIEW */
-  private _selectedTreasure: TreasureItem | null = null;
+  private _selectedTreasure: GetTreasureListResponse | null = null;
 
-  /* ADD */
   private _treasurePosition: {
     lat: TreasureItem["lat"];
     lng: TreasureItem["lng"];
   } | null = null;
   private _error: Error = { isOverBuffer: false };
 
-  /* UTILITY */
-  private _generateUserElement() {
-    // TODO 유저 프로필사진
-    const userPin = document.createElement("div");
+  private _generateUserElement(image: GetUserResponse["profile_image"]) {
+    const userPin = document.createElement("img");
     userPin.style.width = "30px";
     userPin.style.height = "30px";
     userPin.style.transform = "translate(0, 15px)";
     userPin.style.borderRadius = "50%";
-    userPin.style.backgroundColor = "gray";
+    userPin.style.border = "4px solid #0984e3";
+    userPin.src = image ?? "/assets/webp/anonymous_512_512.webp";
 
     return userPin;
   }
@@ -82,7 +68,7 @@ export class TreasureMap {
     this._element = element;
   }
 
-  public async init(props: InitProps) {
+  public async init({ zoom, position, minZoom, gestureHandling }: InitProps) {
     if (!this._element) return;
 
     const googleMapLoader = new Loader({
@@ -97,37 +83,18 @@ export class TreasureMap {
     this._mapsLibrary = mapsLibrary;
     this._markerLibrary = markerLibrary;
     this._map = new mapsLibrary.Map(this._element, {
-      zoom: props.mode === "view" ? 18 : 20,
-      minZoom: props.mode === "view" ? 13 : 19,
-      center: props.position,
+      mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID,
       clickableIcons: false,
       disableDoubleClickZoom: true,
-      mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID,
       mapTypeControl: false,
       zoomControl: false,
       fullscreenControl: false,
+
+      gestureHandling,
+      zoom,
+      center: position,
+      minZoom,
     });
-
-    if (props.mode !== "edit") {
-      const userPin = this._generateUserElement();
-
-      this._user = new markerLibrary.AdvancedMarkerElement({
-        map: this._map,
-        position: props.position,
-        content: userPin,
-      });
-
-      this._userBuffer = new mapsLibrary.Circle({
-        map: this._map,
-        strokeColor: "#0984e3",
-        strokeOpacity: 0.5,
-        strokeWeight: 1,
-        fillColor: "#0984e3",
-        fillOpacity: 0.15,
-        center: props.position,
-        radius: props.bufferRadius,
-      });
-    }
   }
 
   public moveUser({ position }: { position: Position }) {
@@ -145,15 +112,59 @@ export class TreasureMap {
     this._map.setCenter(position);
   }
 
-  public async loadTreasureList({
-    data,
-    onSelect,
+  public loadUser({
+    position,
+    image,
   }: {
-    data: TreasureItem[];
-    onSelect: (value: TreasureItem | null) => void;
+    position: Position;
+    image: GetUserResponse["profile_image"];
   }) {
-    if (!this._markerLibrary || !this._map || !this._userBuffer || !this._map)
-      return;
+    if (!this._markerLibrary || !this._map) return;
+    const userPin = this._generateUserElement(image);
+
+    const { AdvancedMarkerElement } = this._markerLibrary;
+
+    this._user = new AdvancedMarkerElement({
+      map: this._map,
+      position,
+      content: userPin,
+    });
+  }
+
+  public loadBuffer({
+    position,
+    bufferRadius,
+  }: {
+    position: Position;
+    bufferRadius: number;
+  }) {
+    if (!this._mapsLibrary || !this._map) return;
+
+    const { Circle } = this._mapsLibrary;
+
+    this._userBuffer = new Circle({
+      map: this._map,
+      strokeColor: "#0984e3",
+      strokeOpacity: 0.5,
+      strokeWeight: 1,
+      fillColor: "#0984e3",
+      fillOpacity: 0.15,
+
+      radius: bufferRadius,
+      center: position,
+    });
+  }
+
+  public loadTreasureList({
+    color,
+    onSelect,
+    data,
+  }: {
+    color: string;
+    onSelect?: (value: GetTreasureListResponse | null) => void;
+    data: GetTreasureListResponse[];
+  }) {
+    if (!this._markerLibrary || !this._map) return;
 
     const { PinElement, AdvancedMarkerElement } = this._markerLibrary;
 
@@ -162,8 +173,8 @@ export class TreasureMap {
 
       const pin = new PinElement({
         scale: 2,
-        background: "#ffeaa7",
-        borderColor: "#ffeaa7",
+        background: color,
+        borderColor: color,
         glyph: treasure,
       });
 
@@ -173,24 +184,29 @@ export class TreasureMap {
         content: pin.element,
       });
 
-      marker.addListener("click", () => {
-        this._selectedTreasure = item;
-        onSelect(this._selectedTreasure);
+      if (onSelect) {
+        marker.addListener("click", () => {
+          this._selectedTreasure = item;
+          onSelect(this._selectedTreasure);
+        });
+      }
+    });
+
+    if (onSelect) {
+      if (this._userBuffer) {
+        this._userBuffer.addListener("click", () => {
+          this._selectedTreasure = null;
+          onSelect(null);
+        });
+      }
+
+      this._map.addListener("click", () => {
+        this._selectedTreasure = null;
+        onSelect(null);
       });
-    });
-
-    this._userBuffer.addListener("click", () => {
-      this._selectedTreasure = null;
-      onSelect(null);
-    });
-
-    this._map.addListener("click", () => {
-      this._selectedTreasure = null;
-      onSelect(null);
-    });
+    }
   }
 
-  /* ADD */
   public generateTreasure({
     position,
     onPosition,
@@ -249,30 +265,11 @@ export class TreasureMap {
         this._error = { isOverBuffer: true };
         onError(this._error);
       } else {
-        if (this._error.isOverBuffer) {
+        if (!this._error.isOverBuffer) {
           this._error = { isOverBuffer: false };
           onError(this._error);
         }
       }
-    });
-  }
-
-  public loadTreasure({ data }: { data: TreasureItem }) {
-    if (!this._markerLibrary || !this._map) return;
-
-    const treasure = this._generateTreasureElement();
-
-    const pin = new this._markerLibrary.PinElement({
-      scale: 2,
-      background: "#0984e3",
-      borderColor: "#0984e3",
-      glyph: treasure,
-    });
-
-    const marker = new this._markerLibrary.AdvancedMarkerElement({
-      map: this._map,
-      position: { lat: data.lat, lng: data.lng },
-      content: pin.element,
     });
   }
 }
