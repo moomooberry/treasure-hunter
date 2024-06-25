@@ -70,7 +70,7 @@ const TreasureDetailMapModalFullScreenLayout: FC<
     const map = new TreasureMap(ref.current);
 
     await map.init({
-      position,
+      position: { lat: treasureData.lat, lng: treasureData.lng },
       minZoom: 13,
       zoom: 18,
     });
