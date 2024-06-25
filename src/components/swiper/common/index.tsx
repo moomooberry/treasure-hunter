@@ -6,7 +6,6 @@ import classNames from "classnames";
 import { Swiper as ReactSwiper, SwiperClass, SwiperSlide } from "swiper/react";
 
 import STYLE from "./swiper.common.module.scss";
-import "swiper/css";
 
 export interface SwiperProps {
   images: string[];

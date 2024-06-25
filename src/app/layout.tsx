@@ -16,6 +16,9 @@ import "@src/styles/global.css";
 import "@src/styles/reset.css";
 import "@src/styles/skeleton.scss";
 
+import "swiper/css";
+import "swiper/css/effect-cards";
+
 export const metadata: Metadata = {
   title: "treasure-hunter",
   description: "find treasures and get rewards!",
