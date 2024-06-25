@@ -9,13 +9,14 @@ import LocationIcon from "@src/components/icons/LocationIcon";
 import TimerIcon from "@src/components/icons/TimerIcon";
 import { GetTreasureDetailResponse } from "@src/types/api/treasure";
 import Avatar from "@src/components/avatar";
+import SwiperCommonWithModal from "@src/components/swiper/common/SwiperCommonWithModal";
 
 import TreasureDetailHeader from "./_layout/header";
 import TreasureDetailBody from "./_layout/body";
 import TreasureDetailComment from "./_components/comment";
+import TreasureDetailMap from "./_components/map";
 
 import STYLE from "./treasure.detail.module.scss";
-import SwiperCommonWithModal from "@src/components/swiper/common/SwiperCommonWithModal";
 
 export interface TreasureDetailViewProps {
   isLimit: boolean;
@@ -105,7 +106,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
 
             <section className={STYLE.__treasure_detail_common_section}>
               <h3 className={STYLE.__treasure_detail_common_label}>위치</h3>
-              <div className={STYLE.__treasure_detail_map} />
+              <TreasureDetailMap />
             </section>
 
             <section className={STYLE.__treasure_detail_last_section}>

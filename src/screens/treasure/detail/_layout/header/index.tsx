@@ -67,12 +67,16 @@ const TreasureDetailHeader: FC = () => {
         height: LAYOUT_HEADER_HEIGHT,
       }}
     >
-      <button
-        className={STYLE.__layout_header_container_back_button}
-        onClick={onHeaderBackClick}
-      >
-        <CaretIcon width="14px" height="14px" />
-      </button>
+      {userData ? (
+        <button
+          className={STYLE.__layout_header_container_back_button}
+          onClick={onHeaderBackClick}
+        >
+          <CaretIcon width="14px" height="14px" />
+        </button>
+      ) : (
+        <div />
+      )}
 
       {/* opacity 0 ~ 1 */}
       <motion.div

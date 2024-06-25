@@ -14,7 +14,6 @@ import FormInputImage, {
 import FormInputText from "@src/components/form/FormInputText";
 import FormLabel from "@src/components/form/FormLabel";
 import FormTextarea from "@src/components/form/FormTextarea";
-import MapAdd from "@src/components/map/add";
 import { TreasureMap } from "@src/libs/google-map";
 import { ImageInputValue } from "@src/types/image";
 import { Position } from "@src/types/position";
@@ -26,6 +25,8 @@ import scanningImageSrc from "@src/assets/lottie/scanning_image.json";
 import tremblingMarkerSrc from "@src/assets/lottie/trembling_marker.json";
 import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
 import Lottie from "@src/components/lottie";
+
+import TreasureFormMap from "./_components/map";
 
 import STYLE from "./treasure.form.module.scss";
 
@@ -85,7 +86,7 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
 
     <LayoutBody.Common paddingX={step === "1" && !treasure_id ? "0" : "12px"}>
       {!treasure_id && step === "1" ? (
-        <MapAdd onError={onPositionError} onPosition={onPosition} />
+        <TreasureFormMap onError={onPositionError} onPosition={onPosition} />
       ) : (
         <>
           <div className={STYLE.__image_wrapper}>
