@@ -9,6 +9,7 @@ import {
 import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 
 import LayoutBodyCommon from "./LayoutBodyCommon";
+import LayoutBodyRegulatedMaxHeight from "./LayoutBodyRegulatedMaxHeight";
 
 export interface LayoutBodyProps extends PropsWithChildren {
   marginTop?: string;
@@ -17,6 +18,7 @@ export interface LayoutBodyProps extends PropsWithChildren {
 
 interface LayoutBodyComponent extends FC<LayoutBodyProps> {
   Common: typeof LayoutBodyCommon;
+  RegulatedMaxHeight: typeof LayoutBodyRegulatedMaxHeight;
 }
 
 const LayoutBody: LayoutBodyComponent = ({
@@ -42,3 +44,4 @@ const LayoutBody: LayoutBodyComponent = ({
 export default LayoutBody;
 
 LayoutBody.Common = LayoutBodyCommon;
+LayoutBody.RegulatedMaxHeight = LayoutBodyRegulatedMaxHeight;
