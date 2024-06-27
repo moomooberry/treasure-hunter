@@ -1,0 +1,86 @@
+.__map_container {
+  position: relative;
+  height: 100%;
+}
+.__map {
+  height: 100%;
+}
+.__map_option_button_wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+.__map_option_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 4px;
+  padding: 10px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 5px 20px 0 rgba(213, 213, 213, 0.47);
+}
+.__map_lottie_wrapper {
+  margin: -20px 0;
+}
+
+.__map_selected_treasure_container {
+  position: fixed;
+  width: 100vw;
+  padding: 20px 12px;
+  background-color: #fff;
+}
+.__map_selected_treasure_info_box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+.__map_selected_treasure_info {
+  font-size: 14px;
+  line-height: 20px;
+}
+.__map_selected_treasure_reward_wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 2px;
+}
+.__map_selected_treasure_info_reward {
+  font-weight: bold;
+}
+.__map_selected_treasure_info_title {
+  color: #191919;
+  word-break: break-all;
+}
+.__map_selected_treasure_info_description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: #636e72;
+}
+.__map_selected_treasure_swiper_wrapper {
+  position: absolute;
+  right: 24px;
+  bottom: 70px;
+}
+.__map_selected_treasure_image_toggle_button {
+  z-index: 2;
+  position: fixed;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50%;
+}
