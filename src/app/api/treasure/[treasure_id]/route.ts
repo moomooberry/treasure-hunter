@@ -7,6 +7,7 @@ import {
   PostgrestMaybeSingleResponse,
   PostgrestSingleResponse,
 } from "@supabase/supabase-js";
+import dayjs from "dayjs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -103,21 +104,19 @@ export async function DELETE(
     (path) => path.split("?")[0].split("public_image/")[1]
   );
 
-  for (let i = 0; i < imageNameList.length; i++) {
-    const deletedImage = await supabase.storage
-      .from("public_image")
-      .remove(imageNameList);
+  const deletedImage = await supabase.storage
+    .from("public_image")
+    .remove(imageNameList);
 
-    if (deletedImage.error) {
-      console.error("deletedImage.error", deletedImage.error);
-      const result: RequestErrorResponse = {
-        code: 404,
-        message: "deletedImage.error",
-        data: undefined,
-      };
+  if (deletedImage.error) {
+    console.error("deletedImage.error", deletedImage.error);
+    const result: RequestErrorResponse = {
+      code: 404,
+      message: "deletedImage.error",
+      data: undefined,
+    };
 
-      return NextResponse.json(result, { status: 404 });
-    }
+    return NextResponse.json(result, { status: 404 });
   }
 
   const result: RequestResponse<null> = {
@@ -133,9 +132,27 @@ export async function PUT(
   request: NextRequest,
   { params: { treasure_id } }: { params: { treasure_id: string } }
 ) {
-  const newData = (await request.json()) as PutTreasureBody;
+  const { images, ...newData } = (await request.json()) as PutTreasureBody;
 
   const supabase = createSupabaseFromServer();
+
+  const tmpImagePathList: string[] = [];
+  const tmpImageNameList: string[] = [];
+
+  const originImagePathList: string[] = [];
+  const originImageNameList: string[] = [];
+
+  const newImagePathList: string[] = [];
+
+  images.forEach((src) => {
+    if (src.includes("public_image/tmp")) {
+      tmpImagePathList.push(src);
+      tmpImageNameList.push(src.split("?")[0].split("public_image/")[1]);
+    } else {
+      originImagePathList.push(src);
+      originImageNameList.push(src.split("?")[0].split("public_image/")[1]);
+    }
+  });
 
   /* 1. Prev Treasure */
   const prevTreasure = (await supabase
@@ -154,10 +171,45 @@ export async function PUT(
     return NextResponse.json(result, { status: 404 });
   }
 
-  /* 2. Update Treasure */
+  /* 2. Move Treasure Image Tmp */
+  const originNumberList = originImageNameList.map((name) =>
+    Number(name.split("/image_")[1])
+  );
+
+  const originMaxNumber = Math.max(...originNumberList);
+
+  for (let i = 0; i < tmpImageNameList.length; i++) {
+    const newName = `treasure/${treasure_id}/image_${originMaxNumber + 1 + i}`;
+
+    const movedImage = await supabase.storage
+      .from("public_image")
+      .move(tmpImageNameList[i], newName);
+
+    if (movedImage.error) {
+      console.error("movedImage.error", movedImage.error);
+      const result: RequestErrorResponse = {
+        code: 404,
+        message: "movedImage.error",
+        data: undefined,
+      };
+
+      return NextResponse.json(result, { status: 404 });
+    }
+
+    newImagePathList.push(
+      `${
+        process.env.NEXT_PUBLIC_SUPABASE_URL
+      }/storage/v1/object/public/public_image/${newName}?updatedAt=${dayjs().valueOf()}`
+    );
+  }
+
+  /* 3. Update Treasure */
   const updatedTreasure = await supabase
     .from("treasure")
-    .update(newData)
+    .update({
+      images: [...originImagePathList, ...newImagePathList],
+      ...newData,
+    })
     .eq("id", treasure_id);
 
   if (updatedTreasure.error) {
@@ -171,15 +223,15 @@ export async function PUT(
     return NextResponse.json(result, { status: updatedTreasure.status });
   }
 
-  /* 3. Delete Treasure Image */
-  const imageNameList = prevTreasure.data.images
-    .filter((image) => !newData.images.includes(image))
+  /* 4. Delete Treasure Image */
+  const deleteImageNameList = prevTreasure.data.images
+    .filter((image) => !originImagePathList.includes(image))
     .map((path) => path.split("?")[0].split("public_image/")[1]);
 
-  for (let i = 0; i < imageNameList.length; i++) {
+  for (let i = 0; i < deleteImageNameList.length; i++) {
     const deletedImage = await supabase.storage
       .from("public_image")
-      .remove(imageNameList);
+      .remove(deleteImageNameList);
 
     if (deletedImage.error) {
       console.error("deletedImage.error", deletedImage.error);

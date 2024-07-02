@@ -9,6 +9,7 @@ import { GetTreasureListResponse } from "@src/types/api/treasure";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import dayjs from "dayjs";
 import { NextRequest, NextResponse } from "next/server";
+import { v4 } from "uuid";
 
 export const dynamic = "force-dynamic";
 
@@ -97,25 +98,59 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const newData = (await request.json()) as PostTreasureBody;
+  const { images, ...newData } = (await request.json()) as PostTreasureBody;
 
   const supabase = createSupabaseFromServer();
 
+  const id = v4();
+
   const end_date = dayjs().add(7, "day").valueOf();
 
-  const treasure = await supabase
-    .from("treasure")
-    .insert({ ...newData, end_date });
+  const newImages = [];
 
-  if (treasure.error) {
-    console.error("treasure.error", treasure.error);
+  /* 1. Move Treasure Image Tmp */
+  const imageNameList = images.map(
+    (path) => path.split("?")[0].split("public_image/")[1]
+  );
+
+  for (let i = 0; i < imageNameList.length; i++) {
+    const newName = `treasure/${id}/image_${i + 1}`;
+    const movedImage = await supabase.storage
+      .from("public_image")
+      .move(imageNameList[i], newName);
+
+    if (movedImage.error) {
+      console.error("movedImage.error", movedImage.error);
+      const result: RequestErrorResponse = {
+        code: 404,
+        message: "movedImage.error",
+        data: undefined,
+      };
+
+      return NextResponse.json(result, { status: 404 });
+    }
+
+    newImages.push(
+      `${
+        process.env.NEXT_PUBLIC_SUPABASE_URL
+      }/storage/v1/object/public/public_image/${newName}?updatedAt=${dayjs().valueOf()}`
+    );
+  }
+
+  /* 2.Upload Treasure */
+  const uploadedTreasure = await supabase
+    .from("treasure")
+    .insert({ id, end_date, images: newImages, ...newData });
+
+  if (uploadedTreasure.error) {
+    console.error("uploadedTreasure.error", uploadedTreasure.error);
     const result: RequestErrorResponse = {
-      code: treasure.status,
-      message: treasure.error.message,
+      code: uploadedTreasure.status,
+      message: uploadedTreasure.error.message,
       data: undefined,
     };
 
-    return NextResponse.json(result, { status: treasure.status });
+    return NextResponse.json(result, { status: uploadedTreasure.status });
   }
 
   const result: RequestResponse<null> = {
