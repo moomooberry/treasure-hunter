@@ -1,15 +1,14 @@
 import { FC } from "react";
 import classNames from "classnames";
 
-import STYLE from "./form.module.scss";
+import STYLE from "../form.module.scss";
 
 interface FormLabelProps {
   text: string;
   isRequired?: boolean;
   m?: string;
 }
-
-const FormLabel: FC<FormLabelProps> = ({
+const FormTextLabel: FC<FormLabelProps> = ({
   text,
   isRequired,
   m = "0 0 12px 0",
@@ -27,4 +26,4 @@ const FormLabel: FC<FormLabelProps> = ({
   </div>
 );
 
-export default FormLabel;
+export default FormTextLabel;

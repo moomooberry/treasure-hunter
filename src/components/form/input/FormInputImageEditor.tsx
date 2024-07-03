@@ -1,40 +1,42 @@
+"use client";
+
 import { FC, FormEventHandler, useCallback, useState } from "react";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { v4 } from "uuid";
 
-import { ImageInputValue } from "@src/types/image";
-import RedCircleCloseIcon from "@src/components/icons/RedCircleCloseIcon";
 import CameraIcon from "@src/components/icons/CameraIcon";
-import ModalFullScreenLayoutCropper from "@src/components/modal/full_screen/ModalFullScreenLayoutCropper";
-import ModalFullScreenLayoutImage from "@src/components/modal/full_screen/ModalFullScreenLayoutImage";
+import RedCircleCloseIcon from "@src/components/icons/RedCircleCloseIcon";
+import ModalFullScreenLayoutImageCropper from "@src/components/modal/full_screen/ModalFullScreenLayoutImageCropper";
+import ModalFullScreenLayoutImageEditor from "@src/components/modal/full_screen/ModalFullScreenLayoutImageEditor";
+import { ImageInputValue } from "@src/types/image";
 
-import STYLE from "./form.module.scss";
+import STYLE from "../form.module.scss";
 
-export interface FormImageInputError {
+export interface FormInputImageEditorError {
   isMaxLengthError?: boolean;
   isSizeError?: boolean;
 }
 
-interface FormImageInputProps {
+interface FormInputImageEditorProps {
   value: ImageInputValue[];
 
   onChange: (value: ImageInputValue[]) => void;
-  onError?: (value: FormImageInputError) => void;
+  onError?: (value: FormInputImageEditorError) => void;
 
   maxSize?: number; // -> byte
   maxLength?: number;
   paddingX?: string;
 }
 
-const FormInputImage: FC<FormImageInputProps> = ({
+const FormInputImageEditor: FC<FormInputImageEditorProps> = ({
   value,
-
   onChange,
   onError,
 
-  maxLength = 5,
-  paddingX = "12px",
+  maxLength = 10,
   maxSize = 20971520, // -> 20mb
+  paddingX = "12px",
 }) => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
@@ -162,50 +164,53 @@ const FormInputImage: FC<FormImageInputProps> = ({
       className={STYLE.__form_image_container}
       style={{
         marginLeft: `-${paddingX}`,
-        paddingLeft: `${paddingX}`,
-        paddingRight: `${paddingX}`,
       }}
     >
-      <label className={STYLE.__form_image_input_label}>
-        <div className={STYLE.__form_image_input_wrapper}>
-          <CameraIcon color="#b2bec3" />
-          {value.length}/{maxLength}
-        </div>
-        <input
-          className={STYLE.__form_image_input}
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={onImageChange}
-        />
-      </label>
-
-      {value.map((item, index) => (
-        <div key={item.id} className={STYLE.__form_image_box}>
-          <button
-            className={STYLE.__form_image_wrapper_button}
-            onClick={onDeleteClick(index)}
+      <Swiper spaceBetween={12} centeredSlides slidesPerView={1.2}>
+        {value.map((item, index) => (
+          <SwiperSlide
+            key={item.id}
+            className={STYLE.__form_image_slide_container}
           >
-            <RedCircleCloseIcon width="16px" height="16px" />
-          </button>
+            <button
+              className={STYLE.__form_image_slide_delete_button}
+              onClick={onDeleteClick(index)}
+            >
+              <RedCircleCloseIcon width="30px" height="30px" />
+            </button>
 
-          <div
-            className={STYLE.__form_image_wrapper}
-            onClick={openImageModal(index)}
-          >
             <Image
+              onClick={openImageModal(index)}
               src={getImageSrc(item.src)}
-              alt={`image_${index}`}
-              width={60}
-              height={60}
+              alt="form_image"
+              fill
+              style={{
+                objectFit: "cover",
+              }}
             />
-          </div>
-        </div>
-      ))}
+          </SwiperSlide>
+        ))}
+
+        <SwiperSlide>
+          <label className={STYLE.__form_image_slide_label_container}>
+            <div className={STYLE.__form_image_slide_label_content}>
+              <CameraIcon width="40px" height="40px" color="#b2bec3" />
+              {value.length}장 / {maxLength}장
+            </div>
+            <input
+              className={STYLE.__form_image_slide_input}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={onImageChange}
+            />
+          </label>
+        </SwiperSlide>
+      </Swiper>
 
       {typeof imageIndex === "number" && (
         <>
-          <ModalFullScreenLayoutImage
+          <ModalFullScreenLayoutImageEditor
             isOpen={isImageModalOpen}
             onClose={closeImageModal}
             image={getImageSrc(value[imageIndex].src)}
@@ -216,7 +221,7 @@ const FormInputImage: FC<FormImageInputProps> = ({
             }}
           />
 
-          <ModalFullScreenLayoutCropper
+          <ModalFullScreenLayoutImageCropper
             isOpen={isCropperModalOpen}
             onClose={closeCropperModal}
             image={getImageSrc(value[imageIndex].src)}
@@ -229,4 +234,4 @@ const FormInputImage: FC<FormImageInputProps> = ({
   );
 };
 
-export default FormInputImage;
+export default FormInputImageEditor;

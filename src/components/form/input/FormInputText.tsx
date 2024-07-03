@@ -2,26 +2,25 @@
 
 import {
   ChangeEventHandler,
-  FC,
   FormEventHandler,
-  TextareaHTMLAttributes,
+  InputHTMLAttributes,
   forwardRef,
   useCallback,
   useState,
 } from "react";
-
-import STYLE from "./form.module.scss";
 import classNames from "classnames";
 
-interface FormTextareaProps
-  extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "style"> {
+import STYLE from "../form.module.scss";
+
+interface FormInputTextProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "style" | "type"> {
   maxLength?: number;
   showMaxLength?: boolean;
   isError?: boolean;
   m?: string;
 }
 
-const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
+const FormInputText = forwardRef<HTMLInputElement, FormInputTextProps>(
   (
     {
       maxLength,
@@ -36,7 +35,7 @@ const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
   ) => {
     const [length, setLength] = useState<number>(0);
 
-    const onTextChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
+    const onTextChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
       (event) => {
         const { value } = event.currentTarget;
         setLength(value.length);
@@ -45,7 +44,7 @@ const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
       [onChange]
     );
 
-    const onTextInput = useCallback<FormEventHandler<HTMLTextAreaElement>>(
+    const onTextInput = useCallback<FormEventHandler<HTMLInputElement>>(
       (event) => {
         const { value } = event.currentTarget;
         if (maxLength && value.length >= maxLength) {
@@ -62,15 +61,14 @@ const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
           margin: m,
         }}
       >
-        <textarea
+        <input
           ref={ref}
           className={classNames({
-            [STYLE.__form_height_300]: true,
             [STYLE.__form_input]: true,
             [STYLE.__form_input_error]: isError,
           })}
-          onChange={onTextChange}
           onInput={onTextInput}
+          onChange={onTextChange}
           maxLength={maxLength}
           {...rest}
         />
@@ -89,6 +87,6 @@ const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
   }
 );
 
-export default FormTextarea;
+export default FormInputText;
 
-FormTextarea.displayName = "FormTextarea";
+FormInputText.displayName = "FormInputText";
