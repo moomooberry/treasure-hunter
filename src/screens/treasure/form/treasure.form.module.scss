@@ -1,9 +1,41 @@
-.__image_wrapper {
-  margin-bottom: 20px;
+.__form_swiper_container {
+  height: 100%;
+}
+.__form_swiper_slide_container {
+  background-color: #fff;
+}
+
+.__form_map {
+  width: 100vw;
+  height: 100%;
+}
+.__form_map_modal_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.__form_map_modal_lottie_wrapper {
+  margin: -20px 0 0 0;
+}
+.__form_map_modal_error_wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+.__form_map_modal_error {
+  font-weight: 600;
+  text-align: center;
+  word-break: keep-all;
+  line-height: 20px;
+}
+
+.__slide_container {
+  padding: 20px 12px;
 }
 
 .__label_wrapper {
   margin-bottom: 12px;
+  transition: color 3s;
 }
 
 .__check_modal_wrapper {
