@@ -3,7 +3,7 @@
 import { FC, MouseEventHandler } from "react";
 import { motion, Variants } from "framer-motion";
 
-import STYLE from "./user.main.list.module.scss";
+import STYLE from "../../user.main.module.scss";
 
 interface UserMainListItemProps {
   text: string;

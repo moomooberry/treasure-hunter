@@ -6,7 +6,7 @@ import { Variants, motion } from "framer-motion";
 
 import UserMainListItem from "./UserMainListItem";
 
-import STYLE from "./user.main.list.module.scss";
+import STYLE from "../../user.main.module.scss";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
