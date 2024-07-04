@@ -7,7 +7,7 @@ import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import TimerLimit from "@src/components/timer/TimerLimit";
 import { GetTreasureListResponse } from "@src/types/api/treasure";
 
-import STYLE from "./treasure.main.list.module.scss";
+import STYLE from "../../treasure.main.module.scss";
 
 interface TreasureMainListItemProps {
   currentTime: number;
