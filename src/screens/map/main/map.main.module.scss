@@ -1,3 +1,5 @@
+@use "/src/styles/skeleton.scss" as skeleton;
+
 .__map_container {
   position: relative;
   height: 100%;
@@ -83,4 +85,9 @@
   align-items: center;
   background-color: #fff;
   border-radius: 50%;
+}
+
+.__map_skeleton {
+  @include skeleton.skeleton_mixin;
+  height: 100%;
 }

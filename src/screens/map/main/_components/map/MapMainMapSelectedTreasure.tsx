@@ -15,7 +15,7 @@ import TimerLimit from "@src/components/timer/TimerLimit";
 import CaretIcon from "@src/components/icons/CaretIcon";
 import Button from "@src/components/button";
 
-import STYLE from "./map.main.map.module.scss";
+import STYLE from "../../map.main.module.scss";
 
 interface MapMainMapSelectedTreasureProps {
   data: GetTreasureListResponse;

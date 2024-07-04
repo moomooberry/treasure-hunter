@@ -21,7 +21,7 @@ import emptyBoxJson from "@src/assets/lottie/empty_box.json";
 
 import MapMainMapSelectedTreasure from "./MapMainMapSelectedTreasure";
 
-import STYLE from "./map.main.map.module.scss";
+import STYLE from "../../map.main.module.scss";
 
 const MapMainMap: FC = () => {
   const { push } = useRouter();
