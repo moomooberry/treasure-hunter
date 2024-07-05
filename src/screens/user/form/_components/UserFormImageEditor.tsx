@@ -10,9 +10,9 @@ import { ImageInputValue } from "@src/types/image";
 import anonymousImgSrc from "@src/assets/webp/anonymous_512_512.webp";
 import ScissorIcon from "@src/components/icons/ScissorIcon";
 import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
-import ModalFullScreenLayoutCropper from "@src/components/modal/full_screen/ModalFullScreenLayoutCropper";
+import ModalFullScreenLayoutImageCropper from "@src/components/modal/full_screen/ModalFullScreenLayoutImageCropper";
 
-import STYLE from "./user.form.image.input.module.scss";
+import STYLE from "../user.form.module.scss";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -50,13 +50,13 @@ function getImageUrl(value: string | File) {
   return typeof value === "string" ? value : URL.createObjectURL(value);
 }
 
-interface UserFormImageInputProps {
+interface UserFormImageEditorProps {
   value: ImageInputValue | null;
   onChange: (value: ImageInputValue | null) => void;
   maxSize?: number;
 }
 
-const UserFormImageInput: FC<UserFormImageInputProps> = ({
+const UserFormImageEditor: FC<UserFormImageEditorProps> = ({
   value,
   onChange,
   maxSize = 20971520, // -> 20mb
@@ -196,7 +196,7 @@ const UserFormImageInput: FC<UserFormImageInputProps> = ({
       />
 
       {value && (
-        <ModalFullScreenLayoutCropper
+        <ModalFullScreenLayoutImageCropper
           isOpen={isCropModalOpen}
           onClose={closeCropModal}
           image={getImageUrl(value.src)}
@@ -207,4 +207,4 @@ const UserFormImageInput: FC<UserFormImageInputProps> = ({
   );
 };
 
-export default UserFormImageInput;
+export default UserFormImageEditor;
