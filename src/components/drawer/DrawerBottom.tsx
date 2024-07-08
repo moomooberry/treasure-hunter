@@ -2,7 +2,8 @@
 
 import { FC, PropsWithChildren } from "react";
 import { Sheet } from "react-modal-sheet";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
+
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 import STYLE from "./drawer.module.scss";
 
@@ -25,7 +26,9 @@ const DrawerBottom: FC<PropsWithChildren<DrawerBottomProps>> = ({
 
   children,
 }) => {
-  const bottom = useReduxSelector((state) => state.reduxDevice.device.bottom);
+  const {
+    device: { bottom },
+  } = useZustandDeviceStore();
 
   return (
     <Sheet

@@ -1,27 +1,30 @@
 "use client";
 
-import { FC, PropsWithChildren, useEffect, useState } from "react";
+import { FC, PropsWithChildren, createContext, useRef } from "react";
+import { StoreApi } from "zustand";
+
+import {
+  ZustandDevice,
+  createZustandDevice,
+} from "@src/libs/zustand/modules/device";
 import { Device } from "@src/types/device";
-import useReduxDispatch from "@src/hooks/redux/useReduxDispatch";
-import { setReduxDevice } from "@src/libs/redux/modules/device";
+
+export const DeviceStoreContext = createContext<StoreApi<ZustandDevice> | null>(
+  null
+);
 
 interface DeviceProviderProps extends PropsWithChildren {
   device: Device;
 }
 
 const DeviceProvider: FC<DeviceProviderProps> = ({ device, children }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const value = useRef(createZustandDevice(device)).current;
 
-  const dispatch = useReduxDispatch();
-
-  useEffect(() => {
-    dispatch(setReduxDevice({ device }));
-    setIsLoading(false);
-  }, [device, dispatch]);
-
-  if (isLoading) return null;
-
-  return children;
+  return (
+    <DeviceStoreContext.Provider value={value}>
+      {children}
+    </DeviceStoreContext.Provider>
+  );
 };
 
 export default DeviceProvider;

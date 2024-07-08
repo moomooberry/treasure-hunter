@@ -6,7 +6,7 @@ import {
   LAYOUT_FOOTER_HEIGHT,
   LAYOUT_HEADER_HEIGHT,
 } from "@src/constants/layout";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 import LayoutBodyCommon from "./LayoutBodyCommon";
 import LayoutBodyRegulatedMaxHeight from "./LayoutBodyRegulatedMaxHeight";
@@ -26,7 +26,9 @@ const LayoutBody: LayoutBodyComponent = ({
   marginTop,
   marginBottom,
 }) => {
-  const { top, bottom } = useReduxSelector((state) => state.reduxDevice.device);
+  const {
+    device: { top, bottom },
+  } = useZustandDeviceStore();
 
   return (
     <div

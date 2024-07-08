@@ -18,10 +18,10 @@ import CloseIcon from "@src/components/icons/CloseIcon";
 import LayoutBody from "@src/components/layout/body";
 import LayoutFooter from "@src/components/layout/footer";
 import LayoutHeader from "@src/components/layout/header";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import { TreasureMap } from "@src/libs/google-map";
+import useZustandPositionStore from "@src/hooks/zustand/useZustandPositionStore";
 
 import STYLE from "./treasure.detail.map.module.scss";
 
@@ -36,7 +36,7 @@ const TreasureDetailMapModalFullScreenLayout: FC<
 
   const [treasureMap, setTreasureMap] = useState<TreasureMap>();
 
-  const position = useReduxSelector((state) => state.reduxPosition.position);
+  const { position } = useZustandPositionStore();
 
   const { treasure_id } = useParams();
 

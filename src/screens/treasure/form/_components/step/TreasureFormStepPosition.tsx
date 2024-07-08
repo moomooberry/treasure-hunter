@@ -6,10 +6,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import { TreasureMap } from "@src/libs/google-map";
 import { Position } from "@src/types/position";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
 import { TreasureFormFields } from "@src/screens/treasure/form/TreasureFormView";
+import useZustandPositionStore from "@src/hooks/zustand/useZustandPositionStore";
 
 import STYLE from "@src/screens/treasure/form/treasure.form.module.scss";
 
@@ -22,7 +22,7 @@ const TreasureFormStepPosition: FC<TreasureFormStepPositionProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  const position = useReduxSelector((state) => state.reduxPosition.position);
+  const { position } = useZustandPositionStore();
 
   const { data } = useQuery({
     queryKey: [API_GET_USER_KEY],

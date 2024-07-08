@@ -1,20 +1,22 @@
 "use client";
 
-import getTreasureCommentReplyList from "@src/api/treasure/comment/getTreasureCommentReplyList";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
-import { API_GET_TREASURE_COMMENT_REPLY_LIST_KEY } from "@src/libs/fetch/key/treasure/comment";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 import { FC, useCallback } from "react";
 import { useFormContext } from "react-hook-form";
-import { TreasureDetailCommentFormFields } from "..";
-import TreasureDetailCommentListItem from "./item";
+import { motion } from "framer-motion";
+import { useParams } from "next/navigation";
+import { useInfiniteQuery } from "@tanstack/react-query";
+
+import getTreasureCommentReplyList from "@src/api/treasure/comment/getTreasureCommentReplyList";
+import { API_GET_TREASURE_COMMENT_REPLY_LIST_KEY } from "@src/libs/fetch/key/treasure/comment";
 import Observer from "@src/components/observer";
 import Lottie from "@src/components/lottie";
 import loadingLottieSrc from "@src/assets/lottie/loading.json";
-import { motion } from "framer-motion";
 import ControllerContent from "@src/components/controller/ControllerContent";
 import DrawerBottom from "@src/components/drawer/DrawerBottom";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
+
+import { TreasureDetailCommentFormFields } from "..";
+import TreasureDetailCommentListItem from "./item";
 
 import STYLE from "./treasure.detail.comment.list.module.scss";
 
@@ -23,9 +25,9 @@ const TreasureDetailCommentListDrawer: FC = () => {
 
   const parentComment = watch("parentComment");
 
-  const paddingBottom = useReduxSelector(
-    (state) => state.reduxDevice.device.bottom
-  );
+  const {
+    device: { bottom: paddingBottom },
+  } = useZustandDeviceStore();
 
   const { treasure_id } = useParams();
 

@@ -2,19 +2,22 @@
 
 import { FC } from "react";
 
-import LayoutBody, { LayoutBodyProps } from ".";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import {
   LAYOUT_FOOTER_HEIGHT,
   LAYOUT_HEADER_HEIGHT,
 } from "@src/constants/layout";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
+
+import LayoutBody, { LayoutBodyProps } from ".";
 
 const LayoutBodyRegulatedMaxHeight: FC<LayoutBodyProps> = ({
   children,
   marginBottom,
   marginTop,
 }) => {
-  const { top, bottom } = useReduxSelector((state) => state.reduxDevice.device);
+  const {
+    device: { top, bottom },
+  } = useZustandDeviceStore();
 
   return (
     <LayoutBody marginBottom={marginBottom} marginTop={marginTop}>

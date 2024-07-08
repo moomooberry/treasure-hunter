@@ -4,8 +4,8 @@ import { FC, useEffect, useState } from "react";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { useAnimate } from "framer-motion";
 
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { LAYOUT_HEADER_HEIGHT } from "@src/constants/layout";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 import { TreasureFormFields } from "../TreasureFormView";
 
@@ -21,7 +21,9 @@ const textList = [
 const TreasureFormGuide: FC<TreasureFormGuideProps> = ({
   formMethods: { control },
 }) => {
-  const top = useReduxSelector((state) => state.reduxDevice.device.top);
+  const {
+    device: { top },
+  } = useZustandDeviceStore();
 
   const slideIndex = useWatch({ control, name: "slideIndex" });
 

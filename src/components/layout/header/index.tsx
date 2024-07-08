@@ -3,8 +3,8 @@
 import { FC, PropsWithChildren } from "react";
 import classNames from "classnames";
 
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { LAYOUT_HEADER_HEIGHT } from "@src/constants/layout";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 import LayoutHeaderCommon from "./LayoutHeaderCommon";
 import LayoutHeaderOptionMaxSizeButton from "./option/LayoutHeaderOptionMaxSizeButton";
@@ -30,7 +30,9 @@ const LayoutHeader: LayoutHeaderComponent = ({
   backgroundColor = "#fff",
   shadowDisabled = false,
 }) => {
-  const paddingTop = useReduxSelector((state) => state.reduxDevice.device.top);
+  const {
+    device: { top: paddingTop },
+  } = useZustandDeviceStore();
 
   return (
     <header

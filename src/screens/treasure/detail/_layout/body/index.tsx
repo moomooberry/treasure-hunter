@@ -1,14 +1,17 @@
 "use client";
 
 import { FC, PropsWithChildren } from "react";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
-import LayoutBody from "@src/components/layout/body";
 import { useQuery } from "@tanstack/react-query";
+
+import LayoutBody from "@src/components/layout/body";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 const TreasureDetailBody: FC<PropsWithChildren> = ({ children }) => {
-  const bottom = useReduxSelector((state) => state.reduxDevice.device.bottom);
+  const {
+    device: { bottom },
+  } = useZustandDeviceStore();
 
   const { data } = useQuery({
     queryKey: [API_GET_USER_KEY],

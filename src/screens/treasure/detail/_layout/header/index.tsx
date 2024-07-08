@@ -4,7 +4,7 @@ import { FC, useCallback, useMemo } from "react";
 import { useScroll, useTransform } from "framer-motion";
 import { motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
+
 import CaretIcon from "@src/components/icons/CaretIcon";
 import { LAYOUT_HEADER_HEIGHT } from "@src/constants/layout";
 import { useQuery } from "@tanstack/react-query";
@@ -12,9 +12,11 @@ import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import getTreasure from "@src/api/treasure/getTreasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
+
+import TreasureDetailHeaderOption from "./option/index";
 
 import STYLE from "./treasure.detail.header.module.scss";
-import TreasureDetailHeaderOption from "./option/inedx";
 
 const SCROLL_THRESHOLD = 300;
 
@@ -23,7 +25,9 @@ const TreasureDetailHeader: FC = () => {
 
   const { treasure_id } = useParams();
 
-  const paddingTop = useReduxSelector((state) => state.reduxDevice.device.top);
+  const {
+    device: { top: paddingTop },
+  } = useZustandDeviceStore();
 
   const { scrollY } = useScroll();
 

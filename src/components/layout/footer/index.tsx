@@ -3,8 +3,8 @@
 import { FC, PropsWithChildren } from "react";
 import classNames from "classnames";
 
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { LAYOUT_FOOTER_HEIGHT } from "@src/constants/layout";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 import LayoutFooterCommon from "./LayoutFooterCommon";
 import LayoutFooterMaxWidthButton from "./LayoutFooterMaxWidthButton";
@@ -28,9 +28,9 @@ const LayoutFooter: LayoutFooterComponent = ({
   disabledShadow = false,
   backgroundColor = "#fff",
 }) => {
-  const paddingBottom = useReduxSelector(
-    (state) => state.reduxDevice.device.bottom
-  );
+  const {
+    device: { bottom: paddingBottom },
+  } = useZustandDeviceStore();
 
   return (
     <div

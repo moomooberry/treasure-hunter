@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import StoreProvider from "./StoreProvider";
 import PositionProvider from "./PositionProvider";
 import QueryProvider from "./QueryProvider";
 import { cookies } from "next/headers";
@@ -18,6 +17,7 @@ import "@src/styles/skeleton.scss";
 
 import "swiper/css";
 import "swiper/css/effect-cards";
+import "swiper/css/effect-fade";
 
 export const metadata: Metadata = {
   title: "treasure-hunter",
@@ -42,17 +42,15 @@ const RootLayout = ({
   };
 
   return (
-    <StoreProvider>
-      <html lang="ko">
-        <body>
-          <QueryProvider>
-            <PositionProvider>
-              <DeviceProvider device={device}>{children}</DeviceProvider>
-            </PositionProvider>
-          </QueryProvider>
-        </body>
-      </html>
-    </StoreProvider>
+    <html lang="ko">
+      <body>
+        <QueryProvider>
+          <PositionProvider>
+            <DeviceProvider device={device}>{children}</DeviceProvider>
+          </PositionProvider>
+        </QueryProvider>
+      </body>
+    </html>
   );
 };
 

@@ -1,21 +1,23 @@
 "use client";
 
 import { FC, useCallback } from "react";
-import EmptyIcon from "../icons/EmptyIcon";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
+import { ErrorComponent } from "next/dist/client/components/error-boundary";
+
 import {
   LAYOUT_FOOTER_HEIGHT,
   LAYOUT_HEADER_HEIGHT,
 } from "@src/constants/layout";
-import { ErrorComponent } from "next/dist/client/components/error-boundary";
+import EmptyIcon from "../icons/EmptyIcon";
 import ErrorIcon from "../icons/ErrorIcon";
 import ResetIcon from "../icons/ResetIcon";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 import STYLE from "./controller.module.scss";
 
 export const ControllerErrorPage: ErrorComponent = ({ error, reset }) => {
-  const top = useReduxSelector((state) => state.reduxDevice.device.top);
-  const bottom = useReduxSelector((state) => state.reduxDevice.device.bottom);
+  const {
+    device: { top, bottom },
+  } = useZustandDeviceStore();
 
   const onResetClick = useCallback(() => {
     reset();
@@ -50,8 +52,9 @@ export const ControllerErrorPage: ErrorComponent = ({ error, reset }) => {
 };
 
 const ControllerEmptyPage: FC<{ text: string }> = ({ text }) => {
-  const top = useReduxSelector((state) => state.reduxDevice.device.top);
-  const bottom = useReduxSelector((state) => state.reduxDevice.device.bottom);
+  const {
+    device: { top, bottom },
+  } = useZustandDeviceStore();
 
   return (
     <div

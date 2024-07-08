@@ -8,7 +8,6 @@ import dayjs from "dayjs";
 
 import { GetTreasureListResponse } from "@src/types/api/treasure";
 import SwiperCard from "@src/components/swiper/card";
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { LAYOUT_FOOTER_HEIGHT } from "@src/constants/layout";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import TimerLimit from "@src/components/timer/TimerLimit";
@@ -16,6 +15,7 @@ import CaretIcon from "@src/components/icons/CaretIcon";
 import Button from "@src/components/button";
 
 import STYLE from "../../map.main.module.scss";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 interface MapMainMapSelectedTreasureProps {
   data: GetTreasureListResponse;
@@ -28,7 +28,9 @@ const MapMainMapSelectedTreasure: FC<MapMainMapSelectedTreasureProps> = ({
 
   const [isImageOpen, setIsImageOpen] = useState(true);
 
-  const bottom = useReduxSelector((state) => state.reduxDevice.device.bottom);
+  const {
+    device: { bottom },
+  } = useZustandDeviceStore();
 
   const currentTime = useMemo(() => dayjs().valueOf(), []);
 

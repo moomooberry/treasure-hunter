@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { TreasureMap } from "@src/libs/google-map";
 import { API_GET_TREASURE_LIST_KEY } from "@src/libs/fetch/key/treasure";
 import getTreasureList from "@src/api/treasure/getTreasureList";
@@ -18,6 +17,7 @@ import ThunderIcon from "@src/components/icons/ThunderIcon";
 import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
 import Lottie from "@src/components/lottie";
 import emptyBoxJson from "@src/assets/lottie/empty_box.json";
+import useZustandPositionStore from "@src/hooks/zustand/useZustandPositionStore";
 
 import MapMainMapSelectedTreasure from "./MapMainMapSelectedTreasure";
 
@@ -33,7 +33,7 @@ const MapMainMap: FC = () => {
     dataIndex: 0,
   });
 
-  const position = useReduxSelector((state) => state.reduxPosition.position);
+  const { position } = useZustandPositionStore();
 
   const [treasureMap, setTreasureMap] = useState<TreasureMap>();
 

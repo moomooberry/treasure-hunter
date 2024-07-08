@@ -14,7 +14,6 @@ import { useParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import useReduxSelector from "@src/hooks/redux/useReduxSelector";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import getTreasure from "@src/api/treasure/getTreasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
@@ -26,6 +25,7 @@ import {
   API_GET_TREASURE_COMMENT_REPLY_LIST_KEY,
 } from "@src/libs/fetch/key/treasure/comment";
 import Avatar from "@src/components/avatar";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 import { TreasureDetailCommentFormFields } from "..";
 
@@ -43,9 +43,9 @@ const TreasureDetailCommentInput: FC = () => {
 
   useImperativeHandle(ref, () => textareaRef.current);
 
-  const paddingBottom = useReduxSelector(
-    (state) => state.reduxDevice.device.bottom
-  );
+  const {
+    device: { bottom: paddingBottom },
+  } = useZustandDeviceStore();
 
   const [isOverThreshold, setIsOverThresHold] = useState(false);
 

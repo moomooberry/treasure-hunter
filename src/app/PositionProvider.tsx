@@ -1,20 +1,25 @@
 "use client";
 
-import { FC, PropsWithChildren, useEffect, useState } from "react";
-import useReduxDispatch from "@src/hooks/redux/useReduxDispatch";
-import { setReduxPosition } from "@src/libs/redux/modules/position";
+import { FC, PropsWithChildren, createContext, useEffect, useRef } from "react";
+import { StoreApi } from "zustand";
 
-const PositionProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
+import {
+  ZustandPosition,
+  createZustandPosition,
+} from "@src/libs/zustand/modules/position";
+import useZustandPositionStore from "@src/hooks/zustand/useZustandPositionStore";
 
-  const dispatch = useReduxDispatch();
+export const PositionStoreContext =
+  createContext<StoreApi<ZustandPosition> | null>(null);
+
+const PositionController: FC<PropsWithChildren> = ({ children }) => {
+  const { setPosition } = useZustandPositionStore();
 
   useEffect(() => {
     const id = navigator.geolocation.watchPosition(
       ({ coords: { latitude, longitude } }) => {
         const position = { lat: latitude, lng: longitude };
-        setIsLoading(false);
-        dispatch(setReduxPosition({ position }));
+        setPosition(position);
       },
       (e) => {
         // TODO bridge로 권한 받기
@@ -29,11 +34,19 @@ const PositionProvider: FC<PropsWithChildren> = ({ children }) => {
     return () => {
       navigator.geolocation.clearWatch(id);
     };
-  }, [dispatch]);
-
-  if (isLoading) return <div>loading...</div>;
+  }, [setPosition]);
 
   return children;
+};
+
+const PositionProvider: FC<PropsWithChildren> = ({ children }) => {
+  const value = useRef(createZustandPosition()).current;
+
+  return (
+    <PositionStoreContext.Provider value={value}>
+      <PositionController>{children}</PositionController>
+    </PositionStoreContext.Provider>
+  );
 };
 
 export default PositionProvider;
