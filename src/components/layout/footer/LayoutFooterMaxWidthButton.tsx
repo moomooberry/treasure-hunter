@@ -2,13 +2,15 @@
 
 import { FC } from "react";
 
-import Button, { ButtonProps } from "@src/components/button";
+import Button, { ButtonProps } from "@src/components/button/Button";
 
-import LayoutFooter, { LayoutFooterProps } from ".";
+import LayoutFooterContainer, {
+  LayoutFooterContainerProps,
+} from "./_components/LayoutFooterContainer";
 
 import STYLE from "./layout.footer.module.scss";
 
-type LayoutFooterMaxWidthButtonProps = LayoutFooterProps &
+type LayoutFooterMaxWidthButtonProps = LayoutFooterContainerProps &
   Omit<ButtonProps, "width" | "height">;
 
 const LayoutFooterMaxWidthButton: FC<LayoutFooterMaxWidthButtonProps> = ({
@@ -17,7 +19,7 @@ const LayoutFooterMaxWidthButton: FC<LayoutFooterMaxWidthButtonProps> = ({
   backgroundColor = "transparent",
   ...rest
 }) => (
-  <LayoutFooter
+  <LayoutFooterContainer
     disabledShadow={disabledShadow}
     backgroundColor={backgroundColor}
   >
@@ -26,7 +28,7 @@ const LayoutFooterMaxWidthButton: FC<LayoutFooterMaxWidthButtonProps> = ({
         {children}
       </Button>
     </div>
-  </LayoutFooter>
+  </LayoutFooterContainer>
 );
 
 export default LayoutFooterMaxWidthButton;

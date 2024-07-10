@@ -8,9 +8,11 @@ import {
 } from "@src/constants/layout";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
-import LayoutBody, { LayoutBodyProps } from ".";
+import LayoutBodyContainer, {
+  LayoutBodyContainerProps,
+} from "./_components/LayoutBodyContainer";
 
-const LayoutBodyRegulatedMaxHeight: FC<LayoutBodyProps> = ({
+const LayoutBodyRegulatedMaxHeight: FC<LayoutBodyContainerProps> = ({
   children,
   marginBottom,
   marginTop,
@@ -20,7 +22,7 @@ const LayoutBodyRegulatedMaxHeight: FC<LayoutBodyProps> = ({
   } = useZustandDeviceStore();
 
   return (
-    <LayoutBody marginBottom={marginBottom} marginTop={marginTop}>
+    <LayoutBodyContainer marginBottom={marginBottom} marginTop={marginTop}>
       <div
         style={{
           height: `calc(100vh - ${`${
@@ -32,7 +34,7 @@ const LayoutBodyRegulatedMaxHeight: FC<LayoutBodyProps> = ({
       >
         {children}
       </div>
-    </LayoutBody>
+    </LayoutBodyContainer>
   );
 };
 

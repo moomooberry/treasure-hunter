@@ -1,0 +1,35 @@
+.__swiper_card_slide_wrapper {
+  position: relative;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+.__swiper_image_container {
+  position: relative;
+}
+.__swiper_image_slide_layout {
+  position: relative;
+  width: 100vw;
+}
+.__swiper_image_count_box {
+  z-index: 2;
+  position: absolute;
+  bottom: 10px;
+  width: 100vw;
+  height: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 4px;
+  color: #fff;
+}
+.__swiper_image_count_dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: scale 0.1s;
+}
+.__swiper_image_count_dot_active {
+  scale: 1.5;
+}

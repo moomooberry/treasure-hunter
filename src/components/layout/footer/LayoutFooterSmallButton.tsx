@@ -2,13 +2,16 @@
 
 import { FC } from "react";
 
-import Button, { ButtonProps } from "@src/components/button";
+import Button from "@src/components/button/Button";
+import { ButtonProps } from "@src/components/button/Button";
 
-import LayoutFooter, { LayoutFooterProps } from ".";
+import LayoutFooterContainer, {
+  LayoutFooterContainerProps,
+} from "./_components/LayoutFooterContainer";
 
 import STYLE from "./layout.footer.module.scss";
 
-type LayoutFooterSmallButtonProps = LayoutFooterProps &
+type LayoutFooterSmallButtonProps = LayoutFooterContainerProps &
   Omit<ButtonProps, "width" | "height">;
 
 const LayoutFooterSmallButton: FC<LayoutFooterSmallButtonProps> = ({
@@ -17,7 +20,7 @@ const LayoutFooterSmallButton: FC<LayoutFooterSmallButtonProps> = ({
   backgroundColor = "transparent",
   ...rest
 }) => (
-  <LayoutFooter
+  <LayoutFooterContainer
     disabledShadow={disabledShadow}
     backgroundColor={backgroundColor}
   >
@@ -26,7 +29,7 @@ const LayoutFooterSmallButton: FC<LayoutFooterSmallButtonProps> = ({
         {children}
       </Button>
     </div>
-  </LayoutFooter>
+  </LayoutFooterContainer>
 );
 
 export default LayoutFooterSmallButton;

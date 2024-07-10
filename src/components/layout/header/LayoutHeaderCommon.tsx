@@ -6,11 +6,14 @@ import { useRouter } from "next/navigation";
 import CaretIcon from "@src/components/icons/CaretIcon";
 import { LAYOUT_HEADER_HEIGHT } from "@src/constants/layout";
 
-import LayoutHeader, { LayoutHeaderProps } from ".";
+import LayoutHeaderContainer, {
+  LayoutHeaderContainerProps,
+} from "./_components/LayoutHeaderContainer";
 
 import STYLE from "./layout.header.module.scss";
 
-interface LayoutHeaderCommonProps extends Omit<LayoutHeaderProps, "children"> {
+interface LayoutHeaderCommonProps
+  extends Omit<LayoutHeaderContainerProps, "children"> {
   title?: string;
   backDisabled?: boolean;
   onBackClick?: MouseEventHandler<HTMLButtonElement>;
@@ -39,7 +42,7 @@ const LayoutHeaderCommon: FC<LayoutHeaderCommonProps> = ({
   );
 
   return (
-    <LayoutHeader
+    <LayoutHeaderContainer
       backgroundColor={backgroundColor}
       shadowDisabled={shadowDisabled}
     >
@@ -69,7 +72,7 @@ const LayoutHeaderCommon: FC<LayoutHeaderCommonProps> = ({
           }}
         />
       )}
-    </LayoutHeader>
+    </LayoutHeaderContainer>
   );
 };
 

@@ -9,13 +9,15 @@ import ChestIcon from "@src/components/icons/ChestIcon";
 import LocationIcon from "@src/components/icons/LocationIcon";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
-import Avatar from "@src/components/avatar";
+import Avatar from "@src/components/avatar/Avatar";
 
-import LayoutFooter, { LayoutFooterProps } from ".";
+import LayoutFooterContainer, {
+  LayoutFooterContainerProps,
+} from "./_components/LayoutFooterContainer";
 
 import STYLE from "./layout.footer.module.scss";
 
-type LayoutFooterCommonProps = Omit<LayoutFooterProps, "children">;
+type LayoutFooterCommonProps = Omit<LayoutFooterContainerProps, "children">;
 
 const LayoutFooterCommon: FC<LayoutFooterCommonProps> = ({
   backgroundColor = "#fff",
@@ -43,7 +45,7 @@ const LayoutFooterCommon: FC<LayoutFooterCommonProps> = ({
   }, [push]);
 
   return (
-    <LayoutFooter
+    <LayoutFooterContainer
       backgroundColor={backgroundColor}
       disabledShadow={disabledShadow}
     >
@@ -89,7 +91,7 @@ const LayoutFooterCommon: FC<LayoutFooterCommonProps> = ({
           </button>
         )}
       </div>
-    </LayoutFooter>
+    </LayoutFooterContainer>
   );
 };
 

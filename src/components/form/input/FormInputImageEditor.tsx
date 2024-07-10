@@ -5,11 +5,11 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { v4 } from "uuid";
 
+import ModalFullScreenPhotoEditor from "@src/components/modal/ModalFullScreenPhotoEditor";
+import ModalFullScreenPhotoCropper from "@src/components/modal/ModalFullScreenPhotoCropper";
 import CameraIcon from "@src/components/icons/CameraIcon";
 import RedCircleCloseIcon from "@src/components/icons/RedCircleCloseIcon";
-import ModalFullScreenLayoutImageCropper from "@src/components/modal/full_screen/ModalFullScreenLayoutImageCropper";
-import ModalFullScreenLayoutImageEditor from "@src/components/modal/full_screen/ModalFullScreenLayoutImageEditor";
-import { ImageInputValue } from "@src/types/image";
+import type { ImageInputValue } from "@src/types/image";
 
 import STYLE from "../form.module.scss";
 
@@ -210,7 +210,7 @@ const FormInputImageEditor: FC<FormInputImageEditorProps> = ({
 
       {typeof imageIndex === "number" && (
         <>
-          <ModalFullScreenLayoutImageEditor
+          <ModalFullScreenPhotoEditor
             isOpen={isImageModalOpen}
             onClose={closeImageModal}
             image={getImageSrc(value[imageIndex].src)}
@@ -221,7 +221,7 @@ const FormInputImageEditor: FC<FormInputImageEditorProps> = ({
             }}
           />
 
-          <ModalFullScreenLayoutImageCropper
+          <ModalFullScreenPhotoCropper
             isOpen={isCropperModalOpen}
             onClose={closeCropperModal}
             image={getImageSrc(value[imageIndex].src)}
