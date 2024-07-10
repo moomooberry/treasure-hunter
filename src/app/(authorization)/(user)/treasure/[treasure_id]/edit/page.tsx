@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+
 import TreasureFormFallback from "@src/screens/treasure/form/TreasureFormFallback";
 import TreasureFormFetcher from "@src/screens/treasure/form/TreasureFormFetcher";
 

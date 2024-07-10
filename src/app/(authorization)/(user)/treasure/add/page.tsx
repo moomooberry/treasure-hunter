@@ -1,10 +1,11 @@
 import { Suspense } from "react";
-import TreasureFormController from "@src/screens/treasure/form/TreasureFormController";
+
 import TreasureFormFallback from "@src/screens/treasure/form/TreasureFormFallback";
+import TreasureFormFetcher from "@src/screens/treasure/form/TreasureFormFetcher";
 
 const TreasureAddPage = () => (
   <Suspense fallback={<TreasureFormFallback />}>
-    <TreasureFormController />
+    <TreasureFormFetcher />
   </Suspense>
 );
 
