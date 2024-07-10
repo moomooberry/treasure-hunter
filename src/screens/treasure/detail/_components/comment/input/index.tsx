@@ -24,7 +24,7 @@ import {
   API_GET_TREASURE_COMMENT_LIST_KEY,
   API_GET_TREASURE_COMMENT_REPLY_LIST_KEY,
 } from "@src/libs/fetch/key/treasure/comment";
-import Avatar from "@src/components/avatar";
+import Avatar from "@src/components/avatar/Avatar";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 import { TreasureDetailCommentFormFields } from "..";

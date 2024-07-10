@@ -3,11 +3,12 @@
 import { FC, MouseEventHandler } from "react";
 import dynamic from "next/dynamic";
 
-import { Position } from "@src/types/position";
+import LayoutFooterCommon from "@src/components/layout/footer/LayoutFooterCommon";
+import LayoutBodyCommon from "@src/components/layout/body/LayoutBodyCommon";
+import LayoutHeaderCommon from "@src/components/layout/header/LayoutHeaderCommon";
+import LayoutHeaderMaxSizeButton from "@src/components/layout/header/_components/LayoutHeaderMaxSizeButton";
 import TreasureMapIcon from "@src/components/icons/TreasureMapIcon";
-import LayoutBody from "@src/components/layout/body";
-import LayoutHeader from "@src/components/layout/header";
-import LayoutFooter from "@src/components/layout/footer";
+import type { Position } from "@src/types/position";
 
 const TreasureMainList = dynamic(() => import("./_components/list"));
 
@@ -25,21 +26,21 @@ const TreasureMainView: FC<TreasureMainViewProps> = ({
   onTreasureAddClick,
 }) => (
   <>
-    <LayoutHeader.Common
+    <LayoutHeaderCommon
       title="보물 찾기"
       backDisabled
       option={
-        <LayoutHeader.Option.MaxSizeButton onClick={onTreasureAddClick}>
+        <LayoutHeaderMaxSizeButton onClick={onTreasureAddClick}>
           <TreasureMapIcon width="32px" height="32px" />
-        </LayoutHeader.Option.MaxSizeButton>
+        </LayoutHeaderMaxSizeButton>
       }
     />
 
-    <LayoutBody.Common>
+    <LayoutBodyCommon>
       <TreasureMainList distance={distance} position={position} />
-    </LayoutBody.Common>
+    </LayoutBodyCommon>
 
-    <LayoutFooter.Common />
+    <LayoutFooterCommon />
   </>
 );
 

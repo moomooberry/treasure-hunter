@@ -3,9 +3,9 @@
 import { FC } from "react";
 import dynamic from "next/dynamic";
 
-import LayoutBody from "@src/components/layout/body";
-import LayoutHeader from "@src/components/layout/header";
-import LayoutFooter from "@src/components/layout/footer";
+import LayoutFooterCommon from "@src/components/layout/footer/LayoutFooterCommon";
+import LayoutBodyRegulatedMaxHeight from "@src/components/layout/body/LayoutBodyRegulatedMaxHeight";
+import LayoutHeaderCommon from "@src/components/layout/header/LayoutHeaderCommon";
 
 import STYLE from "./map.main.module.scss";
 
@@ -18,13 +18,13 @@ export interface MapMainViewProps {}
 
 const MapMainView: FC<MapMainViewProps> = () => (
   <>
-    <LayoutHeader.Common title="지도에서 찾기" backDisabled />
+    <LayoutHeaderCommon title="지도에서 찾기" backDisabled />
 
-    <LayoutBody.RegulatedMaxHeight>
+    <LayoutBodyRegulatedMaxHeight>
       <MapMainMap />
-    </LayoutBody.RegulatedMaxHeight>
+    </LayoutBodyRegulatedMaxHeight>
 
-    <LayoutFooter.Common />
+    <LayoutFooterCommon />
   </>
 );
 

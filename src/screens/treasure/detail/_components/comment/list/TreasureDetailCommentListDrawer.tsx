@@ -6,16 +6,16 @@ import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
+import Observer from "@src/components/observer/Observer";
+import Lottie from "@src/components/lottie/Lottie";
+import StatusContentEmpty from "@src/components/status/content/StatusContentEmpty";
+import DrawerBottom from "@src/components/drawer/DrawerBottom";
 import getTreasureCommentReplyList from "@src/api/treasure/comment/getTreasureCommentReplyList";
 import { API_GET_TREASURE_COMMENT_REPLY_LIST_KEY } from "@src/libs/fetch/key/treasure/comment";
-import Observer from "@src/components/observer";
-import Lottie from "@src/components/lottie";
 import loadingLottieSrc from "@src/assets/lottie/loading.json";
-import ControllerContent from "@src/components/controller/ControllerContent";
-import DrawerBottom from "@src/components/drawer/DrawerBottom";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
-import { TreasureDetailCommentFormFields } from "..";
+import type { TreasureDetailCommentFormFields } from "..";
 import TreasureDetailCommentListItem from "./item";
 
 import STYLE from "./treasure.detail.comment.list.module.scss";
@@ -106,7 +106,7 @@ const TreasureDetailCommentListDrawer: FC = () => {
 
             {data && data.pages[0].data.length === 0 && (
               <div className={STYLE.__comment_list_drawer_reply_content}>
-                <ControllerContent.Empty
+                <StatusContentEmpty
                   text={`${parentComment.user.username}님에게<br/>첫 대댓글을 남겨보세요!`}
                 />
               </div>

@@ -1,19 +1,21 @@
 "use client";
 
 import { FC, useCallback, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { AnimatePresence, Variants, motion } from "framer-motion";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+
 import getTreasureCommentList from "@src/api/treasure/comment/getTreasureCommentList";
 import { API_GET_TREASURE_COMMENT_LIST_KEY } from "@src/libs/fetch/key/treasure/comment";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
-import ControllerContent from "@src/components/controller/ControllerContent";
-import TreasureDetailCommentListItem from "./item";
-import Observer from "@src/components/observer";
-import { AnimatePresence, Variants, motion } from "framer-motion";
+import Observer from "@src/components/observer/Observer";
 import loadingLottieSrc from "@src/assets/lottie/loading.json";
-import Lottie from "@src/components/lottie";
+import Lottie from "@src/components/lottie/Lottie";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
 import unlockLottieSrc from "@src/assets/lottie/unlock.json";
+import StatusContentEmpty from "@src/components/status/content/StatusContentEmpty";
+
+import TreasureDetailCommentListItem from "./item";
 
 import STYLE from "./treasure.detail.comment.list.module.scss";
 
@@ -117,7 +119,7 @@ const TreasureDetailCommentListMain: FC = () => {
 
           {data && data.pages[0].data.length === 0 && (
             <div className={STYLE.__comment_list_main_content}>
-              <ControllerContent.Empty text="댓글이 없어요<br/>첫 댓글을 달아보세요!" />
+              <StatusContentEmpty text="댓글이 없어요<br/>첫 댓글을 달아보세요!" />
             </div>
           )}
 

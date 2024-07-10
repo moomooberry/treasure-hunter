@@ -2,8 +2,8 @@
 
 import { FC } from "react";
 
-import LayoutBody from "@src/components/layout/body";
+import LayoutBodyCommon from "@src/components/layout/body/LayoutBodyCommon";
 
-const TreasureFormFallback: FC = () => <LayoutBody.Common />;
+const TreasureFormFallback: FC = () => <LayoutBodyCommon />;
 
 export default TreasureFormFallback;

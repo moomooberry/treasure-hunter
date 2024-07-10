@@ -14,10 +14,10 @@ import getUser from "@src/api/user/getUser";
 import ResetIcon from "@src/components/icons/ResetIcon";
 import CrosshairIcon from "@src/components/icons/CrosshairIcon";
 import ThunderIcon from "@src/components/icons/ThunderIcon";
-import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
-import Lottie from "@src/components/lottie";
+import Lottie from "@src/components/lottie/Lottie";
 import emptyBoxJson from "@src/assets/lottie/empty_box.json";
 import useZustandPositionStore from "@src/hooks/zustand/useZustandPositionStore";
+import ModalCheck from "@src/components/modal/ModalCheck";
 
 import MapMainMapSelectedTreasure from "./MapMainMapSelectedTreasure";
 
@@ -235,7 +235,7 @@ const MapMainMap: FC = () => {
         </motion.button>
       </div>
 
-      <ModalCommonCheck
+      <ModalCheck
         isOpen={isNoMoreModalOpen}
         onClose={closeNoMoreModal}
         title="더 불러올 보물이 없어요.<br/>보물을 숨겨보시겠어요?"
@@ -247,7 +247,7 @@ const MapMainMap: FC = () => {
         <div className={STYLE.__map_lottie_wrapper}>
           <Lottie animationData={emptyBoxJson} width="160px" height="160px" />
         </div>
-      </ModalCommonCheck>
+      </ModalCheck>
     </div>
   );
 };

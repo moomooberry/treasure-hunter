@@ -3,9 +3,9 @@
 import { FC } from "react";
 import dynamic from "next/dynamic";
 
-import LayoutHeader from "@src/components/layout/header";
-import LayoutBody from "@src/components/layout/body";
-import LayoutFooter from "@src/components/layout/footer";
+import LayoutHeaderCommon from "@src/components/layout/header/LayoutHeaderCommon";
+import LayoutBodyCommon from "@src/components/layout/body/LayoutBodyCommon";
+import LayoutFooterCommon from "@src/components/layout/footer/LayoutFooterCommon";
 
 const UserMainProfileCard = dynamic(
   () => import("./_components/UserMainProfileCard")
@@ -15,15 +15,15 @@ const UserMainList = dynamic(() => import("./_components/list"));
 
 const UserMainView: FC = () => (
   <>
-    <LayoutHeader.Common title="내 정보" backDisabled />
+    <LayoutHeaderCommon title="내 정보" backDisabled />
 
-    <LayoutBody.Common>
+    <LayoutBodyCommon>
       <UserMainProfileCard />
 
       <UserMainList />
-    </LayoutBody.Common>
+    </LayoutBodyCommon>
 
-    <LayoutFooter.Common />
+    <LayoutFooterCommon />
   </>
 );
 

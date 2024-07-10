@@ -4,16 +4,15 @@ import { FC, MouseEventHandler, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { UseFormReturn, useFormState } from "react-hook-form";
 
+import Lottie from "@src/components/lottie/Lottie";
+import ModalCheck from "@src/components/modal/ModalCheck";
 import tremblingMarkerSrc from "@src/assets/lottie/trembling_marker.json";
-import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
 import scanningImageSrc from "@src/assets/lottie/scanning_image.json";
 import exclamationMarkSrc from "@src/assets/lottie/exclamation_mark.json";
 import redExclamationMarkSrc from "@src/assets/lottie/exclamation_mark_red.json";
 import movingQuillSrc from "@src/assets/lottie/moving_quill.json";
-import Lottie from "@src/components/lottie";
-import { ButtonProps } from "@src/components/button";
-
-import { TreasureFormFields } from "../TreasureFormView";
+import type { ButtonProps } from "@src/components/button/Button";
+import type { TreasureFormFields } from "../TreasureFormView";
 
 import STYLE from "../treasure.form.module.scss";
 
@@ -97,7 +96,7 @@ const TreasureFormErrorModal: FC<TreasureFormErrorModalProps> = ({
   }, [clearAllErrors, errors.root, errors.slideIndex, refreshPage, routeBack]);
 
   return (
-    <ModalCommonCheck
+    <ModalCheck
       isOpen={
         !!errors.root ||
         !!errors.position ||
@@ -173,7 +172,7 @@ const TreasureFormErrorModal: FC<TreasureFormErrorModalProps> = ({
           )}
         </div>
       </div>
-    </ModalCommonCheck>
+    </ModalCheck>
   );
 };
 

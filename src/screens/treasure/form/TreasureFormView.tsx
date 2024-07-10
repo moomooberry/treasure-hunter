@@ -6,10 +6,10 @@ import { UseFormReturn } from "react-hook-form";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { EffectFade } from "swiper/modules";
 
-import { ImageInputValue } from "@src/types/image";
-import { Position } from "@src/types/position";
-import LayoutHeader from "@src/components/layout/header";
-import LayoutBody from "@src/components/layout/body";
+import LayoutBodyRegulatedMaxHeight from "@src/components/layout/body/LayoutBodyRegulatedMaxHeight";
+import LayoutHeaderCommon from "@src/components/layout/header/LayoutHeaderCommon";
+import type { ImageInputValue } from "@src/types/image";
+import type { Position } from "@src/types/position";
 
 import TreasureFormStep from "./_components/step";
 
@@ -53,12 +53,12 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
   onBackClick,
 }) => (
   <>
-    <LayoutHeader.Common
+    <LayoutHeaderCommon
       title={!treasure_id ? "보물 등록" : "보물 수정"}
       onBackClick={onBackClick}
     />
 
-    <LayoutBody.RegulatedMaxHeight>
+    <LayoutBodyRegulatedMaxHeight>
       {/* <TreasureFormGuide formMethods={formMethods} /> */}
 
       <Swiper
@@ -92,7 +92,7 @@ const TreasureFormView: FC<TreasureFormViewProps> = ({
       </Swiper>
 
       <TreasureFormErrorModal formMethods={formMethods} />
-    </LayoutBody.RegulatedMaxHeight>
+    </LayoutBodyRegulatedMaxHeight>
 
     {swiper && (
       <TreasureFormFooterButton swiper={swiper} formMethods={formMethods} />

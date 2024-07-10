@@ -6,16 +6,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import classNames from "classnames";
 import dayjs from "dayjs";
 
-import { GetTreasureListResponse } from "@src/types/api/treasure";
-import SwiperCard from "@src/components/swiper/card";
 import { LAYOUT_FOOTER_HEIGHT } from "@src/constants/layout";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import TimerLimit from "@src/components/timer/TimerLimit";
 import CaretIcon from "@src/components/icons/CaretIcon";
-import Button from "@src/components/button";
+import Button from "@src/components/button/Button";
+import PhotoSwiperCard from "@src/components/photo/swiper/PhotoSwiperCard";
+import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
+import type { GetTreasureListResponse } from "@src/types/api/treasure";
 
 import STYLE from "../../map.main.module.scss";
-import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
 interface MapMainMapSelectedTreasureProps {
   data: GetTreasureListResponse;
@@ -125,7 +125,7 @@ const MapMainMapSelectedTreasure: FC<MapMainMapSelectedTreasureProps> = ({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 100, opacity: 0 }}
             >
-              <SwiperCard images={data.images} width="45vw" />
+              <PhotoSwiperCard images={data.images} width="45vw" />
             </motion.div>
           )}
         </AnimatePresence>

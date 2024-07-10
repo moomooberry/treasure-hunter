@@ -13,11 +13,12 @@ import { useParams } from "next/navigation";
 
 import getTreasure from "@src/api/treasure/getTreasure";
 import getUser from "@src/api/user/getUser";
-import Button from "@src/components/button";
+import Button from "@src/components/button/Button";
+import LayoutHeaderContainer from "@src/components/layout/header/_components/LayoutHeaderContainer";
+import LayoutHeaderRoundButton from "@src/components/layout/header/_components/LayoutHeaderRoundButton";
+import LayoutBodyRegulatedMaxHeight from "@src/components/layout/body/LayoutBodyRegulatedMaxHeight";
+import LayoutFooterContainer from "@src/components/layout/footer/_components/LayoutFooterContainer";
 import CloseIcon from "@src/components/icons/CloseIcon";
-import LayoutBody from "@src/components/layout/body";
-import LayoutFooter from "@src/components/layout/footer";
-import LayoutHeader from "@src/components/layout/header";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import { TreasureMap } from "@src/libs/google-map";
@@ -108,17 +109,17 @@ const TreasureDetailMapModalFullScreenLayout: FC<
 
   return (
     <>
-      <LayoutHeader shadowDisabled backgroundColor="transparent">
-        <LayoutHeader.Option.RoundButton onClick={onBackClick}>
+      <LayoutHeaderContainer shadowDisabled backgroundColor="transparent">
+        <LayoutHeaderRoundButton onClick={onBackClick}>
           <CloseIcon width="16px" height="16px" />
-        </LayoutHeader.Option.RoundButton>
-      </LayoutHeader>
+        </LayoutHeaderRoundButton>
+      </LayoutHeaderContainer>
 
-      <LayoutBody.RegulatedMaxHeight marginTop="0px" marginBottom="0px">
+      <LayoutBodyRegulatedMaxHeight marginTop="0px" marginBottom="0px">
         <div ref={ref} className={STYLE.__map_full_screen} />
-      </LayoutBody.RegulatedMaxHeight>
+      </LayoutBodyRegulatedMaxHeight>
 
-      <LayoutFooter backgroundColor="transparent" disabledShadow>
+      <LayoutFooterContainer backgroundColor="transparent" disabledShadow>
         <div className={STYLE.__map_full_screen_button_wrapper}>
           <Button
             width="calc(50vw - 16px)"
@@ -135,7 +136,7 @@ const TreasureDetailMapModalFullScreenLayout: FC<
             보물 위치로
           </Button>
         </div>
-      </LayoutFooter>
+      </LayoutFooterContainer>
     </>
   );
 };

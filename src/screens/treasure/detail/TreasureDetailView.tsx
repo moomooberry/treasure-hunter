@@ -8,8 +8,8 @@ import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import LocationIcon from "@src/components/icons/LocationIcon";
 import TimerIcon from "@src/components/icons/TimerIcon";
 import { GetTreasureDetailResponse } from "@src/types/api/treasure";
-import Avatar from "@src/components/avatar";
-import SwiperCommonWithModal from "@src/components/swiper/common/SwiperCommonWithModal";
+import Avatar from "@src/components/avatar/Avatar";
+import PhotoSwiperCommonWithModal from "@src/components/photo/swiper/PhotoSwiperCommonWithModal";
 
 import TreasureDetailHeader from "./_layout/header";
 import TreasureDetailBody from "./_layout/body";
@@ -37,7 +37,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
     <TreasureDetailBody>
       {data && (
         <div>
-          <SwiperCommonWithModal images={data.images} showImageCount />
+          <PhotoSwiperCommonWithModal images={data.images} showImageCount />
           <div className={STYLE.__treasure_detail_container}>
             <section className={STYLE.__treasure_detail_first_section}>
               <h1 className={STYLE.__treasure_detail_title}>{data.title}</h1>

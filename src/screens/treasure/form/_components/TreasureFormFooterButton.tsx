@@ -7,7 +7,7 @@ import { SwiperClass } from "swiper/react";
 import { useMutation } from "@tanstack/react-query";
 import { v4 } from "uuid";
 
-import LayoutFooter from "@src/components/layout/footer";
+import LayoutFooterSmallButton from "@src/components/layout/footer/LayoutFooterSmallButton";
 import postImagesTmp from "@src/api/image/tmp/postImagesTmp";
 import convertFileToFormData from "@src/utils/convertFileToFormData";
 import postTreasure from "@src/api/treasure/postTreasure";
@@ -204,9 +204,9 @@ const TreasureFormFooterButton: FC<TreasureFormFooterButtonProps> = ({
   ]);
 
   return (
-    <LayoutFooter.SmallButton disabled={buttonDisabled} onClick={onClick}>
+    <LayoutFooterSmallButton disabled={buttonDisabled} onClick={onClick}>
       {buttonText}
-    </LayoutFooter.SmallButton>
+    </LayoutFooterSmallButton>
   );
 };
 

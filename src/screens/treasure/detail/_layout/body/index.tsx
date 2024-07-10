@@ -3,10 +3,10 @@
 import { FC, PropsWithChildren } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import LayoutBody from "@src/components/layout/body";
-import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
+import LayoutBodyContainer from "@src/components/layout/body/_components/LayoutBodyContainer";
 import getUser from "@src/api/user/getUser";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
+import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 
 const TreasureDetailBody: FC<PropsWithChildren> = ({ children }) => {
   const {
@@ -19,12 +19,12 @@ const TreasureDetailBody: FC<PropsWithChildren> = ({ children }) => {
   });
 
   return (
-    <LayoutBody
+    <LayoutBodyContainer
       marginTop="0"
       marginBottom={`calc(${data ? "60px" : "20px"} + ${bottom})`}
     >
       {children}
-    </LayoutBody>
+    </LayoutBodyContainer>
   );
 };
 

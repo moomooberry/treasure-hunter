@@ -4,10 +4,10 @@ import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
+import ModalFullScreenContainer from "@src/components/modal/_components/ModalFullScreenContainer";
 import getTreasure from "@src/api/treasure/getTreasure";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import { TreasureMap } from "@src/libs/google-map";
-import ModalFullScreen from "@src/components/modal/full_screen";
 
 import TreasureDetailMapModalFullScreenLayout from "./TreasureDetailMapModalFullScreenLayout";
 
@@ -58,9 +58,9 @@ const TreasureDetailMap: FC = () => {
     <>
       <div ref={ref} className={STYLE.__map} onClick={onMapClick} />
 
-      <ModalFullScreen isOpen={isModalMapOpen} onClose={closeModalMap}>
+      <ModalFullScreenContainer isOpen={isModalMapOpen} onClose={closeModalMap}>
         <TreasureDetailMapModalFullScreenLayout onBackClick={closeModalMap} />
-      </ModalFullScreen>
+      </ModalFullScreenContainer>
     </>
   );
 };

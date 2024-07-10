@@ -3,9 +3,12 @@
 import { FC, useCallback } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
-import Form from "@src/components/form";
-import { TreasureFormFields } from "@src/screens/treasure/form/TreasureFormView";
-import { FormInputImageEditorError } from "@src/components/form/input/FormInputImageEditor";
+import FormInputImageEditor, {
+  FormInputImageEditorError,
+} from "@src/components/form/input/FormInputImageEditor";
+import FormTextNotice from "@src/components/form/text/FormTextNotice";
+import FormTextLabel from "@src/components/form/text/FormTextLabel";
+import type { TreasureFormFields } from "@src/screens/treasure/form/TreasureFormView";
 
 import STYLE from "@src/screens/treasure/form/treasure.form.module.scss";
 
@@ -31,13 +34,13 @@ const TreasureFormStepImage: FC<TreasureFormStepImageProps> = ({
 
   return (
     <div className={STYLE.__slide_container}>
-      <Form.Text.Label text="이미지" isRequired />
+      <FormTextLabel text="이미지" isRequired />
 
       <Controller
         control={control}
         name="images"
         render={({ field: { value, onChange } }) => (
-          <Form.Input.ImageEditor
+          <FormInputImageEditor
             value={value}
             onChange={onChange}
             onError={onError}
@@ -45,11 +48,11 @@ const TreasureFormStepImage: FC<TreasureFormStepImageProps> = ({
         )}
       />
 
-      <Form.Text.Notice
+      <FormTextNotice
         text="한 장당 최대 20mb까지 등록 가능해요."
         m="24px 0 0 0"
       />
-      <Form.Text.Notice text="최대 10장까지 등록 가능해요." m="4px 0 0 0" />
+      <FormTextNotice text="최대 10장까지 등록 가능해요." m="4px 0 0 0" />
     </div>
   );
 };

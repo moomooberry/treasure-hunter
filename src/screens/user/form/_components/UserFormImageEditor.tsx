@@ -6,11 +6,11 @@ import { AnimatePresence, motion, Variants } from "framer-motion";
 import { v4 } from "uuid";
 import classNames from "classnames";
 
-import { ImageInputValue } from "@src/types/image";
 import anonymousImgSrc from "@src/assets/webp/anonymous_512_512.webp";
 import ScissorIcon from "@src/components/icons/ScissorIcon";
-import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
-import ModalFullScreenLayoutImageCropper from "@src/components/modal/full_screen/ModalFullScreenLayoutImageCropper";
+import ModalFullScreenPhotoCropper from "@src/components/modal/ModalFullScreenPhotoCropper";
+import ModalCheck from "@src/components/modal/ModalCheck";
+import type { ImageInputValue } from "@src/types/image";
 
 import STYLE from "../user.form.module.scss";
 
@@ -188,7 +188,7 @@ const UserFormImageEditor: FC<UserFormImageEditorProps> = ({
         </AnimatePresence>
       </motion.div>
 
-      <ModalCommonCheck
+      <ModalCheck
         isOpen={isErrorModalOpen}
         title="이미지가 20mb를 초과했어요."
         onClose={closeErrorModal}
@@ -196,7 +196,7 @@ const UserFormImageEditor: FC<UserFormImageEditorProps> = ({
       />
 
       {value && (
-        <ModalFullScreenLayoutImageCropper
+        <ModalFullScreenPhotoCropper
           isOpen={isCropModalOpen}
           onClose={closeCropModal}
           image={getImageUrl(value.src)}

@@ -2,10 +2,10 @@
 
 import { FC, MouseEventHandler } from "react";
 
-import Swiper from "@src/components/swiper/common";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import TimerLimit from "@src/components/timer/TimerLimit";
-import { GetTreasureListResponse } from "@src/types/api/treasure";
+import PhotoSwiperCommon from "@src/components/photo/swiper/PhotoSwiperCommon";
+import type { GetTreasureListResponse } from "@src/types/api/treasure";
 
 import STYLE from "../../treasure.main.module.scss";
 
@@ -23,7 +23,7 @@ const TreasureMainListItem: FC<TreasureMainListItemProps> = ({
   onItemClick,
 }) => (
   <li className={STYLE.__treasure_list_wrapper} onClick={onItemClick}>
-    <Swiper height="240px" images={item.images} />
+    <PhotoSwiperCommon height="240px" images={item.images} />
 
     <div className={STYLE.__treasure_list_info_box}>
       <div className={STYLE.__treasure_list_title}>{item.title}</div>

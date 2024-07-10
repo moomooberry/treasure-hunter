@@ -1,10 +1,11 @@
 import { FC, useCallback, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+
+import Lottie from "@src/components/lottie/Lottie";
 import deleteTreasure from "@src/api/treasure/deleteTreasure";
-import Lottie from "@src/components/lottie";
+import ModalCheck from "@src/components/modal/ModalCheck";
 import shakingTrashcanSrc from "@src/assets/lottie/shaking_trashcan.json";
-import ModalCommonCheck from "@src/components/modal/common/ModalCommonCheck";
 import TrashcanIcon from "@src/components/icons/TrashcanIcon";
 
 import STYLE from "./treasure.detail.header.option.module.scss";
@@ -43,7 +44,7 @@ const TreasureDetailHeaderOptionDeleteButton: FC = () => {
         <TrashcanIcon width="16px" height="16px" />
       </button>
 
-      <ModalCommonCheck
+      <ModalCheck
         isOpen={isModalOpen}
         onClose={closeModal}
         title="보물을 정말 삭제하시겠어요?"
@@ -54,7 +55,7 @@ const TreasureDetailHeaderOptionDeleteButton: FC = () => {
         ]}
       >
         <Lottie animationData={shakingTrashcanSrc} width="80px" height="80px" />
-      </ModalCommonCheck>
+      </ModalCheck>
     </>
   );
 };

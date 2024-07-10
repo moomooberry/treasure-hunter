@@ -2,15 +2,15 @@
 
 import { FC } from "react";
 
-import LayoutBody from "@src/components/layout/body";
-import LayoutFooter from "@src/components/layout/footer";
-import LayoutHeader from "@src/components/layout/header";
+import LayoutHeaderCommon from "@src/components/layout/header/LayoutHeaderCommon";
+import LayoutBodyCommon from "@src/components/layout/body/LayoutBodyCommon";
+import LayoutFooterCommon from "@src/components/layout/footer/LayoutFooterCommon";
 
 const UserMainFallback: FC = () => (
   <>
-    <LayoutHeader.Common title="내 정보" backDisabled />
-    <LayoutBody.Common />
-    <LayoutFooter.Common />
+    <LayoutHeaderCommon title="내 정보" backDisabled />
+    <LayoutBodyCommon />
+    <LayoutFooterCommon />
   </>
 );
 

@@ -4,8 +4,11 @@ import { FC } from "react";
 import { useParams } from "next/navigation";
 import { UseFormRegisterReturn, UseFormReturn } from "react-hook-form";
 
-import Form from "@src/components/form";
-import { TreasureFormFields } from "@src/screens/treasure/form/TreasureFormView";
+import FormTextNotice from "@src/components/form/text/FormTextNotice";
+import FormInputText from "@src/components/form/input/FormInputText";
+import FormTextLabel from "@src/components/form/text/FormTextLabel";
+import FormInputTextarea from "@src/components/form/input/FormInputTextarea";
+import type { TreasureFormFields } from "@src/screens/treasure/form/TreasureFormView";
 
 import STYLE from "@src/screens/treasure/form/treasure.form.module.scss";
 
@@ -48,8 +51,8 @@ const TreasureFormStepInfo: FC<TreasureFormStepInfoProps> = ({
   return (
     <div className={STYLE.__slide_container}>
       <label className={STYLE.__label_wrapper}>
-        <Form.Text.Label text="제목" isRequired />
-        <Form.Input.Text
+        <FormTextLabel text="제목" isRequired />
+        <FormInputText
           placeholder="최대 30자까지 입력"
           maxLength={30}
           showMaxLength
@@ -58,8 +61,8 @@ const TreasureFormStepInfo: FC<TreasureFormStepInfoProps> = ({
       </label>
 
       <label className={STYLE.__label_wrapper}>
-        <Form.Text.Label text="힌트" isRequired />
-        <Form.Input.Textarea
+        <FormTextLabel text="힌트" isRequired />
+        <FormInputTextarea
           placeholder="최대 1000자까지 입력"
           maxLength={1000}
           showMaxLength
@@ -68,8 +71,8 @@ const TreasureFormStepInfo: FC<TreasureFormStepInfoProps> = ({
       </label>
 
       <label>
-        <Form.Text.Label text="보상금" />
-        <Form.Input.Text
+        <FormTextLabel text="보상금" />
+        <FormInputText
           inputMode="numeric"
           maxLength={7}
           m="0 0 12px 0"
@@ -77,7 +80,7 @@ const TreasureFormStepInfo: FC<TreasureFormStepInfoProps> = ({
           placeholder={!treasure_id ? "최대 100만원까지 입력" : ""}
           {...registerProps.reward}
         />
-        <Form.Text.Notice text="보상금은 추후에 수정할 수 없고 최대 100만원까지 입력 가능해요." />
+        <FormTextNotice text="보상금은 추후에 수정할 수 없고 최대 100만원까지 입력 가능해요." />
       </label>
     </div>
   );

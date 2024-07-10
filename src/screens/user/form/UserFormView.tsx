@@ -9,12 +9,15 @@ import {
   UseFormRegisterReturn,
 } from "react-hook-form";
 
-import Form from "@src/components/form";
-import { GetUserResponse } from "@src/types/api/user";
-import { ImageInputValue } from "@src/types/image";
-import LayoutBody from "@src/components/layout/body";
-import LayoutHeader from "@src/components/layout/header";
-import LayoutFooter from "@src/components/layout/footer";
+import LayoutFooterMaxWidthButton from "@src/components/layout/footer/LayoutFooterMaxWidthButton";
+import LayoutBodyCommon from "@src/components/layout/body/LayoutBodyCommon";
+import LayoutHeaderCommon from "@src/components/layout/header/LayoutHeaderCommon";
+import FormTextError from "@src/components/form/text/FormTextError";
+import FormInputText from "@src/components/form/input/FormInputText";
+import FormTextLabel from "@src/components/form/text/FormTextLabel";
+import FormTextNotice from "@src/components/form/text/FormTextNotice";
+import type { GetUserResponse } from "@src/types/api/user";
+import type { ImageInputValue } from "@src/types/image";
 
 import STYLE from "./user.form.module.scss";
 
@@ -46,10 +49,10 @@ const UserFormView: FC<UserFormViewProps> = ({
   onSubmitClick,
 }) => (
   <>
-    <LayoutHeader.Common title={data ? "프로필 수정" : "프로필 만들기"} />
+    <LayoutHeaderCommon title={data ? "프로필 수정" : "프로필 만들기"} />
 
-    <LayoutBody.Common>
-      <Form.Text.Label text="프로필 이미지" />
+    <LayoutBodyCommon>
+      <FormTextLabel text="프로필 이미지" />
       <div className={STYLE.__image_input_wrapper}>
         <Controller
           name="profile_image"
@@ -60,14 +63,14 @@ const UserFormView: FC<UserFormViewProps> = ({
         />
       </div>
 
-      <Form.Text.Notice
+      <FormTextNotice
         text="프로필 이미지는 20mb를 초과할 수 없어요."
         m="0 0 20px 0"
       />
 
       <label>
-        <Form.Text.Label isRequired text="유저이름" />
-        <Form.Input.Text
+        <FormTextLabel isRequired text="유저이름" />
+        <FormInputText
           isError={!!errors.username}
           {...registerProps.username}
           placeholder="최대 10자까지 입력"
@@ -77,17 +80,17 @@ const UserFormView: FC<UserFormViewProps> = ({
       </label>
 
       {errors.username && (
-        <Form.Text.Error text={errors.username.message} m="0 0 4px 0" />
+        <FormTextError text={errors.username.message} m="0 0 4px 0" />
       )}
-    </LayoutBody.Common>
+    </LayoutBodyCommon>
 
     <Controller
       name="username"
       control={control}
       render={({ field: { value } }) => (
-        <LayoutFooter.MaxWidthButton disabled={!value} onClick={onSubmitClick}>
+        <LayoutFooterMaxWidthButton disabled={!value} onClick={onSubmitClick}>
           저장하기
-        </LayoutFooter.MaxWidthButton>
+        </LayoutFooterMaxWidthButton>
       )}
     />
   </>

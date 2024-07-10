@@ -15,11 +15,11 @@ import {
   API_GET_TREASURE_COMMENT_LIST_KEY,
   API_GET_TREASURE_COMMENT_REPLY_LIST_KEY,
 } from "@src/libs/fetch/key/treasure/comment";
+import Avatar from "@src/components/avatar/Avatar";
 
 import { TreasureDetailCommentFormFields } from "../..";
 
 import STYLE from "./treasure.detail.comment.list.item.module.scss";
-import Avatar from "@src/components/avatar";
 
 function getElapsedTime(diff: number) {
   const day = Math.floor(diff / (1000 * 60 * 60 * 24));
