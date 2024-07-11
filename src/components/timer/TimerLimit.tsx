@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, PropsWithChildren, useEffect, useState } from "react";
 import { AnimatePresence, useAnimate, motion } from "framer-motion";
 import classNames from "classnames";
 
@@ -44,7 +44,7 @@ interface TimerLimitProps {
  * @maxLength default 7 !!x일 xx시 xx분 xx초, !!Maximum 8
  */
 
-const TimerLimit: FC<TimerLimitProps> = ({
+const TimerLimit: FC<PropsWithChildren<TimerLimitProps>> = ({
   currentTime,
   endTime,
 
@@ -52,6 +52,8 @@ const TimerLimit: FC<TimerLimitProps> = ({
   maxLength = 7,
   styleDisabled = false,
   onLimit,
+
+  children,
 }) => {
   const [limitTime, setLimitTime] = useState<number>();
 
@@ -273,7 +275,6 @@ const TimerLimit: FC<TimerLimitProps> = ({
             </div>
             일
           </div>
-
           <div
             style={{
               display: maxLength > 4 ? "flex" : "none",
@@ -301,7 +302,6 @@ const TimerLimit: FC<TimerLimitProps> = ({
             </div>
             시간
           </div>
-
           <div
             style={{
               display: maxLength > 2 ? "flex" : "none",
@@ -329,7 +329,6 @@ const TimerLimit: FC<TimerLimitProps> = ({
             </div>
             분
           </div>
-
           <div style={{ display: "flex" }}>
             <div
               ref={secondFirstScope}
@@ -353,6 +352,7 @@ const TimerLimit: FC<TimerLimitProps> = ({
             </div>
             초
           </div>
+          {children}
         </motion.div>
       )}
     </AnimatePresence>
