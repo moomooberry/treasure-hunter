@@ -5,9 +5,9 @@ import { FC, useCallback, useState } from "react";
 import DrawerBottom from "@src/components/drawer/DrawerBottom";
 import ShareIcon from "@src/components/icons/ShareIcon";
 
-import STYLE from "./treasure.detail.header.option.module.scss";
+import STYLE from "./treasure.detail.layout.header.module.scss";
 
-const TreasureDetailHeaderOptionShareButton: FC = () => {
+const TreasureDetailLayoutHeaderShareButton: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const openDrawer = useCallback(() => {
@@ -36,4 +36,4 @@ const TreasureDetailHeaderOptionShareButton: FC = () => {
   );
 };
 
-export default TreasureDetailHeaderOptionShareButton;
+export default TreasureDetailLayoutHeaderShareButton;

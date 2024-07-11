@@ -1,7 +1,9 @@
+@use "/src/styles//skeleton.scss" as skeleton;
+
 .__map {
   height: 260px;
   border-radius: 20px;
-  background-color: #dfe6e9;
+  background-color: rgba(165, 165, 165, 0.1);
 }
 
 .__map_full_screen {
@@ -13,4 +15,8 @@
   display: flex;
   justify-content: space-between;
   padding: 0 12px;
+}
+.__map_loading {
+  @include skeleton.skeleton_mixin;
+  border-radius: 20px;
 }

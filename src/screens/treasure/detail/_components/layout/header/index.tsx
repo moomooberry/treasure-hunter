@@ -1,8 +1,7 @@
 "use client";
 
 import { FC, useCallback, useMemo } from "react";
-import { useScroll, useTransform } from "framer-motion";
-import { motion } from "framer-motion";
+import { useScroll, useTransform, motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 
 import CaretIcon from "@src/components/icons/CaretIcon";
@@ -14,13 +13,15 @@ import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
-import TreasureDetailHeaderOption from "./option/index";
+import TreasureDetailLayoutHeaderDeleteButton from "./TreasureDetailLayoutHeaderDeleteButton";
+import TreasureDetailLayoutHeaderEditButton from "./TreasureDetailLayoutHeaderEditButton";
+import TreasureDetailLayoutHeaderShareButton from "./TreasureDetailLayoutHeaderShareButton";
 
-import STYLE from "./treasure.detail.header.module.scss";
+import STYLE from "./treasure.detail.layout.header.module.scss";
 
 const SCROLL_THRESHOLD = 300;
 
-const TreasureDetailHeader: FC = () => {
+const TreasureDetailLayoutHeader: FC = () => {
   const { back } = useRouter();
 
   const { treasure_id } = useParams();
@@ -81,7 +82,6 @@ const TreasureDetailHeader: FC = () => {
       ) : (
         <div />
       )}
-
       {/* opacity 0 ~ 1 */}
       <motion.div
         className={STYLE.__layout_header_opacity_box}
@@ -101,7 +101,6 @@ const TreasureDetailHeader: FC = () => {
           보물 찾기
         </motion.b>
       </motion.div>
-
       {/* opacity 1 ~ 0 */}
       <motion.div
         className={STYLE.__layout_header_opacity_reverse_box}
@@ -116,13 +115,19 @@ const TreasureDetailHeader: FC = () => {
           {isUserWrite && (
             <div className={STYLE.__layout_header_opacity_reverse_button} />
           )}
+          {isUserWrite && (
+            <div className={STYLE.__layout_header_opacity_reverse_button} />
+          )}
           <div className={STYLE.__layout_header_opacity_reverse_button} />
         </div>
       </motion.div>
-
-      <TreasureDetailHeaderOption />
+      <div className={STYLE.__header_option_container}>
+        {isUserWrite && <TreasureDetailLayoutHeaderDeleteButton />}
+        {isUserWrite && <TreasureDetailLayoutHeaderEditButton />}
+        <TreasureDetailLayoutHeaderShareButton />
+      </div>
     </header>
   );
 };
 
-export default TreasureDetailHeader;
+export default TreasureDetailLayoutHeader;

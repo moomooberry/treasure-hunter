@@ -15,9 +15,9 @@ import getUser from "@src/api/user/getUser";
 import unlockLottieSrc from "@src/assets/lottie/unlock.json";
 import StatusContentEmpty from "@src/components/status/content/StatusContentEmpty";
 
-import TreasureDetailCommentListItem from "./item";
+import TreasureDetailCommentListItem from "./_components/TreasureDetailCommentListItem";
 
-import STYLE from "./treasure.detail.comment.list.module.scss";
+import STYLE from "./treasure.detail.comment.module.scss";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -119,7 +119,9 @@ const TreasureDetailCommentListMain: FC = () => {
 
           {data && data.pages[0].data.length === 0 && (
             <div className={STYLE.__comment_list_main_content}>
-              <StatusContentEmpty text="댓글이 없어요<br/>첫 댓글을 달아보세요!" />
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <StatusContentEmpty text="댓글이 없어요<br/>첫 댓글을 달아보세요!" />
+              </motion.div>
             </div>
           )}
 

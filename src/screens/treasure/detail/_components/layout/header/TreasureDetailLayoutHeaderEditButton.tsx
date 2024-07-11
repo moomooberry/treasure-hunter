@@ -1,12 +1,13 @@
 "use client";
 
 import { FC, useCallback } from "react";
-import EditIcon from "@src/components/icons/EditIcon";
 import { useParams, useRouter } from "next/navigation";
 
-import STYLE from "./treasure.detail.header.option.module.scss";
+import EditIcon from "@src/components/icons/EditIcon";
 
-const TreasureDetailHeaderOptionEditButton: FC = () => {
+import STYLE from "./treasure.detail.layout.header.module.scss";
+
+const TreasureDetailLayoutHeaderEditButton: FC = () => {
   const { push } = useRouter();
 
   const { treasure_id } = useParams();
@@ -22,4 +23,4 @@ const TreasureDetailHeaderOptionEditButton: FC = () => {
   );
 };
 
-export default TreasureDetailHeaderOptionEditButton;
+export default TreasureDetailLayoutHeaderEditButton;

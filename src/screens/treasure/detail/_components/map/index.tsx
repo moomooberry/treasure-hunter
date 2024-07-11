@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
@@ -56,7 +57,13 @@ const TreasureDetailMap: FC = () => {
 
   return (
     <>
-      <div ref={ref} className={STYLE.__map} onClick={onMapClick} />
+      <motion.div
+        ref={ref}
+        className={STYLE.__map}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        onClick={onMapClick}
+      />
 
       <ModalFullScreenContainer isOpen={isModalMapOpen} onClose={closeModalMap}>
         <TreasureDetailMapModalFullScreenLayout onBackClick={closeModalMap} />

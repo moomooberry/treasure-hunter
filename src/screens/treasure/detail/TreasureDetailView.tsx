@@ -1,43 +1,51 @@
 "use client";
 
 import { FC } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import dynamic from "next/dynamic";
 
-import TimerLimit from "@src/components/timer/TimerLimit";
 import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import LocationIcon from "@src/components/icons/LocationIcon";
 import TimerIcon from "@src/components/icons/TimerIcon";
-import { GetTreasureDetailResponse } from "@src/types/api/treasure";
 import Avatar from "@src/components/avatar/Avatar";
-import PhotoSwiperCommonWithModal from "@src/components/photo/swiper/PhotoSwiperCommonWithModal";
+import type { GetTreasureDetailResponse } from "@src/types/api/treasure";
 
-import TreasureDetailHeader from "./_layout/header";
-import TreasureDetailBody from "./_layout/body";
-import TreasureDetailComment from "./_components/comment";
-import TreasureDetailMap from "./_components/map";
+import TreasureDetailLayoutBody from "./_components/layout/TreasureDetailLayoutBody";
+import TreasureDetailMapFallback from "./_components/map/TreasureDetailMapFallback";
 
 import STYLE from "./treasure.detail.module.scss";
 
+const TreasureDetailLayoutHeader = dynamic(
+  () => import("./_components/layout/header")
+);
+
+const TreasureDetailPhotoSwiper = dynamic(
+  () => import("./_components/TreasureDetailPhotoSwiper")
+);
+
+const TreasureDetailComment = dynamic(() => import("./_components/comment"));
+
+const TreasureDetailMap = dynamic(() => import("./_components/map"), {
+  ssr: false,
+  loading: () => <TreasureDetailMapFallback />,
+});
+
+const TreasureDetailTimerLimit = dynamic(
+  () => import("./_components/TreasureDetailTimerLimit")
+);
+
 export interface TreasureDetailViewProps {
-  isLimit: boolean;
-  currentTime: number;
-  onLimit: VoidFunction;
   data?: GetTreasureDetailResponse;
 }
 
-const TreasureDetailView: FC<TreasureDetailViewProps> = ({
-  isLimit,
-  currentTime,
-  onLimit,
-  data,
-}) => (
+const TreasureDetailView: FC<TreasureDetailViewProps> = ({ data }) => (
   <>
-    <TreasureDetailHeader />
+    <TreasureDetailLayoutHeader />
 
-    <TreasureDetailBody>
+    <TreasureDetailLayoutBody>
       {data && (
         <div>
-          <PhotoSwiperCommonWithModal images={data.images} showImageCount />
+          <TreasureDetailPhotoSwiper images={data.images} />
+
           <div className={STYLE.__treasure_detail_container}>
             <section className={STYLE.__treasure_detail_first_section}>
               <h1 className={STYLE.__treasure_detail_title}>{data.title}</h1>
@@ -51,35 +59,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
 
               <div className={STYLE.__treasure_detail_timer_wrapper}>
                 <TimerIcon color="#2d3436" width="18px" height="18px" />
-                <AnimatePresence>
-                  {isLimit ? (
-                    <motion.div
-                      className={STYLE.__treasure_detail_timer}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                    >
-                      보물 유효기간이 지났어요.
-                    </motion.div>
-                  ) : (
-                    <>
-                      <TimerLimit
-                        currentTime={currentTime}
-                        endTime={data.end_date}
-                        fontSize="18px"
-                        maxLength={7}
-                        styleDisabled
-                        onLimit={onLimit}
-                      />
-                      <motion.div
-                        className={STYLE.__treasure_detail_timer}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                      >
-                        남았어요.
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
+                <TreasureDetailTimerLimit />
               </div>
 
               <div className={STYLE.__treasure_detail_distance_wrapper}>
@@ -115,7 +95,7 @@ const TreasureDetailView: FC<TreasureDetailViewProps> = ({
           </div>
         </div>
       )}
-    </TreasureDetailBody>
+    </TreasureDetailLayoutBody>
   </>
 );
 

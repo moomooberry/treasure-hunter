@@ -7,19 +7,19 @@ import { motion } from "framer-motion";
 import { useFormContext } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { GetTreasureCommentListResponse } from "@src/types/api/treasure/comment";
-import postTreasureCommentLikes from "@src/api/treasure/comment/likes/postTreasureCommentLikes";
 import HeartIcon from "@src/components/icons/HeartIcon";
+import Avatar from "@src/components/avatar/Avatar";
 import deleteTreasureCommentLikes from "@src/api/treasure/comment/likes/deleteTreasureCommentLikes";
+import postTreasureCommentLikes from "@src/api/treasure/comment/likes/postTreasureCommentLikes";
 import {
   API_GET_TREASURE_COMMENT_LIST_KEY,
   API_GET_TREASURE_COMMENT_REPLY_LIST_KEY,
 } from "@src/libs/fetch/key/treasure/comment";
-import Avatar from "@src/components/avatar/Avatar";
+import type { GetTreasureCommentListResponse } from "@src/types/api/treasure/comment";
 
-import { TreasureDetailCommentFormFields } from "../..";
+import type { TreasureDetailCommentFormFields } from "../../comment";
 
-import STYLE from "./treasure.detail.comment.list.item.module.scss";
+import STYLE from "../treasure.detail.comment.module.scss";
 
 function getElapsedTime(diff: number) {
   const day = Math.floor(diff / (1000 * 60 * 60 * 24));

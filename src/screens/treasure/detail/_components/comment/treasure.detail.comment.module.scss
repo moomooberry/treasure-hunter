@@ -1,0 +1,210 @@
+/* INPUT */
+.__comment_footer_input_box {
+  position: fixed;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #f4f4f4;
+  background-color: #fff;
+}
+.__comment_footer_input_wrapper {
+  display: flex;
+}
+.__comment_footer_textarea_wrapper {
+  width: 100%;
+  margin: 0 12px;
+}
+.__comment_footer_textarea_parent_comment {
+  font-size: 13px;
+  height: 13px;
+  color: #636e72;
+}
+.__comment_footer_textarea {
+  box-sizing: content-box;
+  width: 100%;
+  height: 22px;
+  max-height: 99px;
+  font-size: 14px;
+  line-height: 22px;
+  margin-top: 5px;
+  background-color: #fff;
+}
+.__comment_submit_wrapper {
+  display: flex;
+  align-items: flex-end;
+}
+.__comment_submit_button {
+  min-width: 40px;
+  height: 26px;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 14px;
+  line-height: 26px;
+  letter-spacing: -0.5px;
+  font-weight: 600;
+  :disabled {
+    color: #b2bec3;
+  }
+}
+
+/* LIST */
+.__comment_list_item_list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+/* Drawer list */
+.__comment_list_drawer_top_ul {
+  padding: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #eeeeee;
+}
+.__comment_list_drawer_reply_box {
+  padding: 20px 12px 20px 24px;
+}
+.__comment_list_drawer_reply_content {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+.__comment_list_drawer_next_loading {
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -10px;
+  margin-top: -46px;
+}
+
+/* Main list */
+.__comment_list_main_label {
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+.__comment_list_main_content {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main list Loading */
+.__comment_list_main_loading_box {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main List No User */
+.__comment_list_main_unlock_container {
+  position: relative;
+}
+.__comment_list_main_unlock_box {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+.__comment_list_main_unlock_wrapper {
+  width: 250px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 16px;
+  font-weight: 600;
+  word-break: keep-all;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 20px;
+  border-radius: 20px;
+
+  cursor: pointer;
+}
+.__comment_list_main_unlock_lottie_wrapper {
+  margin: -30px 0 -60px 0;
+}
+.__comment_list_main_unlock_underline {
+  text-decoration: underline;
+}
+.__comment_list_main_blur_box {
+  filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ITEM */
+.__comment_list_item_ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 12px;
+}
+.__comment_list_avatar_info_box {
+  display: flex;
+  column-gap: 8px;
+}
+.__comment_list_info_box {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+.__comment_list_meta_wrapper {
+  display: flex;
+  column-gap: 4px;
+}
+.__comment_list_meta_username {
+  font-size: 14px;
+  font-weight: 500;
+}
+.__comment_list_meta_created {
+  font-size: 14px;
+  color: #636e72;
+}
+.__comment_list_content {
+  font-size: 14px;
+  line-height: 24px;
+  word-break: break-all;
+}
+.__comment_list_add_more_button {
+  min-width: 32px;
+  height: 32px;
+  background-color: #dfe6e9;
+  font-size: 13px;
+  font-weight: 500;
+  color: #636e72;
+}
+.__comment_list_view_more_button {
+  width: fit-content;
+  font-size: 13px;
+  font-weight: 500;
+  color: #636e72;
+}
+.__comment_list_like_button_wrapper {
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.__comment_list_like_button {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.__comment_list_like_count {
+  font-size: 11px;
+  color: #636e72;
+}

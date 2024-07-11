@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, useCallback, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
@@ -8,9 +10,9 @@ import ModalCheck from "@src/components/modal/ModalCheck";
 import shakingTrashcanSrc from "@src/assets/lottie/shaking_trashcan.json";
 import TrashcanIcon from "@src/components/icons/TrashcanIcon";
 
-import STYLE from "./treasure.detail.header.option.module.scss";
+import STYLE from "./treasure.detail.layout.header.module.scss";
 
-const TreasureDetailHeaderOptionDeleteButton: FC = () => {
+const TreasureDetailLayoutHeaderDeleteButton: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = useCallback(() => {
@@ -35,6 +37,7 @@ const TreasureDetailHeaderOptionDeleteButton: FC = () => {
 
   const onConfirmClick = useCallback(() => {
     if (typeof treasure_id !== "string") return;
+
     mutate({ treasure_id });
   }, [mutate, treasure_id]);
 
@@ -60,4 +63,4 @@ const TreasureDetailHeaderOptionDeleteButton: FC = () => {
   );
 };
 
-export default TreasureDetailHeaderOptionDeleteButton;
+export default TreasureDetailLayoutHeaderDeleteButton;

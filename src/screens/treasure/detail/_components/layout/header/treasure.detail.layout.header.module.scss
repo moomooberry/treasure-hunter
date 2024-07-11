@@ -13,7 +13,6 @@
 
   opacity: 0.95;
 }
-
 .__layout_header_container_back_button {
   display: flex;
   justify-content: center;
@@ -49,7 +48,7 @@
 }
 .__layout_header_opacity_reverse_button_wrapper {
   display: flex;
-  column-gap: 8px;
+  column-gap: 4px;
 }
 .__layout_header_opacity_reverse_button {
   display: flex;
@@ -60,7 +59,16 @@
   border-radius: 50%;
   background-color: #fff;
 }
-
 .__layout_header_title {
   font-weight: 500;
+}
+
+.__header_option_container {
+  display: flex;
+  column-gap: 4px;
+}
+.__header_option_button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
 }

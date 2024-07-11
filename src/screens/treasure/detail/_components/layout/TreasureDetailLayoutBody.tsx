@@ -8,7 +8,7 @@ import getUser from "@src/api/user/getUser";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 
-const TreasureDetailBody: FC<PropsWithChildren> = ({ children }) => {
+const TreasureDetailLayoutBody: FC<PropsWithChildren> = ({ children }) => {
   const {
     device: { bottom },
   } = useZustandDeviceStore();
@@ -28,4 +28,4 @@ const TreasureDetailBody: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export default TreasureDetailBody;
+export default TreasureDetailLayoutBody;

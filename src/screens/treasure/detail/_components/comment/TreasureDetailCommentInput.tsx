@@ -27,9 +27,9 @@ import {
 import Avatar from "@src/components/avatar/Avatar";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
-import { TreasureDetailCommentFormFields } from "..";
+import type { TreasureDetailCommentFormFields } from "../comment";
 
-import STYLE from "./treasure.detail.comment.input.module.scss";
+import STYLE from "./treasure.detail.comment.module.scss";
 
 const TreasureDetailCommentInput: FC = () => {
   const { register, handleSubmit, control, setValue, getValues } =
@@ -147,29 +147,30 @@ const TreasureDetailCommentInput: FC = () => {
 
     if (!threshold) return;
 
-    const isWindowOverThreshold = window.innerHeight >= threshold.offsetTop;
+    const isOverThresholdWhenFirstLoad =
+      window.scrollY >= threshold.offsetTop - window.innerHeight;
 
-    if (isWindowOverThreshold) {
+    if (isOverThresholdWhenFirstLoad) {
       setIsOverThresHold(true);
-    } else {
-      const scrollHandler = () => {
-        const isOverThreshold =
-          window.scrollY >= threshold.offsetTop - window.innerHeight;
-
-        if (isOverThreshold) {
-          setIsOverThresHold(true);
-          return;
-        }
-
-        const text = getValues("text");
-
-        if (!text) setIsOverThresHold(false);
-      };
-
-      window.addEventListener("scroll", scrollHandler);
-
-      return () => window.removeEventListener("scroll", scrollHandler);
     }
+
+    const scrollHandler = () => {
+      const isOverThreshold =
+        window.scrollY >= threshold.offsetTop - window.innerHeight;
+
+      if (isOverThreshold) {
+        setIsOverThresHold(true);
+        return;
+      }
+
+      const text = getValues("text");
+
+      if (!text) setIsOverThresHold(false);
+    };
+
+    window.addEventListener("scroll", scrollHandler);
+
+    return () => window.removeEventListener("scroll", scrollHandler);
   }, [getValues]);
 
   return (

@@ -11,14 +11,14 @@ import Lottie from "@src/components/lottie/Lottie";
 import StatusContentEmpty from "@src/components/status/content/StatusContentEmpty";
 import DrawerBottom from "@src/components/drawer/DrawerBottom";
 import getTreasureCommentReplyList from "@src/api/treasure/comment/getTreasureCommentReplyList";
-import { API_GET_TREASURE_COMMENT_REPLY_LIST_KEY } from "@src/libs/fetch/key/treasure/comment";
 import loadingLottieSrc from "@src/assets/lottie/loading.json";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
+import { API_GET_TREASURE_COMMENT_REPLY_LIST_KEY } from "@src/libs/fetch/key/treasure/comment";
 
-import type { TreasureDetailCommentFormFields } from "..";
-import TreasureDetailCommentListItem from "./item";
+import type { TreasureDetailCommentFormFields } from "../comment";
+import TreasureDetailCommentListItem from "./_components/TreasureDetailCommentListItem";
 
-import STYLE from "./treasure.detail.comment.list.module.scss";
+import STYLE from "./treasure.detail.comment.module.scss";
 
 const TreasureDetailCommentListDrawer: FC = () => {
   const { watch, setValue } = useFormContext<TreasureDetailCommentFormFields>();
