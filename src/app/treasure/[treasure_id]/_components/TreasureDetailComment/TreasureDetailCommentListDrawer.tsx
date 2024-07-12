@@ -15,8 +15,8 @@ import loadingLottieSrc from "@src/assets/lottie/loading.json";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 import { API_GET_TREASURE_COMMENT_REPLY_LIST_KEY } from "@src/libs/fetch/key/treasure/comment";
 
-import type { TreasureDetailCommentFormFields } from "../comment";
 import TreasureDetailCommentListItem from "./_components/TreasureDetailCommentListItem";
+import type { TreasureDetailCommentFormFields } from "../TreasureDetailComment";
 
 import STYLE from "./treasure.detail.comment.module.scss";
 

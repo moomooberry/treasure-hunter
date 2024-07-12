@@ -1,9 +1,15 @@
 "use client";
 
 import { FC, useCallback, useState } from "react";
+import dynamic from "next/dynamic";
 
-import PhotoSwiperCommon from "@src/components/photo/swiper/PhotoSwiperCommon";
-import ModalFullScreenPhotoSwiper from "@src/components/modal/ModalFullScreenPhotoSwiper";
+const PhotoSwiperCommon = dynamic(
+  () => import("@src/components/photo/swiper/PhotoSwiperCommon")
+);
+
+const ModalFullScreenPhotoSwiper = dynamic(
+  () => import("@src/components/modal/ModalFullScreenPhotoSwiper")
+);
 
 interface TreasureDetailPhotoSwiperProps {
   images: string[];

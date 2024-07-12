@@ -1,8 +1,8 @@
 import { FC } from "react";
 
-import STYLE from "./treasure.detail.module.scss";
+import STYLE from "./_components/treasure.detail.module.scss";
 
-const TreasureDetailFallback: FC = () => (
+const TreasureDetailLoading: FC = () => (
   <>
     <div className={STYLE.__treasure_detail_fallback_image} />
     <div className={STYLE.__treasure_detail_container}>
@@ -28,4 +28,4 @@ const TreasureDetailFallback: FC = () => (
   </>
 );
 
-export default TreasureDetailFallback;
+export default TreasureDetailLoading;

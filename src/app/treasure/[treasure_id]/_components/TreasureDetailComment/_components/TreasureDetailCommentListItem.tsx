@@ -17,7 +17,7 @@ import {
 } from "@src/libs/fetch/key/treasure/comment";
 import type { GetTreasureCommentListResponse } from "@src/types/api/treasure/comment";
 
-import type { TreasureDetailCommentFormFields } from "../../comment";
+import type { TreasureDetailCommentFormFields } from "../../TreasureDetailComment";
 
 import STYLE from "../treasure.detail.comment.module.scss";
 

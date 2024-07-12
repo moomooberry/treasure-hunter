@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, useCallback, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { useScroll, useTransform, motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 
@@ -13,11 +14,19 @@ import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
-import TreasureDetailLayoutHeaderDeleteButton from "./TreasureDetailLayoutHeaderDeleteButton";
-import TreasureDetailLayoutHeaderEditButton from "./TreasureDetailLayoutHeaderEditButton";
-import TreasureDetailLayoutHeaderShareButton from "./TreasureDetailLayoutHeaderShareButton";
-
 import STYLE from "./treasure.detail.layout.header.module.scss";
+
+const TreasureDetailLayoutHeaderDeleteButton = dynamic(
+  () => import("./TreasureDetailLayoutHeaderDeleteButton")
+);
+
+const TreasureDetailLayoutHeaderEditButton = dynamic(
+  () => import("./TreasureDetailLayoutHeaderEditButton")
+);
+
+const TreasureDetailLayoutHeaderShareButton = dynamic(
+  () => import("./TreasureDetailLayoutHeaderShareButton")
+);
 
 const SCROLL_THRESHOLD = 300;
 

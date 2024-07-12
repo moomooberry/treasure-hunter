@@ -27,7 +27,7 @@ import {
 import Avatar from "@src/components/avatar/Avatar";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 
-import type { TreasureDetailCommentFormFields } from "../comment";
+import type { TreasureDetailCommentFormFields } from "../TreasureDetailComment";
 
 import STYLE from "./treasure.detail.comment.module.scss";
 

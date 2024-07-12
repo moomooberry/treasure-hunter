@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import dayjs from "dayjs";
@@ -8,11 +9,13 @@ import { useQuery } from "@tanstack/react-query";
 
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import getTreasure from "@src/api/treasure/getTreasure";
-import TimerLimit from "@src/components/timer/TimerLimit";
 
-import STYLE from "../treasure.detail.module.scss";
+const TimerLimit = dynamic(() => import("@src/components/timer/TimerLimit"), {
+  ssr: false,
+  loading: () => <span>보물 유효기간 계산중</span>,
+});
 
-const TreasureDetailTimerLimit = () => {
+const TreasureDetailTimerLimit: FC = () => {
   const [isLimit, setIsLimit] = useState(false);
 
   const { treasure_id } = useParams();
@@ -32,11 +35,7 @@ const TreasureDetailTimerLimit = () => {
     data && (
       <AnimatePresence>
         {isLimit ? (
-          <motion.div
-            className={STYLE.__treasure_detail_timer}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             보물 유효기간이 지났어요.
           </motion.div>
         ) : (

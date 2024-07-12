@@ -1,11 +1,11 @@
 "use client";
 
 import { FC, useCallback, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
-import ModalFullScreenContainer from "@src/components/modal/_components/ModalFullScreenContainer";
 import getTreasure from "@src/api/treasure/getTreasure";
 import { API_GET_TREASURE_KEY } from "@src/libs/fetch/key/treasure";
 import { TreasureMap } from "@src/libs/google-map";
@@ -13,6 +13,10 @@ import { TreasureMap } from "@src/libs/google-map";
 import TreasureDetailMapModalFullScreenLayout from "./TreasureDetailMapModalFullScreenLayout";
 
 import STYLE from "./treasure.detail.map.module.scss";
+
+const ModalFullScreenContainer = dynamic(
+  () => import("@src/components/modal/_components/ModalFullScreenContainer")
+);
 
 const TreasureDetailMap: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -57,13 +61,15 @@ const TreasureDetailMap: FC = () => {
 
   return (
     <>
-      <motion.div
-        ref={ref}
-        className={STYLE.__map}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        onClick={onMapClick}
-      />
+      <div className={STYLE.__map} onClick={onMapClick}>
+        <motion.div
+          ref={ref}
+          className={STYLE.__map_small}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        />
+      </div>
 
       <ModalFullScreenContainer isOpen={isModalMapOpen} onClose={closeModalMap}>
         <TreasureDetailMapModalFullScreenLayout onBackClick={closeModalMap} />
