@@ -14,16 +14,16 @@ import getUser from "@src/api/user/getUser";
 import ResetIcon from "@src/components/icons/ResetIcon";
 import CrosshairIcon from "@src/components/icons/CrosshairIcon";
 import ThunderIcon from "@src/components/icons/ThunderIcon";
-import Lottie from "@src/components/lottie/Lottie";
 import emptyBoxJson from "@src/assets/lottie/empty_box.json";
 import useZustandPositionStore from "@src/hooks/zustand/useZustandPositionStore";
+import Lottie from "@src/components/lottie/Lottie";
 import ModalCheck from "@src/components/modal/ModalCheck";
 
-import MapMainMapSelectedTreasure from "./MapMainMapSelectedTreasure";
+import MapMainMapSelectedTreasure from "./MapMainMapBodySelectedTreasure";
 
-import STYLE from "../../map.main.module.scss";
+import STYLE from "./map.main.map.body.module.scss";
 
-const MapMainMap: FC = () => {
+const MapMainMapBody: FC = () => {
   const { push } = useRouter();
 
   const ref = useRef<HTMLDivElement>(null);
@@ -199,7 +199,11 @@ const MapMainMap: FC = () => {
   }, [data, isFetchedAfterMount, onSelect, treasureMap]);
 
   return (
-    <div className={STYLE.__map_container}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className={STYLE.__map_container}
+    >
       <div ref={ref} className={STYLE.__map} />
 
       {selectedTreasure && (
@@ -248,8 +252,8 @@ const MapMainMap: FC = () => {
           <Lottie animationData={emptyBoxJson} width="160px" height="160px" />
         </div>
       </ModalCheck>
-    </div>
+    </motion.div>
   );
 };
 
-export default MapMainMap;
+export default MapMainMapBody;

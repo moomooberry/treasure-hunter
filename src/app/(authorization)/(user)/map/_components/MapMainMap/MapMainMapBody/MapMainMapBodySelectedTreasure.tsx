@@ -15,13 +15,13 @@ import PhotoSwiperCard from "@src/components/photo/swiper/PhotoSwiperCard";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 import type { GetTreasureListResponse } from "@src/types/api/treasure";
 
-import STYLE from "../../map.main.module.scss";
+import STYLE from "./map.main.map.body.module.scss";
 
 interface MapMainMapSelectedTreasureProps {
   data: GetTreasureListResponse;
 }
 
-const MapMainMapSelectedTreasure: FC<MapMainMapSelectedTreasureProps> = ({
+const MapMainMapBodySelectedTreasure: FC<MapMainMapSelectedTreasureProps> = ({
   data,
 }) => {
   const { push, prefetch } = useRouter();
@@ -145,4 +145,4 @@ const MapMainMapSelectedTreasure: FC<MapMainMapSelectedTreasureProps> = ({
   );
 };
 
-export default MapMainMapSelectedTreasure;
+export default MapMainMapBodySelectedTreasure;
