@@ -4,19 +4,23 @@ import { motion } from "framer-motion";
 
 import treasureImgSrc from "@src/assets/webp/treasure_512_512.webp";
 
-import STYLE from "./map.main.map.body.module.scss";
+import STYLE from "./map.main.map.module.scss";
 
-const MapMainMapBodyFallback: FC = () => (
+interface MapMainMapFallbackProps {
+  text: string;
+}
+
+const MapMainMapFallback: FC<MapMainMapFallbackProps> = ({ text }) => (
   <div className={STYLE.__map_loading}>
     <motion.div
-      className={STYLE.__map_loading_contnet}
+      className={STYLE.__map_loading_content}
       initial={{ opacity: 0.5 }}
       animate={{ opacity: 1 }}
     >
       <Image src={treasureImgSrc} alt="treasure_image" width={50} height={50} />
-      보물 지도 생성 중
+      {text}
     </motion.div>
   </div>
 );
 
-export default MapMainMapBodyFallback;
+export default MapMainMapFallback;

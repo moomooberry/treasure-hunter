@@ -1,0 +1,14 @@
+.__map_loading {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: "rgba(165, 165, 165, 0.1)";
+}
+.__map_loading_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 12px;
+  font-size: 13px;
+}
