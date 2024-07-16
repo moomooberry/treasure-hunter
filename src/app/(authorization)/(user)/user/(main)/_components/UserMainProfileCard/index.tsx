@@ -1,15 +1,19 @@
 "use client";
 
 import { FC } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 
 import Avatar from "@src/components/avatar/Avatar";
 import getUser from "@src/api/user/getUser";
-import QualificationLevelIcon from "@src/components/icons/QualificationLevelIcon";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 
-import STYLE from "../user.main.module.scss";
+import STYLE from "./user.main.profile.card.module.scss";
+
+const QualificationLevelIcon = dynamic(
+  () => import("@src/components/icons/QualificationLevelIcon")
+);
 
 function getLevel(value: number) {
   if (value >= 30) return "LEVEL3";
