@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, FormEventHandler, useCallback, useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { v4 } from "uuid";
@@ -8,11 +9,15 @@ import classNames from "classnames";
 
 import anonymousImgSrc from "@src/assets/webp/anonymous_512_512.webp";
 import ScissorIcon from "@src/components/icons/ScissorIcon";
-import ModalFullScreenPhotoCropper from "@src/components/modal/ModalFullScreenPhotoCropper";
-import ModalCheck from "@src/components/modal/ModalCheck";
 import type { ImageInputValue } from "@src/types/image";
 
-import STYLE from "../user.form.module.scss";
+import STYLE from "./form.input.avatar.image.editor.module.scss";
+
+const ModalFullScreenPhotoCropper = dynamic(
+  () => import("@src/components/modal/ModalFullScreenPhotoCropper")
+);
+
+const ModalCheck = dynamic(() => import("@src/components/modal/ModalCheck"));
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -50,13 +55,13 @@ function getImageUrl(value: string | File) {
   return typeof value === "string" ? value : URL.createObjectURL(value);
 }
 
-interface UserFormImageEditorProps {
+interface FormInputAvatarImageEditorProps {
   value: ImageInputValue | null;
   onChange: (value: ImageInputValue | null) => void;
   maxSize?: number;
 }
 
-const UserFormImageEditor: FC<UserFormImageEditorProps> = ({
+const FormInputAvatarImageEditor: FC<FormInputAvatarImageEditorProps> = ({
   value,
   onChange,
   maxSize = 20971520, // -> 20mb
@@ -207,4 +212,4 @@ const UserFormImageEditor: FC<UserFormImageEditorProps> = ({
   );
 };
 
-export default UserFormImageEditor;
+export default FormInputAvatarImageEditor;
