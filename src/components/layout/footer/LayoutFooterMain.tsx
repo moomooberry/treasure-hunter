@@ -3,12 +3,10 @@
 import { FC, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import classNames from "classnames";
-import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 
 import ChestIcon from "@src/components/icons/ChestIcon";
 import LocationIcon from "@src/components/icons/LocationIcon";
-import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
-import getUser from "@src/api/user/getUser";
 import Avatar from "@src/components/avatar/Avatar";
 
 import LayoutFooterContainer, {
@@ -17,18 +15,17 @@ import LayoutFooterContainer, {
 
 import STYLE from "./layout.footer.module.scss";
 
-type LayoutFooterCommonProps = Omit<LayoutFooterContainerProps, "children">;
+interface LayoutFooterMainProps
+  extends Omit<LayoutFooterContainerProps, "children"> {
+  profileImg?: string | null;
+}
 
-const LayoutFooterCommon: FC<LayoutFooterCommonProps> = ({
+const LayoutFooterMain: FC<LayoutFooterMainProps> = ({
   backgroundColor = "#fff",
   disabledShadow = false,
+  profileImg,
 }) => {
   const { push } = useRouter();
-
-  const { data } = useQuery({
-    queryKey: [API_GET_USER_KEY],
-    queryFn: () => getUser(),
-  });
 
   const pathname = usePathname();
 
@@ -77,22 +74,21 @@ const LayoutFooterCommon: FC<LayoutFooterCommonProps> = ({
           지도 보기
         </button>
 
-        {data && (
-          <button
-            className={classNames({
-              [STYLE.__footer_main_button]: true,
-              [STYLE.__footer_main_button_activate]:
-                pathname.startsWith("/user"),
-            })}
-            onClick={onUserClick}
-          >
-            <Avatar imageSrc={data.profile_image} width="24px" height="24px" />
-            내 정보
-          </button>
-        )}
+        <button
+          className={classNames({
+            [STYLE.__footer_main_button]: true,
+            [STYLE.__footer_main_button_activate]: pathname.startsWith("/user"),
+          })}
+          onClick={onUserClick}
+        >
+          <motion.div initial={{ opacity: 0.3 }} animate={{ opacity: 1 }}>
+            <Avatar imageSrc={profileImg} width="24px" height="24px" />
+          </motion.div>
+          내 정보
+        </button>
       </div>
     </LayoutFooterContainer>
   );
 };
 
-export default LayoutFooterCommon;
+export default LayoutFooterMain;

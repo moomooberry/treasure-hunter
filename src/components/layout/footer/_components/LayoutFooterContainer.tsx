@@ -23,7 +23,7 @@ const LayoutFooterContainer: FC<LayoutFooterContainerProps> = ({
   } = useZustandDeviceStore();
 
   return (
-    <div
+    <footer
       className={classNames({
         [STYLE.__footer_container]: true,
         [STYLE.__footer_container_box_shadow]: !disabledShadow,
@@ -35,7 +35,7 @@ const LayoutFooterContainer: FC<LayoutFooterContainerProps> = ({
       }}
     >
       {children}
-    </div>
+    </footer>
   );
 };
 

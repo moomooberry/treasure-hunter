@@ -10,7 +10,7 @@ import STYLE from "./avatar.module.scss";
 interface AvatarProps {
   width?: string;
   height?: string;
-  imageSrc: string | null;
+  imageSrc?: string | null;
 }
 
 const Avatar: FC<AvatarProps> = ({
@@ -26,13 +26,15 @@ const Avatar: FC<AvatarProps> = ({
       height,
     }}
   >
-    <Image
-      priority
-      alt={imageSrc ? "avatar" : "anonymous_avatar"}
-      src={imageSrc ?? anonymousImgSrc}
-      fill
-      style={{ objectFit: "cover" }}
-    />
+    {typeof imageSrc !== "undefined" && (
+      <Image
+        priority
+        alt={imageSrc ? "avatar" : "anonymous_avatar"}
+        src={imageSrc ?? anonymousImgSrc}
+        fill
+        style={{ objectFit: "cover" }}
+      />
+    )}
   </div>
 );
 
