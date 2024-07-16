@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import treasureImgSrc from "@src/assets/webp/treasure_512_512.webp";
 
-import STYLE from "./map.main.map.module.scss";
+import STYLE from "./map.main.map.fallback.module.scss";
 
 interface MapMainMapFallbackProps {
   text: string;

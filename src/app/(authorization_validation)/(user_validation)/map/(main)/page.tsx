@@ -7,8 +7,8 @@ import {
 
 import getTreasureList from "@src/api/treasure/getTreasureList";
 import getUser from "@src/api/user/getUser";
-import LayoutFooterCommon from "@src/components/layout/footer/LayoutFooterCommon";
 import LayoutHeaderCommon from "@src/components/layout/header/LayoutHeaderCommon";
+import LayoutFooterMain from "@src/components/layout/footer/LayoutFooterMain";
 import { API_GET_TREASURE_LIST_KEY } from "@src/libs/fetch/key/treasure";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 
@@ -21,7 +21,7 @@ const MapPage: FC = async () => {
 
   const queryClient = new QueryClient();
 
-  await Promise.all([
+  const [_, userData] = await Promise.all([
     queryClient.prefetchInfiniteQuery({
       queryKey: [API_GET_TREASURE_LIST_KEY],
       queryFn: ({ pageParam }) =>
@@ -33,11 +33,15 @@ const MapPage: FC = async () => {
         }),
       initialPageParam: 1,
     }),
-    queryClient.prefetchQuery({
+    queryClient.fetchQuery({
       queryKey: [API_GET_USER_KEY],
       queryFn: () => getUser(),
     }),
   ]);
+
+  if (!userData) {
+    throw new Error("404 User Not Found");
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -45,7 +49,7 @@ const MapPage: FC = async () => {
 
       <MapMainMap />
 
-      <LayoutFooterCommon />
+      <LayoutFooterMain profileImg={userData.profile_image} />
     </HydrationBoundary>
   );
 };

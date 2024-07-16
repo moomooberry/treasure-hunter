@@ -1,9 +1,13 @@
 import { ReactNode } from "react";
-import { createSupabaseFromServer } from "@src/libs/supabase/server";
 import { redirect } from "next/navigation";
-import getUser from "@src/api/user/getUser";
 
-const AuthorizationLayout = async ({ children }: { children: ReactNode }) => {
+import { createSupabaseFromServer } from "@src/libs/supabase/server";
+
+const AuthorizationValidationLayout = async ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const supabase = createSupabaseFromServer();
 
   const auth = await supabase.auth.getUser();
@@ -15,4 +19,4 @@ const AuthorizationLayout = async ({ children }: { children: ReactNode }) => {
   return children;
 };
 
-export default AuthorizationLayout;
+export default AuthorizationValidationLayout;
