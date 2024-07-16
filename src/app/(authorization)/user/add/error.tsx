@@ -10,7 +10,7 @@ const UserAddError: ErrorComponent = ({ error, reset }) => (
   <>
     <LayoutHeaderCommon title={error.name} />
 
-    <LayoutBodyCommon>
+    <LayoutBodyCommon paddingX="0">
       <StatusPageError error={error} reset={reset} />
     </LayoutBodyCommon>
   </>

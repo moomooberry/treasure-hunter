@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FC, useCallback } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { Variants, motion } from "framer-motion";
 
 import UserMainListItem from "./UserMainListItem";
@@ -19,7 +19,7 @@ const containerVariants: Variants = {
 };
 
 const UserMainList: FC = () => {
-  const { push } = useRouter();
+  const { push, prefetch } = useRouter();
 
   const onMoreAnnouncementClick = useCallback(() => {
     push("/more/announcement");
@@ -50,6 +50,10 @@ const UserMainList: FC = () => {
   }, [push]);
 
   // TODO prefetch? this url?
+
+  useEffect(() => {
+    prefetch("/user/edit");
+  }, [prefetch]);
 
   return (
     <motion.ul
