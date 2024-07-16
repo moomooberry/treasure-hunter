@@ -1,12 +1,11 @@
 "use client";
 
 import { FC, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 
-import ChestIcon from "@src/components/icons/ChestIcon";
-import LocationIcon from "@src/components/icons/LocationIcon";
 import Avatar from "@src/components/avatar/Avatar";
 
 import LayoutFooterContainer, {
@@ -14,6 +13,12 @@ import LayoutFooterContainer, {
 } from "./_components/LayoutFooterContainer";
 
 import STYLE from "./layout.footer.module.scss";
+
+const ChestIcon = dynamic(() => import("@src/components/icons/ChestIcon"));
+
+const LocationIcon = dynamic(
+  () => import("@src/components/icons/LocationIcon")
+);
 
 interface LayoutFooterMainProps
   extends Omit<LayoutFooterContainerProps, "children"> {
