@@ -1,13 +1,18 @@
 "use client";
 
 import { FC, MouseEventHandler } from "react";
+import dynamic from "next/dynamic";
 
-import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
-import TimerLimit from "@src/components/timer/TimerLimit";
 import PhotoSwiperCommon from "@src/components/photo/swiper/PhotoSwiperCommon";
 import type { GetTreasureListResponse } from "@src/types/api/treasure";
 
-import STYLE from "../../treasure.main.module.scss";
+import STYLE from "./treasure.main.list.module.scss";
+
+const MoneyBagIcon = dynamic(
+  () => import("@src/components/icons/MoneyBagIcon")
+);
+
+const TimerLimit = dynamic(() => import("@src/components/timer/TimerLimit"));
 
 interface TreasureMainListItemProps {
   currentTime: number;

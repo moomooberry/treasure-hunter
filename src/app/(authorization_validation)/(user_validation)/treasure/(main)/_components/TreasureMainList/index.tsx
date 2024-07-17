@@ -13,7 +13,7 @@ import type { Position } from "@src/types/position";
 
 import TreasureMainListItem from "./TreasureMainListItem";
 
-import STYLE from "../../treasure.main.module.scss";
+import STYLE from "./treasure.main.list.module.scss";
 
 interface TreasureMainListProps {
   distance: number;
