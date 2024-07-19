@@ -87,9 +87,12 @@
 .__form_image_container {
   width: 100vw;
 }
+.__form_image_swiper_container {
+  overflow: visible;
+}
 .__form_image_slide_container {
   position: relative;
-  height: 60vh;
+  height: 30vh;
   background-color: #fff;
   border-radius: 20px;
   overflow: hidden;
@@ -106,7 +109,7 @@
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.45);
 }
 .__form_image_slide_label_container {
-  height: 60vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

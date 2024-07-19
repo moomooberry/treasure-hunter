@@ -27,6 +27,7 @@ interface FormInputImageEditorProps {
   maxSize?: number; // -> byte
   maxLength?: number;
   paddingX?: string;
+  width?: string;
 }
 
 const FormInputImageEditor: FC<FormInputImageEditorProps> = ({
@@ -37,6 +38,7 @@ const FormInputImageEditor: FC<FormInputImageEditorProps> = ({
   maxLength = 10,
   maxSize = 20971520, // -> 20mb
   paddingX = "12px",
+  width = "300px",
 }) => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
@@ -166,7 +168,15 @@ const FormInputImageEditor: FC<FormInputImageEditorProps> = ({
         marginLeft: `-${paddingX}`,
       }}
     >
-      <Swiper spaceBetween={12} centeredSlides slidesPerView={1.2}>
+      <Swiper
+        className={STYLE.__form_image_swiper_container}
+        spaceBetween={12}
+        centeredSlides
+        slidesPerView={1.2}
+        style={{
+          maxWidth: width,
+        }}
+      >
         {value.map((item, index) => (
           <SwiperSlide
             key={item.id}
@@ -191,7 +201,7 @@ const FormInputImageEditor: FC<FormInputImageEditorProps> = ({
           </SwiperSlide>
         ))}
 
-        <SwiperSlide>
+        <SwiperSlide className={STYLE.__form_image_slide_container}>
           <label className={STYLE.__form_image_slide_label_container}>
             <div className={STYLE.__form_image_slide_label_content}>
               <CameraIcon width="40px" height="40px" color="#b2bec3" />
