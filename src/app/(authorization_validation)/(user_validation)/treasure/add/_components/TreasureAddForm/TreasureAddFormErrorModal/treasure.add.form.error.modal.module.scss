@@ -1,0 +1,33 @@
+.__form_map_modal_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.__form_map_modal_lottie_wrapper {
+  margin: -20px 0 0 0;
+}
+.__form_map_modal_error_wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+.__form_map_modal_error {
+  font-weight: 600;
+  text-align: center;
+  word-break: keep-all;
+  line-height: 20px;
+}
+.__check_modal_lottie_wrapper {
+  margin: -20px 0 0 0;
+}
+.__check_modal_error_wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+.__check_modal_error {
+  font-weight: 600;
+  text-align: center;
+  word-break: keep-all;
+  line-height: 20px;
+}
