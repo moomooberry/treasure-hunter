@@ -1,16 +1,20 @@
+"use client";
+
 import { FC } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
 import treasureImgSrc from "@src/assets/webp/treasure_512_512.webp";
 
-import STYLE from "./map.main.map.fallback.module.scss";
+import STYLE from "./status.loading.treasure.fallback.module.scss";
 
-interface MapMainMapFallbackProps {
+interface StatusLoadingTreasureFallbackProps {
   text: string;
 }
 
-const MapMainMapFallback: FC<MapMainMapFallbackProps> = ({ text }) => (
+const StatusLoadingTreasureFallback: FC<StatusLoadingTreasureFallbackProps> = ({
+  text,
+}) => (
   <div className={STYLE.__map_loading}>
     <motion.div
       className={STYLE.__map_loading_content}
@@ -23,4 +27,4 @@ const MapMainMapFallback: FC<MapMainMapFallbackProps> = ({ text }) => (
   </div>
 );
 
-export default MapMainMapFallback;
+export default StatusLoadingTreasureFallback;
