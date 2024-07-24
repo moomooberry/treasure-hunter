@@ -1,0 +1,16 @@
+.__swiper_footer_container {
+  width: 100%;
+  display: flex;
+  margin: 0 12px;
+}
+.__swiper_footer_image_button_wrapper {
+  display: flex;
+  column-gap: 8px;
+}
+.__swiper_footer_image_button {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  overflow: hidden;
+}

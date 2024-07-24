@@ -1,0 +1,15 @@
+.__header_container_back_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+.__header_title {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+  font-weight: 500;
+}

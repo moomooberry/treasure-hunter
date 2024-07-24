@@ -1,0 +1,9 @@
+.__avatar_container {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  isolation: isolate;
+}
+.__avatar_image {
+  object-fit: cover;
+}

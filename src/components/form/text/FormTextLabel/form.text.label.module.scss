@@ -1,0 +1,10 @@
+.__form_label_text {
+  font-size: 16px;
+  font-weight: 500;
+}
+.__form_label_text_required {
+  &:after {
+    content: " *";
+    color: #d63031;
+  }
+}

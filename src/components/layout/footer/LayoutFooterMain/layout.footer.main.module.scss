@@ -1,0 +1,19 @@
+.__footer_main_button_wrapper {
+  display: grid;
+  width: 100vw;
+  grid-template-columns: repeat(3, 1fr);
+}
+.__footer_main_button {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  justify-content: center;
+  align-items: center;
+  color: #b2bec3;
+  font-size: 12px;
+  transition: color 0.3s;
+}
+.__footer_main_button_activate {
+  color: #2d3436;
+  font-weight: 500;
+}

@@ -1,0 +1,14 @@
+.__form_text_wrapper {
+  height: 16px;
+  display: flex;
+  align-items: flex-start;
+  column-gap: 4px;
+}
+.__form_icon_wrapper {
+  width: fit-content;
+}
+.__form_text {
+  font-size: 13px;
+  height: fit-content;
+  line-height: 16px;
+}

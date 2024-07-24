@@ -1,0 +1,44 @@
+.__form_image_container {
+  width: 100vw;
+}
+.__form_image_swiper_container {
+  overflow: visible;
+}
+.__form_image_slide_container {
+  position: relative;
+  height: 30vh;
+  background-color: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.__form_image_slide_delete_button {
+  z-index: 2;
+  position: absolute;
+  display: flex;
+  top: 8px;
+  right: 8px;
+  background-color: transparent;
+  border-radius: 50%;
+  opacity: 0.9;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.45);
+}
+.__form_image_slide_label_container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #b2bec3;
+  border-radius: 20px;
+}
+.__form_image_slide_label_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 12px;
+  font-size: 24px;
+  font-weight: 500;
+  color: #b2bec3;
+}
+.__form_image_slide_input {
+  display: none;
+}
