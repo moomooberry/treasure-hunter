@@ -11,7 +11,7 @@ import MoneyBagIcon from "@src/components/icons/MoneyBagIcon";
 import TimerLimit from "@src/components/timer/TimerLimit";
 import CaretIcon from "@src/components/icons/CaretIcon";
 import Button from "@src/components/button/Button";
-import PhotoSwiperCard from "@src/components/photo/swiper/PhotoSwiperCard";
+import PhotoSwiperCard from "@src/components/photo/PhotoSwiperCard";
 import useZustandDeviceStore from "@src/hooks/zustand/useZustandDeviceStore";
 import type { GetTreasureListResponse } from "@src/types/api/treasure";
 

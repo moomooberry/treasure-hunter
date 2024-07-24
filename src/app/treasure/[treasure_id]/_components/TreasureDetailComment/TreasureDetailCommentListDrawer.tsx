@@ -8,7 +8,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import Observer from "@src/components/observer/Observer";
 import Lottie from "@src/components/lottie/Lottie";
-import StatusContentEmpty from "@src/components/status/content/StatusContentEmpty";
+import StatusEmptyContent from "@src/components/status/empty/StatusEmptyContent";
 import DrawerBottom from "@src/components/drawer/DrawerBottom";
 import getTreasureCommentReplyList from "@src/api/treasure/comment/getTreasureCommentReplyList";
 import loadingLottieSrc from "@src/assets/lottie/loading.json";
@@ -106,7 +106,7 @@ const TreasureDetailCommentListDrawer: FC = () => {
 
             {data && data.pages[0].data.length === 0 && (
               <div className={STYLE.__comment_list_drawer_reply_content}>
-                <StatusContentEmpty
+                <StatusEmptyContent
                   text={`${parentComment.user.username}님에게<br/>첫 대댓글을 남겨보세요!`}
                 />
               </div>

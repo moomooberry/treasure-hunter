@@ -11,7 +11,6 @@ import postImageUserProfile from "@src/api/image/user/postImageUserProfile";
 import getUser from "@src/api/user/getUser";
 import putUser from "@src/api/user/putUser";
 import FormInputText from "@src/components/form/input/FormInputText";
-import FormTextError from "@src/components/form/text/FormTextError";
 import FormTextLabel from "@src/components/form/text/FormTextLabel";
 import FormTextNotice from "@src/components/form/text/FormTextNotice";
 import LayoutBodyCommon from "@src/components/layout/body/LayoutBodyCommon";
@@ -123,7 +122,11 @@ const UserEditForm: FC = () => {
           </label>
 
           {errors.username && (
-            <FormTextError text={errors.username.message} m="0 0 4px 0" />
+            <FormTextNotice
+              text={errors.username.message}
+              color="#d63031"
+              m="0 0 4px 0"
+            />
           )}
         </motion.div>
       </LayoutBodyCommon>

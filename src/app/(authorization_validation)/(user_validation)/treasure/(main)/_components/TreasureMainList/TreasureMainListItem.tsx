@@ -3,7 +3,7 @@
 import { FC, MouseEventHandler } from "react";
 import dynamic from "next/dynamic";
 
-import PhotoSwiperCommon from "@src/components/photo/swiper/PhotoSwiperCommon";
+import PhotoSwiperCommon from "@src/components/photo/PhotoSwiperCommon";
 import type { GetTreasureListResponse } from "@src/types/api/treasure";
 
 import STYLE from "./treasure.main.list.module.scss";

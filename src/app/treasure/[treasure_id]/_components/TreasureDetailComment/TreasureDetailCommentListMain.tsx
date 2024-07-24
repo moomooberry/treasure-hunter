@@ -13,7 +13,7 @@ import Lottie from "@src/components/lottie/Lottie";
 import { API_GET_USER_KEY } from "@src/libs/fetch/key/user";
 import getUser from "@src/api/user/getUser";
 import unlockLottieSrc from "@src/assets/lottie/unlock.json";
-import StatusContentEmpty from "@src/components/status/content/StatusContentEmpty";
+import StatusEmptyContent from "@src/components/status/empty/StatusEmptyContent";
 
 import TreasureDetailCommentListItem from "./_components/TreasureDetailCommentListItem";
 
@@ -120,7 +120,7 @@ const TreasureDetailCommentListMain: FC = () => {
           {data && data.pages[0].data.length === 0 && (
             <div className={STYLE.__comment_list_main_content}>
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <StatusContentEmpty text="댓글이 없어요<br/>첫 댓글을 달아보세요!" />
+                <StatusEmptyContent text="댓글이 없어요<br/>첫 댓글을 달아보세요!" />
               </motion.div>
             </div>
           )}

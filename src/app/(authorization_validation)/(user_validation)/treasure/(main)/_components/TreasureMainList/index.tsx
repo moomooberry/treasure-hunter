@@ -5,8 +5,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 
+import StatusEmptyPage from "@src/components/status/empty/StausEmptyPage";
 import Observer from "@src/components/observer/Observer";
-import StatusPageEmpty from "@src/components/status/page/StatusPageEmpty";
 import getTreasureList from "@src/api/treasure/getTreasureList";
 import { API_GET_TREASURE_LIST_KEY } from "@src/libs/fetch/key/treasure";
 import type { Position } from "@src/types/position";
@@ -80,7 +80,7 @@ const TreasureMainList: FC<TreasureMainListProps> = ({
       )}
 
       {data && data.pages[0].data.length === 0 && (
-        <StatusPageEmpty text="근처에 보물이 없어요.<br/>보물을 등록해보세요" />
+        <StatusEmptyPage text="근처에 보물이 없어요.<br/>보물을 등록해보세요" />
       )}
     </>
   );

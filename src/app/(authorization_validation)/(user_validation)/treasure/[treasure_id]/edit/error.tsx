@@ -4,14 +4,14 @@ import { ErrorComponent } from "next/dist/client/components/error-boundary";
 
 import LayoutHeaderCommon from "@src/components/layout/header/LayoutHeaderCommon";
 import LayoutBodyContainer from "@src/components/layout/body/_components/LayoutBodyContainer";
-import StatusPageError from "@src/components/status/page/StatusPageError";
+import StatusErrorPage from "@src/components/status/error/StatusErrorPage";
 
 const TreasureDetailEditError: ErrorComponent = ({ error, reset }) => (
   <>
     <LayoutHeaderCommon title={error.name} />
 
     <LayoutBodyContainer>
-      <StatusPageError error={error} reset={reset} />
+      <StatusErrorPage error={error} reset={reset} />
     </LayoutBodyContainer>
   </>
 );

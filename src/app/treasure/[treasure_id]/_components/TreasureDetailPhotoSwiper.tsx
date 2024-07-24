@@ -3,7 +3,7 @@
 import { FC, useCallback, useState } from "react";
 import dynamic from "next/dynamic";
 
-import PhotoSwiperCommon from "@src/components/photo/swiper/PhotoSwiperCommon";
+import PhotoSwiperCommon from "@src/components/photo/PhotoSwiperCommon";
 
 const ModalFullScreenPhotoSwiper = dynamic(
   () => import("@src/components/modal/ModalFullScreenPhotoSwiper")

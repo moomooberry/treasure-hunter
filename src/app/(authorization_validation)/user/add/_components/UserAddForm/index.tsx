@@ -15,7 +15,6 @@ import convertFileToFormData from "@src/utils/convertFileToFormData";
 import FormInputAvatarImageEditor from "@src/components/form/input/FormInputAvatarImageEditor";
 import FormTextNotice from "@src/components/form/text/FormTextNotice";
 import FormInputText from "@src/components/form/input/FormInputText";
-import FormTextError from "@src/components/form/text/FormTextError";
 import LayoutFooterMaxWidthButton from "@src/components/layout/footer/LayoutFooterMaxWidthButton";
 
 import STYLE from "./user.add.form.module.scss";
@@ -112,7 +111,11 @@ const UserAddForm: FC = () => {
           </label>
 
           {errors.username && (
-            <FormTextError text={errors.username.message} m="0 0 4px 0" />
+            <FormTextNotice
+              color="#d63031"
+              text={errors.username.message}
+              m="0 0 4px 0"
+            />
           )}
         </motion.div>
       </LayoutBodyCommon>
